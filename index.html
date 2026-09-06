@@ -1,1000 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#050912" />
-<title>MK97 Cricket Scoring Desk</title>
-<link rel="stylesheet" href="scoring-desk.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050912" />
+  <title>MK97 Cricket Scoring Desk</title>
+  <link rel="stylesheet" href="scoring-desk.css" />
 </head>
 <body>
-<header class="appbar">
-  <div class="appbar-left">
-    <button class="menu-toggle" id="settingsToggle" aria-label="Open settings menu" aria-expanded="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.97 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15.03 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.97a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.03 4.2l.06.06A1.7 1.7 0 0 0 8.97 4.6 1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.52 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
-      </svg>
-    </button>
+  <header class="appbar">
+    <div class="appbar-left">
+      <button class="menu-toggle" id="settingsToggle" aria-label="Open settings menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.97 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15.03 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.97a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.03 4.2l.06.06A1.7 1.7 0 0 0 8.97 4.6 1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.52 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
+        </svg>
+      </button>
 
-    <div class="settings-menu" id="settingsMenu">
-      <div class="settings-head">
-        <div class="settings-title-wrap">
-          <div class="settings-kicker"><span class="status-dot"></span> LIVE CONTROL CENTER</div>
-          <h3>Match Settings</h3>
-          <p>Player edits, bowling changes, scorer controls and match intelligence.</p>
+      <div class="settings-menu" id="settingsMenu">
+        <div class="settings-head">
+          <div class="settings-title-wrap">
+            <div class="settings-kicker"><span class="status-dot"></span> LIVE CONTROL CENTER</div>
+            <h3>Match Settings</h3>
+            <p>Player edits, bowling changes, scorer controls and match intelligence.</p>
+          </div>
+          <button class="drawer-close" id="settingsClose" aria-label="Close settings">×</button>
         </div>
-        <button class="drawer-close" id="settingsClose" aria-label="Close settings">×</button>
-      </div>
 
-      <div class="settings-grid">
-        <button class="menu-action" id="menuEditStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Striker</strong><small>Change striker or batting figures</small></span></button>
-        <button class="menu-action" id="menuEditNonStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Non-Striker</strong><small>Change non-striker anytime</small></span></button>
-        <button class="menu-action" id="menuChangeBowlerBtn"><span class="menu-action-icon">↻</span><span><strong>Change Bowler</strong><small>Select the current bowler</small></span></button>
-        <button class="menu-action" id="menuEditBowlerBtn"><span class="menu-action-icon">⚙</span><span><strong>Edit Bowler</strong><small>Correct bowling figures</small></span></button>
-        <button class="menu-action" id="menuChangeScorerBtn"><span class="menu-action-icon">◎</span><span><strong>Change Scorer</strong><small>Update scoring operator</small></span></button>
-        <button class="menu-action" id="menuResetBtn"><span class="menu-action-icon danger-icon">!</span><span><strong>Reset Match</strong><small>Clear the current match</small></span></button>
-      </div>
+        <div class="settings-grid">
+          <button class="menu-action" id="menuEditStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Striker</strong><small>Change striker or batting figures</small></span></button>
+          <button class="menu-action" id="menuEditNonStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Non-Striker</strong><small>Change non-striker anytime</small></span></button>
+          <button class="menu-action" id="menuChangeBowlerBtn"><span class="menu-action-icon">↻</span><span><strong>Change Bowler</strong><small>Select the current bowler</small></span></button>
+          <button class="menu-action" id="menuEditBowlerBtn"><span class="menu-action-icon">⚙</span><span><strong>Edit Bowler</strong><small>Correct bowling figures</small></span></button>
+          <button class="menu-action" id="menuChangeScorerBtn"><span class="menu-action-icon">◎</span><span><strong>Change Scorer</strong><small>Update scoring operator</small></span></button>
+          <button class="menu-action" id="menuResetBtn"><span class="menu-action-icon danger-icon">!</span><span><strong>Reset Match</strong><small>Clear the current match</small></span></button>
+        </div>
 
-      <div class="drawer-section-title">LIVE SNAPSHOT</div>
-      <div class="menu-stats">
-        <div class="menu-stat"><span>Extras</span><strong id="extras">0</strong></div>
-        <div class="menu-stat"><span>Projected</span><strong id="projected">0</strong></div>
-        <div class="menu-stat"><span>Partnership</span><strong id="partnership">0</strong></div>
-        <div class="menu-stat"><span>Wickets Left</span><strong id="wicketsLeft">10</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="brand">
-    <div class="brand-mark">MK</div>
-    <div><strong>MK97 CRICKET</strong><span>Live Scoring Desk</span></div>
-  </div>
-
-  <div class="app-actions">
-    <div class="status-chip"><span class="status-dot"></span>Autosaved</div>
-    <button class="btn" id="setupBtn">Match Setup</button>
-  </div>
-</header>
-
-<div class="settings-backdrop" id="settingsBackdrop" aria-hidden="true"></div>
-
-<main class="page">
-  <section class="panel matchup">
-    <div class="team-card">
-      <div class="team-crest" id="teamACrest">TA</div>
-      <div class="team-info"><small>Team A</small><h1 id="teamAName">Thunderbolts</h1><p id="teamAStatus">Batting</p></div>
-    </div>
-    <div class="center-score">
-      <div class="vs">VS</div>
-      <div class="score-big" id="mainScore">0/0</div>
-      <div class="score-overs" id="mainOvers">0.0 overs</div>
-      <div class="score-meta">
-        <span class="meta-pill">CRR <strong id="crr">0.00</strong></span>
-        <span class="meta-pill">RRR <strong id="rrr">—</strong></span>
-        <span class="meta-pill">Target <strong id="target">—</strong></span>
+        <div class="drawer-section-title">LIVE SNAPSHOT</div>
+        <div class="menu-stats">
+          <div class="menu-stat"><span>Extras</span><strong id="extras">0</strong></div>
+          <div class="menu-stat"><span>Projected</span><strong id="drawerProjected">0</strong></div>
+          <div class="menu-stat"><span>Partnership</span><strong id="partnership">0</strong></div>
+          <div class="menu-stat"><span>Wickets Left</span><strong id="wicketsLeft">10</strong></div>
+        </div>
       </div>
     </div>
-    <div class="team-card right">
-      <div class="team-crest" id="teamBCrest">TB</div>
-      <div class="team-info"><small>Team B</small><h1 id="teamBName">Strikers</h1><p id="teamBStatus">Bowling</p></div>
-    </div>
-  </section>
 
-  <section class="panel">
-    <div class="section-head"><div><div class="title">Batsmen Details</div><div class="sub">Runs, balls, strike rate, fours and sixes.</div></div></div>
-    <div class="batters-panel">
-      <div class="batters-grid">
-        <article class="batter-card">
-          <div class="batter-top">
-            <div class="player-id"><div class="avatar" id="strikerAvatar">S</div><div class="player-name" id="strikerName">Striker</div></div>
-            <span class="role">On Strike</span>
+    <div class="brand">
+      <div class="brand-mark">MK</div>
+      <div>
+        <strong>MK97 CRICKET</strong>
+        <span>Live Scoring Desk</span>
+      </div>
+    </div>
+
+    <div class="app-actions">
+      <div class="status-chip"><span class="status-dot"></span>Autosaved</div>
+      <button class="btn" id="setupBtn">Match Setup</button>
+    </div>
+  </header>
+
+  <div class="settings-backdrop" id="settingsBackdrop" aria-hidden="true"></div>
+
+  <main class="page">
+    <section class="panel matchup">
+      <div class="team-card">
+        <div class="team-crest" id="teamACrest">TA</div>
+        <div class="team-info">
+          <small>Team A</small>
+          <h1 id="teamAName">Thunderbolts</h1>
+          <p id="teamAStatus">Batting</p>
+        </div>
+      </div>
+
+      <div class="center-score">
+        <div class="vs">VS</div>
+        <div class="score-big" id="mainScore">0/0</div>
+        <div class="score-overs" id="mainOvers">0.0 overs</div>
+        <div class="score-meta">
+          <span class="meta-pill">CRR <strong id="crr">0.00</strong></span>
+          <span class="meta-pill">RRR <strong id="rrr">—</strong></span>
+          <span class="meta-pill">Target <strong id="target">—</strong></span>
+        </div>
+      </div>
+
+      <div class="team-card right">
+        <div class="team-crest" id="teamBCrest">TB</div>
+        <div class="team-info">
+          <small>Team B</small>
+          <h1 id="teamBName">Strikers</h1>
+          <p id="teamBStatus">Bowling</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div class="title">Batsmen Details</div>
+      </div>
+      <div class="batters-panel">
+        <div class="batters-grid">
+          <article class="batter-card">
+            <div class="batter-top">
+              <div class="player-id">
+                <div class="avatar" id="strikerAvatar">S</div>
+                <div class="player-name" id="strikerName">Striker</div>
+              </div>
+              <span class="role">On Strike</span>
+            </div>
+            <div class="batter-stats">
+              <div class="bstat primary"><span>Runs</span><strong id="strikerRuns">0</strong></div>
+              <div class="bstat"><span>Balls</span><strong id="strikerBalls">0</strong></div>
+              <div class="bstat"><span>SR</span><strong id="strikerSR">0.00</strong></div>
+              <div class="bstat"><span>4s</span><strong id="striker4s">0</strong></div>
+              <div class="bstat"><span>6s</span><strong id="striker6s">0</strong></div>
+            </div>
+          </article>
+
+          <article class="batter-card">
+            <div class="batter-top">
+              <div class="player-id">
+                <div class="avatar" id="nonStrikerAvatar">NS</div>
+                <div class="player-name" id="nonStrikerName">Non-Striker</div>
+              </div>
+              <span class="role blue">Non-Striker</span>
+            </div>
+            <div class="batter-stats">
+              <div class="bstat primary"><span>Runs</span><strong id="nonStrikerRuns">0</strong></div>
+              <div class="bstat"><span>Balls</span><strong id="nonStrikerBalls">0</strong></div>
+              <div class="bstat"><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
+              <div class="bstat"><span>4s</span><strong id="nonStriker4s">0</strong></div>
+              <div class="bstat"><span>6s</span><strong id="nonStriker6s">0</strong></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel switch-panel">
+      <div class="view-switcher">
+        <button class="view-tab active" data-view="live">LIVE SCORING</button>
+        <button class="view-tab" data-view="scorecard">SCORECARD</button>
+      </div>
+    </section>
+
+    <div id="liveScoringView" class="content-view active">
+      <section class="panel">
+        <div class="section-head">
+          <div class="title">Live Scoring</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-head">
+          <div class="title">Bowler Details</div>
+        </div>
+        <div class="bowler-panel">
+          <div class="bowler-layout">
+            <div class="bowler-card current-bowler-card">
+              <div class="bowler-main">
+                <div class="bowler-avatar" id="bowlerAvatar">B</div>
+                <div class="bowler-info-wrap">
+                  <div class="bowler-name" id="bowlerName">Bowler</div>
+                  <div class="bowler-sub">Current Bowler</div>
+                </div>
+              </div>
+              <div class="bstat2"><span>Overs</span><strong id="bowlerOvers">0.0</strong></div>
+              <div class="bstat2"><span>Runs</span><strong id="bowlerRuns">0</strong></div>
+              <div class="bstat2"><span>Wickets</span><strong id="bowlerWickets">0</strong></div>
+              <div class="bstat2"><span>WD</span><strong id="bowlerWides">0</strong></div>
+              <div class="bstat2"><span>NB</span><strong id="bowlerNB">0</strong></div>
+              <div class="bstat2"><span>ECO</span><strong id="bowlerEcon">0.00</strong></div>
+            </div>
+
+            <div class="previous-over-card">
+              <div class="previous-over-head">
+                <span class="mini-title">Previous Over Bowler</span>
+                <span class="previous-over-tag">Last Completed Over</span>
+              </div>
+              <div class="previous-over-name" id="previousBowlerName">—</div>
+              <div class="previous-over-figures" id="previousBowlerFigures">0.0 • 0/0</div>
+              <div class="previous-over-chips" id="previousOverSummary">
+                <span class="mini-chip">—</span>
+              </div>
+            </div>
           </div>
-          <div class="batter-stats">
-            <div class="bstat primary"><span>Runs</span><strong id="strikerRuns">0</strong></div>
-            <div class="bstat"><span>Balls</span><strong id="strikerBalls">0</strong></div>
-            <div class="bstat"><span>SR</span><strong id="strikerSR">0.00</strong></div>
-            <div class="bstat"><span>4s</span><strong id="striker4s">0</strong></div>
-            <div class="bstat"><span>6s</span><strong id="striker6s">0</strong></div>
+        </div>
+      </section>
+
+      <section class="panel metrics-panel">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Projected</span>
+            <strong id="projected">0</strong>
+            <small>Current innings projection</small>
           </div>
-        </article>
-
-        <article class="batter-card">
-          <div class="batter-top">
-            <div class="player-id"><div class="avatar" id="nonStrikerAvatar">NS</div><div class="player-name" id="nonStrikerName">Non-Striker</div></div>
-            <span class="role blue">Non-Striker</span>
+          <div class="metric-card">
+            <span class="metric-label">DLS</span>
+            <strong id="dlsValue">N/A</strong>
+            <small id="dlsNote">No interruption</small>
           </div>
-          <div class="batter-stats">
-            <div class="bstat primary"><span>Runs</span><strong id="nonStrikerRuns">0</strong></div>
-            <div class="bstat"><span>Balls</span><strong id="nonStrikerBalls">0</strong></div>
-            <div class="bstat"><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
-            <div class="bstat"><span>4s</span><strong id="nonStriker4s">0</strong></div>
-            <div class="bstat"><span>6s</span><strong id="nonStriker6s">0</strong></div>
+        </div>
+      </section>
+
+      <section class="panel timeline-panel">
+        <div class="timeline-wrap">
+          <div class="timeline-label">Scoring Timeline</div>
+          <div class="timeline" id="timeline"><span class="ball">—</span></div>
+          <div class="timeline-score" id="timelineScore">0/0 · 0.0</div>
+        </div>
+      </section>
+
+      <section class="panel scoring-panel">
+        <div class="section-head compact-head">
+          <div class="title">Scoring</div>
+        </div>
+        <div class="scoring-wrap">
+          <div class="score-row row-one">
+            <button class="run-btn dot runAction" data-runs="0">0</button>
+            <button class="run-btn runAction" data-runs="1">1</button>
+            <button class="run-btn runAction" data-runs="2">2</button>
+            <button class="run-btn runAction" data-runs="3">3</button>
           </div>
-        </article>
+
+          <div class="score-row row-two">
+            <button class="run-btn four runAction" data-runs="4">4</button>
+            <button class="run-btn runAction" data-runs="5">5</button>
+            <button class="run-btn six runAction" data-runs="6">6</button>
+            <button class="undo-big" id="undoBtn">UNDO LAST ACTION</button>
+          </div>
+
+          <div class="score-row row-three">
+            <button class="event-btn wicket" id="wicketBtn">Wicket</button>
+            <button class="event-btn extra" id="wideBtn">WD</button>
+            <button class="event-btn extra" id="noBallBtn">NB</button>
+            <button class="event-btn extra" id="byeBtn">Bye</button>
+            <button class="event-btn extra" id="legByeBtn">Leg Bye</button>
+            <button class="event-btn" id="endInningsBtn">End Innings</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="scorecardView" class="content-view" hidden>
+      <section class="panel scorecard-panel">
+        <div class="section-head">
+          <div class="title">Scorecard</div>
+        </div>
+        <div class="scorecard-grid">
+          <article class="team-scorecard">
+            <div class="team-scorecard-head">
+              <div>
+                <span class="scorecard-kicker">Team A</span>
+                <h3 id="teamAScorecardName">Thunderbolts</h3>
+              </div>
+              <div class="team-scorecard-summary" id="teamAScorecardSummary">Yet to bat</div>
+            </div>
+            <div class="team-scorecard-body" id="teamAScorecardBody"></div>
+          </article>
+
+          <article class="team-scorecard">
+            <div class="team-scorecard-head">
+              <div>
+                <span class="scorecard-kicker">Team B</span>
+                <h3 id="teamBScorecardName">Strikers</h3>
+              </div>
+              <div class="team-scorecard-summary" id="teamBScorecardSummary">Yet to bat</div>
+            </div>
+            <div class="team-scorecard-body" id="teamBScorecardBody"></div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-wrap" id="setupModal">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <h3>Match Setup</h3>
+          <p>Configure teams, squads, innings order and scorer.</p>
+        </div>
+        <button class="btn" data-close="setupModal">Close</button>
       </div>
-    </div>
-  </section>
-
-  <section class="panel">
-    <div class="section-head"><div><div class="title">Bowler Details</div><div class="sub">Overs, runs, wickets, wides, no-balls and economy.</div></div></div>
-    <div class="bowler-panel">
-      <div class="bowler-card">
-        <div class="bowler-main"><div class="bowler-avatar" id="bowlerAvatar">B</div><div style="min-width:0"><div class="bowler-name" id="bowlerName">Bowler</div><div class="bowler-sub">Current bowler</div></div></div>
-        <div class="bstat2"><span>Overs</span><strong id="bowlerOvers">0.0</strong></div>
-        <div class="bstat2"><span>Runs</span><strong id="bowlerRuns">0</strong></div>
-        <div class="bstat2"><span>Wickets</span><strong id="bowlerWickets">0</strong></div>
-        <div class="bstat2"><span>WD</span><strong id="bowlerWides">0</strong></div>
-        <div class="bstat2"><span>NB</span><strong id="bowlerNB">0</strong></div>
-        <div class="bstat2"><span>ECO</span><strong id="bowlerEcon">0.00</strong></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="panel timeline-panel">
-    <div class="timeline-wrap">
-      <div class="timeline-label">Scoring Timeline</div>
-      <div class="timeline" id="timeline"><span class="ball">—</span></div>
-      <div class="timeline-score" id="timelineScore">0/0 · 0.0</div>
-    </div>
-  </section>
-
-  <section class="panel scoring-panel">
-    <div class="scoring-wrap">
-      <div class="score-row row-one">
-        <button class="run-btn dot runAction" data-runs="0">0</button>
-        <button class="run-btn runAction" data-runs="1">1</button>
-        <button class="run-btn runAction" data-runs="2">2</button>
-        <button class="run-btn runAction" data-runs="3">3</button>
-      </div>
-
-      <div class="score-row row-two">
-        <button class="run-btn four runAction" data-runs="4">4</button>
-        <button class="run-btn runAction" data-runs="5">5</button>
-        <button class="run-btn six runAction" data-runs="6">6</button>
-        <button class="undo-big" id="undoBtn">UNDO LAST ACTION</button>
-      </div>
-
-      <div class="score-row row-three">
-        <button class="event-btn wicket" id="wicketBtn">Wicket</button>
-        <button class="event-btn extra" id="wideBtn">WD</button>
-        <button class="event-btn extra" id="noBallBtn">NB</button>
-        <button class="event-btn extra" id="byeBtn">Bye</button>
-        <button class="event-btn extra" id="legByeBtn">Leg Bye</button>
-        <button class="event-btn" id="endInningsBtn">End Innings</button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div class="modal-wrap" id="setupModal">
-  <div class="modal">
-    <div class="modal-head"><div><h3>Match Setup</h3><p>Configure teams, squads, innings order and scorer.</p></div><button class="btn" data-close="setupModal">Close</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="field"><label>Match Name</label><input id="matchNameInput" value="Tampa Premier League"></div>
-        <div class="field"><label>Venue</label><input id="venueInput" value="Tampa, Florida"></div>
-        <div class="field"><label>Team A</label><input id="teamAInput" value="Thunderbolts"></div>
-        <div class="field"><label>Team B</label><input id="teamBInput" value="Strikers"></div>
-        <div class="field"><label>Overs</label><input id="oversInput" type="number" min="1" max="100" value="20"></div>
-        <div class="field"><label>Batting First</label><select id="batFirstInput"><option value="A">Team A</option><option value="B">Team B</option></select></div>
-        <div class="field full"><label>Scorer Name</label><input id="scorerInput" value="Scorer"></div>
-        <div class="field full"><label>Team A Players</label><textarea id="teamAPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
-        <div class="field full"><label>Team B Players</label><textarea id="teamBPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
-      </div>
-      <div class="modal-actions"><button class="btn" data-close="setupModal">Cancel</button><button class="btn primary" id="saveSetupBtn">Start / Update Match</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-wrap" id="eventModal">
-  <div class="modal small">
-    <div class="modal-head"><div><h3 id="eventTitle">Outcome</h3><p id="eventSub">Select the exact outcome.</p></div><button class="btn" data-close="eventModal">Close</button></div>
-    <div class="modal-body">
-      <div class="form-grid" id="eventFields"></div>
-      <div class="modal-actions"><button class="btn" data-close="eventModal">Cancel</button><button class="btn primary" id="applyEventBtn">Apply Outcome</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-wrap" id="batterModal">
-  <div class="modal small">
-    <div class="modal-head"><div><h3 id="batterModalTitle">Edit Batter</h3><p>Change player, stats, or strike position anytime.</p></div><button class="btn" data-close="batterModal">Close</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="field full"><label>Select Player</label><select id="editBatterSelect"></select></div>
-        <div class="field full"><label>Name</label><input id="editBatterName"></div>
-        <div class="field"><label>Runs</label><input id="editBatterRuns" type="number" min="0"></div>
-        <div class="field"><label>Balls</label><input id="editBatterBalls" type="number" min="0"></div>
-        <div class="field"><label>Fours</label><input id="editBatter4s" type="number" min="0"></div>
-        <div class="field"><label>Sixes</label><input id="editBatter6s" type="number" min="0"></div>
-        <div class="field full"><label>Position</label><select id="editBatterRole"><option value="striker">Set as Striker</option><option value="nonstriker">Set as Non-Striker</option><option value="none">Keep Existing Position</option></select></div>
-      </div>
-      <div class="modal-actions"><button class="btn" data-close="batterModal">Cancel</button><button class="btn primary" id="saveBatterBtn">Save Batter</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-wrap" id="bowlerModal">
-  <div class="modal small">
-    <div class="modal-head"><div><h3>Edit Bowler</h3><p>Change current bowler or correct spell figures anytime.</p></div><button class="btn" data-close="bowlerModal">Close</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="field full"><label>Select Bowler</label><select id="editBowlerSelect"></select></div>
-        <div class="field full"><label>Name</label><input id="editBowlerName"></div>
-        <div class="field"><label>Overs</label><input id="editBowlerOvers" placeholder="Example 3.2"></div>
-        <div class="field"><label>Runs</label><input id="editBowlerRuns" type="number" min="0"></div>
-        <div class="field"><label>Wickets</label><input id="editBowlerWickets" type="number" min="0"></div>
-        <div class="field"><label>Wides</label><input id="editBowlerWides" type="number" min="0"></div>
-        <div class="field"><label>No Balls</label><input id="editBowlerNB" type="number" min="0"></div>
-        <div class="field"><label>Make Current Bowler</label><select id="editBowlerCurrent"><option value="yes">Yes</option><option value="no">No</option></select></div>
-      </div>
-      <div class="modal-actions"><button class="btn" data-close="bowlerModal">Cancel</button><button class="btn primary" id="saveBowlerBtn">Save Bowler</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-wrap" id="scorerModal">
-  <div class="modal small">
-    <div class="modal-head"><div><h3>Change Scorer</h3><p>Update who is operating the scoring desk.</p></div><button class="btn" data-close="scorerModal">Close</button></div>
-    <div class="modal-body">
-      <div class="field"><label>Scorer Name</label><input id="newScorerInput"></div>
-      <div class="modal-actions"><button class="btn" data-close="scorerModal">Cancel</button><button class="btn primary" id="saveScorerBtn">Save Scorer</button></div>
-    </div>
-  </div>
-</div>
-
-<div class="modal-wrap" id="changeBowlerModal">
-  <div class="modal small">
-    <div class="modal-head"><div><h3>Change Bowler</h3><p>Tap a bowler to make them current.</p></div><button class="btn" data-close="changeBowlerModal">Close</button></div>
-    <div class="modal-body">
-      <div class="outcome-section">
-        <div class="outcome-section-title">Select Bowler</div>
-        <div class="outcome-grid" id="bowlerChoiceGrid"></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>Match Name</label><input id="matchNameInput" value="Tampa Premier League"></div>
+          <div class="field"><label>Venue</label><input id="venueInput" value="Tampa, Florida"></div>
+          <div class="field"><label>Team A</label><input id="teamAInput" value="Thunderbolts"></div>
+          <div class="field"><label>Team B</label><input id="teamBInput" value="Strikers"></div>
+          <div class="field"><label>Overs</label><input id="oversInput" type="number" min="1" max="100" value="20"></div>
+          <div class="field"><label>Batting First</label><select id="batFirstInput"><option value="A">Team A</option><option value="B">Team B</option></select></div>
+          <div class="field full"><label>Scorer Name</label><input id="scorerInput" value="Scorer"></div>
+          <div class="field full"><label>Team A Players</label><textarea id="teamAPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
+          <div class="field full"><label>Team B Players</label><textarea id="teamBPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" data-close="setupModal">Cancel</button>
+          <button class="btn primary" id="saveSetupBtn">Start / Update Match</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="toast-stack" id="toastStack"></div>
-
-<script>
-(() => {
-  'use strict';
-
-  const STORAGE_KEY = 'mk97-scoring-desk-v6';
-  const $ = id => document.getElementById(id);
-  const $$ = sel => [...document.querySelectorAll(sel)];
-  const clone = obj => JSON.parse(JSON.stringify(obj));
-  const defaultPlayers = team => Array.from({length:11}, (_,i) => `${team} Player ${i+1}`);
-
-  function createInnings(battingTeam, bowlingTeam, battingPlayers, bowlingPlayers, oversLimit){
-    return {
-      battingTeam,
-      bowlingTeam,
-      oversLimit,
-      runs:0,
-      wickets:0,
-      balls:0,
-      extras:{wd:0, nb:0, b:0, lb:0},
-      batters: battingPlayers.map(name => ({name, runs:0, balls:0, fours:0, sixes:0, out:false, dismissal:''})),
-      bowlers: bowlingPlayers.map(name => ({name, balls:0, runs:0, wickets:0, wides:0, noBalls:0})),
-      striker:0,
-      nonStriker:1,
-      nextBatter:2,
-      bowler:0,
-      currentOver:[],
-      deliveries:[],
-      partnershipRuns:0,
-      partnershipBalls:0,
-      complete:false
-    };
-  }
-
-  function freshState(){
-    const teamA = 'Thunderbolts';
-    const teamB = 'Strikers';
-    const playersA = defaultPlayers(teamA);
-    const playersB = defaultPlayers(teamB);
-    return {
-      version:6,
-      configured:false,
-      matchName:'Tampa Premier League',
-      venue:'Tampa, Florida',
-      scorer:'Scorer',
-      teamA,
-      teamB,
-      playersA,
-      playersB,
-      oversLimit:20,
-      batFirst:'A',
-      currentInnings:0,
-      target:null,
-      matchComplete:false,
-      result:'',
-      innings:[createInnings(teamA, teamB, playersA, playersB, 20)],
-      history:[]
-    };
-  }
-
-  function loadState(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw) return freshState();
-      const s = JSON.parse(raw);
-      if(!s || s.version !== 6) return freshState();
-      s.history = [];
-      return s;
-    }catch{
-      return freshState();
-    }
-  }
-
-  let state = loadState();
-  let eventState = {type:null, values:{}};
-  let batterEditTarget = 'striker';
-
-  const current = () => state.innings[state.currentInnings];
-  const oversText = b => `${Math.floor((b || 0) / 6)}.${(b || 0) % 6}`;
-  const oversToBalls = v => {
-    const m = String(v || '0.0').trim().match(/^(\d+)(?:\.(\d))?$/);
-    return m ? (Number(m[1]) * 6 + Math.min(5, Number(m[2] || 0))) : 0;
-  };
-  const initials = name => (String(name || '—').trim().split(/\s+/).slice(0,2).map(x => x[0]).join('').toUpperCase() || '—');
-  const strikeRate = b => b && b.balls ? ((b.runs / b.balls) * 100).toFixed(2) : '0.00';
-  const economy = b => b && b.balls ? (b.runs / (b.balls / 6)).toFixed(2) : '0.00';
-  const runRate = inn => inn.balls ? (inn.runs / (inn.balls / 6)).toFixed(2) : '0.00';
-  const extrasTotal = inn => (inn.extras.wd + inn.extras.nb + inn.extras.b + inn.extras.lb);
-  const maxWickets = inn => Math.min(10, inn.batters.length - 1);
-
-  function save(){
-    const out = clone(state);
-    out.history = [];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(out));
-  }
-
-  function toast(msg){
-    const el = document.createElement('div');
-    el.className = 'toast';
-    el.textContent = msg;
-    $('toastStack').appendChild(el);
-    setTimeout(() => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(6px)';
-      setTimeout(() => el.remove(), 180);
-    }, 2200);
-  }
-
-  function pushHistory(){
-    const snap = clone(state);
-    snap.history = [];
-    state.history.push(snap);
-    if(state.history.length > 100) state.history.shift();
-  }
-
-  function undo(){
-    if(!state.history.length){
-      toast('Nothing to undo.');
-      return;
-    }
-    const prev = state.history.pop();
-    const hist = state.history;
-    state = prev;
-    state.history = hist;
-    save();
-    render();
-    toast('Last action undone.');
-  }
-
-  function canScore(){
-    if(!state.configured){
-      openSetup();
-      return false;
-    }
-    if(state.matchComplete || current().complete){
-      toast('This innings is complete.');
-      return false;
-    }
-    return true;
-  }
-
-  function swapStrike(inn){ [inn.striker, inn.nonStriker] = [inn.nonStriker, inn.striker]; }
-
-  function newBatter(inn, side){
-    if(inn.nextBatter >= inn.batters.length) return;
-    if(side === 'striker') inn.striker = inn.nextBatter;
-    else inn.nonStriker = inn.nextBatter;
-    inn.nextBatter++;
-  }
-
-  function record(inn, {type, runs=0, legal=false, token}){
-    inn.deliveries.push({id:Date.now() + Math.random(), type, runs, legal, token});
-    inn.currentOver.push(token);
-    if(inn.currentOver.length > 12) inn.currentOver.shift();
-  }
-
-  function finishOver(inn){
-    if(inn.balls > 0 && inn.balls % 6 === 0){
-      swapStrike(inn);
-      inn.currentOver = [];
-      toast(`Over ${Math.floor(inn.balls / 6)} complete.`);
-    }
-  }
-
-  function finishMatch(){
-    const a = state.innings[0];
-    const b = state.innings[1];
-    state.matchComplete = true;
-    if(b.runs >= state.target){
-      const left = Math.max(0, maxWickets(b) - b.wickets);
-      state.result = `${b.battingTeam} won by ${left} wicket${left === 1 ? '' : 's'}`;
-    }else if(b.runs === a.runs){
-      state.result = 'Match tied';
-    }else{
-      const m = a.runs - b.runs;
-      state.result = `${a.battingTeam} won by ${m} run${m === 1 ? '' : 's'}`;
-    }
-    toast(state.result);
-  }
-
-  function maybeComplete(){
-    const inn = current();
-    const done = inn.wickets >= maxWickets(inn) || inn.balls >= inn.oversLimit * 6 || (state.currentInnings === 1 && state.target && inn.runs >= state.target);
-    if(!done) return false;
-    inn.complete = true;
-    if(state.currentInnings === 0){
-      state.target = inn.runs + 1;
-      const bt = state.batFirst === 'A' ? state.teamB : state.teamA;
-      const bowl = state.batFirst === 'A' ? state.teamA : state.teamB;
-      const bp = state.batFirst === 'A' ? state.playersB : state.playersA;
-      const bowp = state.batFirst === 'A' ? state.playersA : state.playersB;
-      state.innings.push(createInnings(bt, bowl, bp, bowp, state.oversLimit));
-      state.currentInnings = 1;
-      toast(`${bt} need ${state.target} to win.`);
-    }else{
-      finishMatch();
-    }
-    return true;
-  }
-
-  function scoreRun(r){
-    if(!canScore()) return;
-    pushHistory();
-    const inn = current();
-    const bat = inn.batters[inn.striker];
-    const bow = inn.bowlers[inn.bowler];
-    inn.runs += r; inn.balls++;
-    bat.runs += r; bat.balls++;
-    bow.balls++; bow.runs += r;
-    inn.partnershipRuns += r; inn.partnershipBalls++;
-    if(r === 4) bat.fours++;
-    if(r === 6) bat.sixes++;
-    record(inn, {type:'run', runs:r, legal:true, token:String(r)});
-    if(r % 2) swapStrike(inn);
-    if(!maybeComplete()) finishOver(inn);
-    save(); render();
-  }
-
-  function scoreBye(type, r){
-    if(!canScore()) return;
-    pushHistory();
-    const inn = current();
-    const bat = inn.batters[inn.striker];
-    const bow = inn.bowlers[inn.bowler];
-    inn.runs += r; inn.balls++;
-    bat.balls++; bow.balls++;
-    inn.partnershipRuns += r; inn.partnershipBalls++;
-    if(type === 'bye') inn.extras.b += r; else inn.extras.lb += r;
-    record(inn, {type, runs:r, legal:true, token:`${r}${type === 'bye' ? 'B' : 'Lb'}`});
-    if(r % 2) swapStrike(inn);
-    if(!maybeComplete()) finishOver(inn);
-    save(); render(); closeModal('eventModal');
-  }
-
-  function dismiss(inn, index, text, bowlerCredit){
-    const b = inn.batters[index];
-    if(!b || b.out) return;
-    b.out = true; b.dismissal = text; inn.wickets++;
-    if(bowlerCredit) inn.bowlers[inn.bowler].wickets++;
-    inn.partnershipRuns = 0; inn.partnershipBalls = 0;
-  }
-
-  function applyWide(){
-    if(!canScore()) return;
-    pushHistory();
-    const inn = current();
-    const bow = inn.bowlers[inn.bowler];
-    const completed = Number(eventState.values.runs || 0);
-    const wicket = eventState.values.wicket || 'none';
-    const total = 1 + completed;
-    inn.runs += total; inn.extras.wd += total; bow.runs += total; bow.wides += total; inn.partnershipRuns += total;
-    if(completed % 2) swapStrike(inn);
-    let token = completed ? `Wd+${completed}` : 'Wd';
-    if(wicket !== 'none'){
-      let side = wicket === 'runoutNS' ? 'nonStriker' : 'striker';
-      if(completed % 2) side = side === 'striker' ? 'nonStriker' : 'striker';
-      const idx = inn[side];
-      const credit = wicket === 'stumped' || wicket === 'hitwicket';
-      const text = wicket === 'stumped' ? `st b ${bow.name}` : wicket === 'hitwicket' ? 'hit wicket' : 'run out';
-      dismiss(inn, idx, text, credit);
-      newBatter(inn, side);
-      token += (wicket === 'runout' || wicket === 'runoutNS') ? '+RO' : '+W';
-    }
-    record(inn, {type:'wide', runs:total, legal:false, token});
-    maybeComplete();
-    save(); render(); closeModal('eventModal');
-  }
-
-  function applyNoBall(){
-    if(!canScore()) return;
-    pushHistory();
-    const inn = current();
-    const bat = inn.batters[inn.striker];
-    const bow = inn.bowlers[inn.bowler];
-    const add = Number(eventState.values.runs || 0);
-    const source = eventState.values.source || 'bat';
-    const wicket = eventState.values.wicket || 'none';
-    inn.runs += 1 + add; inn.extras.nb++; bow.noBalls++; bow.runs += 1; inn.partnershipRuns += 1 + add;
-    if(source === 'bat'){
-      bat.runs += add; bow.runs += add; if(add === 4) bat.fours++; if(add === 6) bat.sixes++;
-    }else if(source === 'bye'){
-      inn.extras.b += add;
-    }else if(source === 'legbye'){
-      inn.extras.lb += add;
-    }
-    if(add % 2) swapStrike(inn);
-    let token = add ? `Nb+${add}` : 'Nb';
-    if(wicket !== 'none'){
-      let side = wicket === 'runoutNS' ? 'nonStriker' : 'striker';
-      if(add % 2) side = side === 'striker' ? 'nonStriker' : 'striker';
-      const idx = inn[side];
-      const text = wicket === 'obstructing' ? 'obstructing the field' : wicket === 'hitballtwice' ? 'hit the ball twice' : 'run out';
-      dismiss(inn, idx, text, false);
-      newBatter(inn, side);
-      token += '+W';
-    }
-    record(inn, {type:'noball', runs:1 + add, legal:false, token});
-    maybeComplete();
-    save(); render(); closeModal('eventModal');
-  }
-
-  function applyWicket(){
-    if(!canScore()) return;
-    pushHistory();
-    const inn = current();
-    const bow = inn.bowlers[inn.bowler];
-    const type = eventState.values.dismissal || 'bowled';
-    const completed = Number(eventState.values.runs || 0);
-    const source = eventState.values.source || 'bat';
-    const legal = eventState.values.legal !== 'no';
-    const originalStriker = inn.striker;
-    if(completed){
-      inn.runs += completed; inn.partnershipRuns += completed;
-      if(source === 'bat'){
-        inn.batters[originalStriker].runs += completed; bow.runs += completed;
-        if(completed === 4) inn.batters[originalStriker].fours++;
-        if(completed === 6) inn.batters[originalStriker].sixes++;
-      }else if(source === 'bye'){
-        inn.extras.b += completed;
-      }else if(source === 'legbye'){
-        inn.extras.lb += completed;
-      }
-      if(completed % 2) swapStrike(inn);
-    }
-    if(legal){
-      inn.balls++; bow.balls++; inn.partnershipBalls++; inn.batters[originalStriker].balls++;
-    }
-    let side = type === 'runoutNS' ? 'nonStriker' : 'striker';
-    if(completed % 2) side = side === 'striker' ? 'nonStriker' : 'striker';
-    const idx = inn[side];
-    const credit = ['bowled','caught','lbw','stumped','hitwicket'].includes(type);
-    const text = {
-      bowled:`b ${bow.name}`,
-      caught:`c ? b ${bow.name}`,
-      lbw:`lbw b ${bow.name}`,
-      stumped:`st ? b ${bow.name}`,
-      hitwicket:'hit wicket',
-      runout:'run out',
-      runoutNS:'run out',
-      obstructing:'obstructing the field',
-      hitballtwice:'hit the ball twice',
-      retired:'retired out',
-      timedout:'timed out'
-    }[type] || 'out';
-    dismiss(inn, idx, text, credit);
-    newBatter(inn, side);
-    record(inn, {type:'wicket', runs:completed, legal, token:completed ? `W+${completed}` : 'W'});
-    if(!maybeComplete() && legal) finishOver(inn);
-    save(); render(); closeModal('eventModal');
-  }
-
-  function requiredRate(){
-    if(state.currentInnings !== 1 || !state.target) return '—';
-    const inn = current();
-    const need = Math.max(0, state.target - inn.runs);
-    const left = Math.max(0, inn.oversLimit * 6 - inn.balls);
-    return left ? (need / (left / 6)).toFixed(2) : '∞';
-  }
-
-  function projected(inn){
-    if(!inn.balls) return 0;
-    return Math.round(inn.runs + (inn.runs / inn.balls) * Math.max(0, inn.oversLimit * 6 - inn.balls));
-  }
-
-  function ballClass(t){
-    if(t.includes('W') || t.includes('RO')) return 'wicket';
-    if(t === '4') return 'four';
-    if(t === '6') return 'six';
-    if(/Wd|Nb|B|Lb/.test(t)) return 'extra';
-    return '';
-  }
-
-  function renderTimeline(inn){
-    const arr = inn.deliveries.slice(-16).map(d => d.token);
-    $('timeline').innerHTML = arr.length ? arr.map(t => `<span class="ball ${ballClass(t)}">${t}</span>`).join('') : '<span class="ball">—</span>';
-  }
-
-  function render(){
-    const inn = current();
-    const s = inn.batters[inn.striker] || {};
-    const n = inn.batters[inn.nonStriker] || {};
-    const bo = inn.bowlers[inn.bowler] || {};
-    const battingA = inn.battingTeam === state.teamA;
-
-    $('teamAName').textContent = state.teamA;
-    $('teamBName').textContent = state.teamB;
-    $('teamACrest').textContent = initials(state.teamA);
-    $('teamBCrest').textContent = initials(state.teamB);
-    $('teamAStatus').textContent = battingA ? 'Batting' : 'Bowling';
-    $('teamBStatus').textContent = battingA ? 'Bowling' : 'Batting';
-    $('mainScore').textContent = `${inn.runs}/${inn.wickets}`;
-    $('mainOvers').textContent = `${oversText(inn.balls)} overs`;
-    $('crr').textContent = runRate(inn);
-    $('rrr').textContent = requiredRate();
-    $('target').textContent = state.target ?? '—';
-
-    $('strikerAvatar').textContent = initials(s.name);
-    $('strikerName').textContent = s.name || '—';
-    $('strikerRuns').textContent = s.runs || 0;
-    $('strikerBalls').textContent = s.balls || 0;
-    $('strikerSR').textContent = strikeRate(s);
-    $('striker4s').textContent = s.fours || 0;
-    $('striker6s').textContent = s.sixes || 0;
-
-    $('nonStrikerAvatar').textContent = initials(n.name);
-    $('nonStrikerName').textContent = n.name || '—';
-    $('nonStrikerRuns').textContent = n.runs || 0;
-    $('nonStrikerBalls').textContent = n.balls || 0;
-    $('nonStrikerSR').textContent = strikeRate(n);
-    $('nonStriker4s').textContent = n.fours || 0;
-    $('nonStriker6s').textContent = n.sixes || 0;
-
-    $('bowlerAvatar').textContent = initials(bo.name);
-    $('bowlerName').textContent = bo.name || '—';
-    $('bowlerOvers').textContent = oversText(bo.balls || 0);
-    $('bowlerRuns').textContent = bo.runs || 0;
-    $('bowlerWickets').textContent = bo.wickets || 0;
-    $('bowlerWides').textContent = bo.wides || 0;
-    $('bowlerNB').textContent = bo.noBalls || 0;
-    $('bowlerEcon').textContent = economy(bo);
-
-    renderTimeline(inn);
-    $('timelineScore').textContent = `${inn.runs}/${inn.wickets} · ${oversText(inn.balls)}`;
-    $('extras').textContent = extrasTotal(inn);
-    $('projected').textContent = projected(inn);
-    $('partnership').textContent = inn.partnershipRuns;
-    $('wicketsLeft').textContent = Math.max(0, maxWickets(inn) - inn.wickets);
-
-    const disabled = !state.configured || state.matchComplete || inn.complete;
-    $$('.runAction,#wicketBtn,#wideBtn,#noBallBtn,#byeBtn,#legByeBtn,#endInningsBtn').forEach(b => b.disabled = disabled);
-    $('undoBtn').disabled = !state.history.length;
-  }
-
-  function openModal(id){ $(id).classList.add('open'); }
-  function closeModal(id){ $(id).classList.remove('open'); }
-
-  function toggleSettings(force){
-    const menu = $('settingsMenu');
-    const open = typeof force === 'boolean' ? force : !menu.classList.contains('open');
-    menu.classList.toggle('open', open);
-    $('settingsToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
-  }
-
-  function openSetup(){
-    $('matchNameInput').value = state.matchName;
-    $('venueInput').value = state.venue;
-    $('teamAInput').value = state.teamA;
-    $('teamBInput').value = state.teamB;
-    $('oversInput').value = state.oversLimit;
-    $('batFirstInput').value = state.batFirst;
-    $('scorerInput').value = state.scorer;
-    $('teamAPlayersInput').value = state.playersA.join('\n');
-    $('teamBPlayersInput').value = state.playersB.join('\n');
-    openModal('setupModal');
-  }
-
-  function parsePlayers(v, team){
-    const arr = String(v || '').split(/[\n,]+/).map(x => x.trim()).filter(Boolean);
-    return arr.length >= 2 ? arr : defaultPlayers(team);
-  }
-
-  function saveSetup(){
-    const teamA = $('teamAInput').value.trim() || 'Team A';
-    const teamB = $('teamBInput').value.trim() || 'Team B';
-    const overs = Math.max(1, Math.min(100, Number($('oversInput').value) || 20));
-    const batFirst = $('batFirstInput').value;
-    const a = parsePlayers($('teamAPlayersInput').value, teamA);
-    const b = parsePlayers($('teamBPlayersInput').value, teamB);
-    const changed = !state.configured || teamA !== state.teamA || teamB !== state.teamB || overs !== state.oversLimit || batFirst !== state.batFirst || JSON.stringify(a) !== JSON.stringify(state.playersA) || JSON.stringify(b) !== JSON.stringify(state.playersB);
-
-    if(state.configured && changed && current().deliveries.length && !confirm('Changing teams, squads, batting order or overs will restart the match. Continue?')) return;
-
-    state.matchName = $('matchNameInput').value.trim() || 'Cricket Match';
-    state.venue = $('venueInput').value.trim() || 'Venue';
-    state.scorer = $('scorerInput').value.trim() || 'Scorer';
-    state.teamA = teamA; state.teamB = teamB;
-    state.playersA = a; state.playersB = b;
-    state.oversLimit = overs; state.batFirst = batFirst;
-
-    if(changed){
-      const bt = batFirst === 'A' ? teamA : teamB;
-      const bowl = batFirst === 'A' ? teamB : teamA;
-      const bp = batFirst === 'A' ? a : b;
-      const bowp = batFirst === 'A' ? b : a;
-      state.currentInnings = 0;
-      state.target = null;
-      state.matchComplete = false;
-      state.result = '';
-      state.history = [];
-      state.innings = [createInnings(bt, bowl, bp, bowp, overs)];
-    }
-
-    state.configured = true;
-    save(); render(); closeModal('setupModal'); toast('Match setup saved.');
-  }
-
-  function tile(value, label, group, cls=''){
-    const active = eventState.values[group] === value ? 'active' : '';
-    return `<button type="button" class="outcome-choice ${cls} ${active}" data-group="${group}" data-value="${value}">${label}</button>`;
-  }
-
-  function bindOutcomeTiles(){
-    $$('#eventFields .outcome-choice').forEach(btn => btn.addEventListener('click', () => {
-      eventState.values[btn.dataset.group] = btn.dataset.value;
-      $$('#eventFields .outcome-choice').filter(x => x.dataset.group === btn.dataset.group).forEach(x => x.classList.toggle('active', x === btn));
-    }));
-  }
-
-  function runTiles(group='runs', active='0'){
-    eventState.values[group] = active;
-    return Array.from({length:7}, (_,i) => tile(String(i), String(i), group, 'info')).join('');
-  }
-
-  function openWide(){
-    if(!canScore()) return;
-    eventState = {type:'wide', values:{runs:'0', wicket:'none'}};
-    $('eventTitle').textContent = 'Wide — All Outcomes';
-    $('eventSub').textContent = 'Tap the exact wide outcome.';
-    $('eventFields').innerHTML = `
-      <div class="outcome-section"><div class="outcome-section-title">Additional Runs Completed</div><div class="outcome-grid runs">${runTiles('runs','0')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Wicket Outcome</div><div class="outcome-grid">${tile('none','No Wicket','wicket')}${tile('stumped','Stumped','wicket','danger')}${tile('hitwicket','Hit Wicket','wicket','danger')}${tile('runout','Run Out Striker','wicket','danger')}${tile('runoutNS','Run Out Non-Striker','wicket','danger')}</div></div>
-      <div class="outcome-note">Wide does not count as a legal ball.</div>`;
-    bindOutcomeTiles(); openModal('eventModal');
-  }
-
-  function openNoBall(){
-    if(!canScore()) return;
-    eventState = {type:'noball', values:{source:'bat', runs:'0', wicket:'none'}};
-    $('eventTitle').textContent = 'No Ball — All Outcomes';
-    $('eventSub').textContent = 'Tap run source, additional runs and wicket outcome.';
-    $('eventFields').innerHTML = `
-      <div class="outcome-section"><div class="outcome-section-title">Additional Run Source</div><div class="outcome-grid">${tile('bat','Bat Runs','source','info')}${tile('bye','Byes','source','warning')}${tile('legbye','Leg Byes','source','warning')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Additional Runs</div><div class="outcome-grid runs">${runTiles('runs','0')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Wicket Outcome</div><div class="outcome-grid">${tile('none','No Wicket','wicket')}${tile('runout','Run Out Striker','wicket','danger')}${tile('runoutNS','Run Out Non-Striker','wicket','danger')}${tile('obstructing','Obstructing Field','wicket','danger')}${tile('hitballtwice','Hit Ball Twice','wicket','danger')}</div></div>`;
-    bindOutcomeTiles(); openModal('eventModal');
-  }
-
-  function openWicket(){
-    if(!canScore()) return;
-    eventState = {type:'wicket', values:{dismissal:'bowled', runs:'0', source:'bat', legal:'yes'}};
-    $('eventTitle').textContent = 'Wicket — All Probabilities';
-    $('eventSub').textContent = 'Every dismissal option is one tap.';
-    $('eventFields').innerHTML = `
-      <div class="outcome-section"><div class="outcome-section-title">Dismissal Type</div><div class="outcome-grid">${tile('bowled','Bowled','dismissal','danger')}${tile('caught','Caught','dismissal','danger')}${tile('lbw','LBW','dismissal','danger')}${tile('stumped','Stumped','dismissal','danger')}${tile('hitwicket','Hit Wicket','dismissal','danger')}${tile('runout','Run Out Striker','dismissal','danger')}${tile('runoutNS','Run Out Non-Striker','dismissal','danger')}${tile('obstructing','Obstructing Field','dismissal','danger')}${tile('hitballtwice','Hit Ball Twice','dismissal','danger')}${tile('retired','Retired Out','dismissal','danger')}${tile('timedout','Timed Out','dismissal','danger')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Runs Completed</div><div class="outcome-grid runs">${runTiles('runs','0')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Run Type</div><div class="outcome-grid">${tile('bat','Bat Runs','source','info')}${tile('bye','Byes','source','warning')}${tile('legbye','Leg Byes','source','warning')}</div></div>
-      <div class="outcome-section"><div class="outcome-section-title">Count As Legal Ball?</div><div class="outcome-grid">${tile('yes','Yes','legal')}${tile('no','No','legal')}</div></div>`;
-    bindOutcomeTiles(); openModal('eventModal');
-  }
-
-  function openBye(type){
-    if(!canScore()) return;
-    eventState = {type, values:{runs:'1'}};
-    $('eventTitle').textContent = type === 'bye' ? 'Bye' : 'Leg Bye';
-    $('eventSub').textContent = 'Tap the number of runs completed.';
-    $('eventFields').innerHTML = `<div class="outcome-section"><div class="outcome-section-title">Runs</div><div class="outcome-grid runs">${Array.from({length:6}, (_,i) => tile(String(i+1), String(i+1), 'runs', 'warning')).join('')}</div></div><div class="outcome-note">This counts as a legal ball.</div>`;
-    bindOutcomeTiles(); openModal('eventModal');
-  }
-
-  function applyEvent(){
-    if(eventState.type === 'wide') applyWide();
-    else if(eventState.type === 'noball') applyNoBall();
-    else if(eventState.type === 'wicket') applyWicket();
-    else if(eventState.type === 'bye' || eventState.type === 'legbye') scoreBye(eventState.type, Number(eventState.values.runs || 1));
-  }
-
-  function openBatter(which){
-    const inn = current();
-    batterEditTarget = which;
-    $('batterModalTitle').textContent = which === 'striker' ? 'Edit Striker' : 'Edit Non-Striker';
-    const currentIndex = which === 'striker' ? inn.striker : inn.nonStriker;
-    $('editBatterSelect').innerHTML = inn.batters.map((b,i) => `<option value="${i}" ${i === currentIndex ? 'selected' : ''}>${b.name}${b.out ? ' (out)' : ''}</option>`).join('');
-    fillBatter(); openModal('batterModal');
-  }
-
-  function fillBatter(){
-    const b = current().batters[Number($('editBatterSelect').value)];
-    if(!b) return;
-    $('editBatterName').value = b.name;
-    $('editBatterRuns').value = b.runs;
-    $('editBatterBalls').value = b.balls;
-    $('editBatter4s').value = b.fours;
-    $('editBatter6s').value = b.sixes;
-    $('editBatterRole').value = batterEditTarget;
-  }
-
-  function saveBatter(){
-    pushHistory();
-    const inn = current();
-    const idx = Number($('editBatterSelect').value);
-    const b = inn.batters[idx];
-    if(!b) return;
-    b.name = $('editBatterName').value.trim() || b.name;
-    b.runs = Math.max(0, Number($('editBatterRuns').value) || 0);
-    b.balls = Math.max(0, Number($('editBatterBalls').value) || 0);
-    b.fours = Math.max(0, Number($('editBatter4s').value) || 0);
-    b.sixes = Math.max(0, Number($('editBatter6s').value) || 0);
-    const role = $('editBatterRole').value;
-    if(role === 'striker'){
-      if(idx === inn.nonStriker) swapStrike(inn); else inn.striker = idx;
-    }else if(role === 'nonstriker'){
-      if(idx === inn.striker) swapStrike(inn); else inn.nonStriker = idx;
-    }
-    save(); render(); closeModal('batterModal'); toast('Batter updated.');
-  }
-
-  function openBowler(){
-    const inn = current();
-    $('editBowlerSelect').innerHTML = inn.bowlers.map((b,i) => `<option value="${i}" ${i === inn.bowler ? 'selected' : ''}>${b.name}</option>`).join('');
-    fillBowler(); openModal('bowlerModal');
-  }
-
-  function fillBowler(){
-    const inn = current();
-    const i = Number($('editBowlerSelect').value);
-    const b = inn.bowlers[i];
-    if(!b) return;
-    $('editBowlerName').value = b.name;
-    $('editBowlerOvers').value = oversText(b.balls);
-    $('editBowlerRuns').value = b.runs;
-    $('editBowlerWickets').value = b.wickets;
-    $('editBowlerWides').value = b.wides;
-    $('editBowlerNB').value = b.noBalls;
-    $('editBowlerCurrent').value = i === inn.bowler ? 'yes' : 'no';
-  }
-
-  function saveBowler(){
-    pushHistory();
-    const inn = current();
-    const i = Number($('editBowlerSelect').value);
-    const b = inn.bowlers[i];
-    if(!b) return;
-    b.name = $('editBowlerName').value.trim() || b.name;
-    b.balls = oversToBalls($('editBowlerOvers').value);
-    b.runs = Math.max(0, Number($('editBowlerRuns').value) || 0);
-    b.wickets = Math.max(0, Number($('editBowlerWickets').value) || 0);
-    b.wides = Math.max(0, Number($('editBowlerWides').value) || 0);
-    b.noBalls = Math.max(0, Number($('editBowlerNB').value) || 0);
-    if($('editBowlerCurrent').value === 'yes') inn.bowler = i;
-    save(); render(); closeModal('bowlerModal'); toast('Bowler updated.');
-  }
-
-  function openChangeBowler(){
-    const inn = current();
-    $('bowlerChoiceGrid').innerHTML = inn.bowlers.map((b,i) => `<button class="outcome-choice ${i === inn.bowler ? 'active' : ''}" data-bowler-index="${i}">${b.name}<br><small>${oversText(b.balls)} · ${b.runs}/${b.wickets}</small></button>`).join('');
-    $$('#bowlerChoiceGrid [data-bowler-index]').forEach(btn => btn.addEventListener('click', () => {
-      pushHistory();
-      inn.bowler = Number(btn.dataset.bowlerIndex);
-      save(); render(); closeModal('changeBowlerModal'); toast(`${inn.bowlers[inn.bowler].name} is now bowling.`);
-    }));
-    openModal('changeBowlerModal');
-  }
-
-  function openScorer(){ $('newScorerInput').value = state.scorer; openModal('scorerModal'); }
-  function saveScorer(){ state.scorer = $('newScorerInput').value.trim() || 'Scorer'; save(); render(); closeModal('scorerModal'); toast('Scorer changed.'); }
-
-  function endInnings(){
-    if(!canScore()) return;
-    if(!confirm('End the current innings now?')) return;
-    pushHistory();
-    current().complete = true;
-    if(state.currentInnings === 0){
-      state.target = current().runs + 1;
-      const bt = state.batFirst === 'A' ? state.teamB : state.teamA;
-      const bowl = state.batFirst === 'A' ? state.teamA : state.teamB;
-      const bp = state.batFirst === 'A' ? state.playersB : state.playersA;
-      const bowp = state.batFirst === 'A' ? state.playersA : state.playersB;
-      state.innings.push(createInnings(bt, bowl, bp, bowp, state.oversLimit));
-      state.currentInnings = 1;
-    }else{
-      finishMatch();
-    }
-    save(); render();
-  }
-
-  function reset(){
-    if(!confirm('Reset the entire match?')) return;
-    state = freshState();
-    localStorage.removeItem(STORAGE_KEY);
-    save(); render(); openSetup(); toggleSettings(false);
-  }
-
-  $$('.runAction').forEach(b => b.addEventListener('click', () => scoreRun(Number(b.dataset.runs))));
-  $('setupBtn').addEventListener('click', openSetup);
-  $('saveSetupBtn').addEventListener('click', saveSetup);
-  $('wicketBtn').addEventListener('click', openWicket);
-  $('wideBtn').addEventListener('click', openWide);
-  $('noBallBtn').addEventListener('click', openNoBall);
-  $('byeBtn').addEventListener('click', () => openBye('bye'));
-  $('legByeBtn').addEventListener('click', () => openBye('legbye'));
-  $('applyEventBtn').addEventListener('click', applyEvent);
-  $('undoBtn').addEventListener('click', undo);
-  $('endInningsBtn').addEventListener('click', endInnings);
-
-  $('menuEditStrikerBtn').addEventListener('click', () => { toggleSettings(false); openBatter('striker'); });
-  $('menuEditNonStrikerBtn').addEventListener('click', () => { toggleSettings(false); openBatter('nonstriker'); });
-  $('menuChangeBowlerBtn').addEventListener('click', () => { toggleSettings(false); openChangeBowler(); });
-  $('menuEditBowlerBtn').addEventListener('click', () => { toggleSettings(false); openBowler(); });
-  $('menuChangeScorerBtn').addEventListener('click', () => { toggleSettings(false); openScorer(); });
-  $('menuResetBtn').addEventListener('click', reset);
-
-  $('editBatterSelect').addEventListener('change', fillBatter);
-  $('saveBatterBtn').addEventListener('click', saveBatter);
-  $('editBowlerSelect').addEventListener('change', fillBowler);
-  $('saveBowlerBtn').addEventListener('click', saveBowler);
-  $('saveScorerBtn').addEventListener('click', saveScorer);
-
-  $('settingsToggle').addEventListener('click', e => {
-    e.stopPropagation();
-    toggleSettings();
-  });
-  $('settingsClose').addEventListener('click', () => toggleSettings(false));
-
-  $$('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
-  $$('.modal-wrap').forEach(m => m.addEventListener('click', e => { if(e.target === m) closeModal(m.id); }));
-  document.addEventListener('click', e => {
-    const menu = $('settingsMenu');
-    const toggle = $('settingsToggle');
-    if(menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)) toggleSettings(false);
-  });
-
-  document.addEventListener('keydown', e => {
-    if(e.target.matches('input,select,textarea')) return;
-    if(e.key >= '0' && e.key <= '6') scoreRun(Number(e.key));
-    if(e.key.toLowerCase() === 'u') undo();
-    if(e.key.toLowerCase() === 'w') openWicket();
-    if(e.key.toLowerCase() === 'd') openWide();
-    if(e.key.toLowerCase() === 'n') openNoBall();
-    if(e.key === 'Escape'){
-      toggleSettings(false);
-      $$('.modal-wrap.open').forEach(m => closeModal(m.id));
-    }
-  });
-
-  render();
-  if(!state.configured) openSetup();
-})();
-</script>
-<script src="scoring-desk.js"></script>
+  <div class="modal-wrap" id="eventModal">
+    <div class="modal small">
+      <div class="modal-head">
+        <div>
+          <h3 id="eventTitle">Outcome</h3>
+          <p id="eventSub">Select the exact outcome.</p>
+        </div>
+        <button class="btn" data-close="eventModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid" id="eventFields"></div>
+        <div class="modal-actions">
+          <button class="btn" data-close="eventModal">Cancel</button>
+          <button class="btn primary" id="applyEventBtn">Apply Outcome</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="batterModal">
+    <div class="modal small">
+      <div class="modal-head">
+        <div>
+          <h3 id="batterModalTitle">Edit Batter</h3>
+          <p>Change player, stats, or strike position anytime.</p>
+        </div>
+        <button class="btn" data-close="batterModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full"><label>Select Player</label><select id="editBatterSelect"></select></div>
+          <div class="field full"><label>Name</label><input id="editBatterName"></div>
+          <div class="field"><label>Runs</label><input id="editBatterRuns" type="number" min="0"></div>
+          <div class="field"><label>Balls</label><input id="editBatterBalls" type="number" min="0"></div>
+          <div class="field"><label>Fours</label><input id="editBatter4s" type="number" min="0"></div>
+          <div class="field"><label>Sixes</label><input id="editBatter6s" type="number" min="0"></div>
+          <div class="field full"><label>Position</label><select id="editBatterRole"><option value="striker">Set as Striker</option><option value="nonstriker">Set as Non-Striker</option><option value="none">Keep Existing Position</option></select></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" data-close="batterModal">Cancel</button>
+          <button class="btn primary" id="saveBatterBtn">Save Batter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="bowlerModal">
+    <div class="modal small">
+      <div class="modal-head">
+        <div>
+          <h3>Edit Bowler</h3>
+          <p>Change current bowler or correct spell figures anytime.</p>
+        </div>
+        <button class="btn" data-close="bowlerModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full"><label>Select Bowler</label><select id="editBowlerSelect"></select></div>
+          <div class="field full"><label>Name</label><input id="editBowlerName"></div>
+          <div class="field"><label>Overs</label><input id="editBowlerOvers" placeholder="Example 3.2"></div>
+          <div class="field"><label>Runs</label><input id="editBowlerRuns" type="number" min="0"></div>
+          <div class="field"><label>Wickets</label><input id="editBowlerWickets" type="number" min="0"></div>
+          <div class="field"><label>Wides</label><input id="editBowlerWides" type="number" min="0"></div>
+          <div class="field"><label>No Balls</label><input id="editBowlerNB" type="number" min="0"></div>
+          <div class="field"><label>Make Current Bowler</label><select id="editBowlerCurrent"><option value="yes">Yes</option><option value="no">No</option></select></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn" data-close="bowlerModal">Cancel</button>
+          <button class="btn primary" id="saveBowlerBtn">Save Bowler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="scorerModal">
+    <div class="modal small">
+      <div class="modal-head">
+        <div>
+          <h3>Change Scorer</h3>
+          <p>Update who is operating the scoring desk.</p>
+        </div>
+        <button class="btn" data-close="scorerModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="field"><label>Scorer Name</label><input id="newScorerInput"></div>
+        <div class="modal-actions">
+          <button class="btn" data-close="scorerModal">Cancel</button>
+          <button class="btn primary" id="saveScorerBtn">Save Scorer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="changeBowlerModal">
+    <div class="modal small">
+      <div class="modal-head">
+        <div>
+          <h3>Change Bowler</h3>
+          <p>Tap a bowler to make them current.</p>
+        </div>
+        <button class="btn" data-close="changeBowlerModal">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="outcome-section">
+          <div class="outcome-section-title">Select Bowler</div>
+          <div class="outcome-grid" id="bowlerChoiceGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack"></div>
+
+  <script src="scoring-desk.js"></script>
 </body>
 </html>
