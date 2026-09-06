@@ -789,6 +789,166 @@ select option{background:#07111e}
   .run-btn{font-size:11px!important}
 }
 
+
+
+/* =========================================================
+   MOBILE COCKPIT v3 — CONTENT-FIT, NO EMPTY SCORING SPACE
+   ========================================================= */
+@media (max-width:640px){
+  html,body{
+    height:auto!important;
+    min-height:100dvh!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+
+  .page{
+    height:auto!important;
+    min-height:calc(100dvh - 48px)!important;
+    grid-template-rows:auto auto auto auto auto!important;
+    align-content:start!important;
+    overflow:visible!important;
+    padding-bottom:8px!important;
+  }
+
+  /* Let all five major blocks size only to their actual content. */
+  .panel,
+  .matchup,
+  .batters-panel,
+  .bowler-panel,
+  .timeline-panel,
+  .scoring-panel,
+  .batters-grid,
+  .bowler-card,
+  .scoring-grid,
+  .scoring-main,
+  .scoring-tools{
+    height:auto!important;
+    min-height:0!important;
+  }
+
+  /* Match header remains a tight single row. */
+  .matchup{
+    padding:7px!important;
+  }
+  .team-card,
+  .team-card.right{
+    height:78px!important;
+  }
+
+  /* Batter cards: compact, equal, no clipping. */
+  .batters-panel{padding:6px!important}
+  .batters-grid{align-items:stretch!important}
+  .batter-card{height:auto!important;padding:7px!important}
+
+  /* Bowler is one compact information strip. */
+  .bowler-panel{padding:6px!important}
+  .bowler-card{
+    grid-template-columns:minmax(0,1.55fr) repeat(3,minmax(0,.5fr))!important;
+  }
+  .bowler-main{height:52px!important}
+
+  /* Timeline never steals vertical space. */
+  .timeline-panel{height:38px!important;min-height:38px!important}
+
+  /* On a phone the scoring controls use the full width.
+     Match controls sit below instead of becoming a narrow side rail. */
+  .scoring-panel{
+    padding:6px!important;
+    overflow:visible!important;
+  }
+  .scoring-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+  .scoring-main,
+  .scoring-tools{
+    width:100%!important;
+    overflow:visible!important;
+    padding:7px!important;
+  }
+
+  .run-grid{
+    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+  .run-btn{
+    height:38px!important;
+    font-size:13px!important;
+  }
+
+  .event-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+  .event-btn{
+    min-height:31px!important;
+    font-size:7.5px!important;
+  }
+
+  /* Controls are a short dashboard instead of a tall sidebar. */
+  .scoring-tools .score-section-title{margin-bottom:5px!important}
+  .tool-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+  .tool-btn{
+    min-height:30px!important;
+    padding:4px 4px!important;
+    font-size:6.5px!important;
+  }
+  .tool-btn.undo{
+    grid-column:1/-1!important;
+    min-height:31px!important;
+  }
+  .info-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:4px!important;
+    margin-top:5px!important;
+  }
+  .info-card{
+    padding:5px 4px!important;
+    text-align:center;
+  }
+  .info-card span{font-size:4.5px!important}
+  .info-card strong{font-size:9px!important}
+  .scorer-line{
+    margin-top:5px!important;
+    padding:5px 7px!important;
+  }
+}
+
+/* Very narrow phones: keep all scoring actions readable without horizontal overflow. */
+@media (max-width:380px){
+  .appbar{height:46px!important;min-height:46px!important}
+  .page{min-height:calc(100dvh - 46px)!important}
+  .matchup{grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr)!important}
+  .team-card,.team-card.right{height:72px!important}
+  .team-info h1{font-size:10px!important}
+  .score-big{font-size:25px!important}
+  .run-btn{height:35px!important;font-size:12px!important}
+  .event-btn{min-height:29px!important}
+  .tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+
+/* Short-screen phones: compress spacing, but never create a forced empty row. */
+@media (max-width:640px) and (max-height:760px){
+  .page{
+    height:auto!important;
+    min-height:calc(100dvh - 44px)!important;
+    grid-template-rows:auto auto auto auto auto!important;
+  }
+  .team-card,.team-card.right{height:68px!important}
+  .batter-card{padding:6px!important}
+  .bowler-main{height:46px!important}
+  .timeline-panel{height:34px!important;min-height:34px!important}
+  .run-btn{height:32px!important}
+  .event-btn{min-height:26px!important}
+  .tool-btn,.tool-btn.undo{min-height:25px!important}
+  .scorer-line{display:flex!important}
+}
+
 </style>
 </head>
 <body>
