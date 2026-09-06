@@ -309,6 +309,130 @@ select option{background:#07111e}
   .event-grid{grid-template-columns:1fr 1fr}.tool-grid{grid-template-columns:1fr 1fr}
   .form-grid{grid-template-columns:1fr}
 }
+
+
+/* MOBILE SINGLE-SCREEN FIT */
+@media (max-width: 640px){
+  html,body{height:100dvh;overflow:hidden}
+  body{min-height:100dvh}
+  .appbar{
+    min-height:56px;
+    padding:8px 10px;
+    gap:8px;
+  }
+  .brand strong{font-size:11px}
+  .brand span{display:none}
+  .brand-mark{width:36px;height:36px;border-radius:12px;font-size:12px}
+  .app-actions{gap:6px}
+  .app-actions .btn{padding:8px 9px;font-size:9px;border-radius:10px}
+  .page{
+    width:100%;
+    max-width:none;
+    height:calc(100dvh - 56px);
+    margin:0;
+    padding:6px;
+    gap:6px;
+    overflow:hidden;
+    grid-template-rows:1.05fr 1.18fr .92fr .48fr 2.25fr;
+  }
+  .panel{border-radius:18px}
+  .section-head{padding:8px 10px}
+  .section-head .title{font-size:9px}
+  .section-head .sub{display:none}
+
+  .matchup{
+    min-height:0;
+    padding:10px;
+    gap:8px;
+    grid-template-columns:1fr auto 1fr;
+  }
+  .matchup::before{display:none}
+  .team-card{
+    min-height:0;
+    padding:10px;
+    gap:9px;
+    border-radius:15px;
+  }
+  .team-card.right{justify-content:flex-end;text-align:right}
+  .team-crest{width:42px;height:42px;border-radius:14px;font-size:13px}
+  .team-info small{font-size:7px}
+  .team-info h1{font-size:17px;margin-top:3px}
+  .team-info p{margin-top:4px;font-size:8px}
+  .vs{font-size:8px}
+  .score-big{margin-top:3px;font-size:34px}
+  .score-overs{margin-top:4px;font-size:11px}
+  .score-meta{gap:4px;margin-top:8px}
+  .meta-pill{padding:5px 6px;font-size:6.5px}
+
+  .batters-panel,.bowler-panel,.scoring-panel{padding:8px}
+  .batters-grid{height:100%;grid-template-columns:1fr 1fr;gap:8px}
+  .batter-card{padding:10px;border-radius:14px}
+  .avatar{width:28px;height:28px;border-radius:10px;font-size:8px}
+  .player-name{font-size:11px}
+  .role{padding:4px 6px;font-size:6.5px}
+  .batter-stats{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:8px}
+  .bstat{padding:6px 7px;border-radius:10px}
+  .bstat span{font-size:6px}
+  .bstat strong{font-size:11px}
+  .bstat.primary strong{font-size:18px}
+  .batter-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  .batter-actions .btn{padding:7px 8px;font-size:8px;min-height:32px;border-radius:10px}
+
+  .bowler-card{grid-template-columns:1fr repeat(3,minmax(0,1fr));gap:6px}
+  .bowler-main{grid-column:1/-1;padding:10px;border-radius:14px}
+  .bowler-avatar{width:34px;height:34px;font-size:9px}
+  .bowler-name{font-size:12px}
+  .bowler-sub{font-size:8px}
+  .bstat2{padding:7px 6px;border-radius:11px}
+  .bstat2 span{font-size:6px}
+  .bstat2 strong{font-size:12px}
+  .bowler-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+  .bowler-actions .btn{width:100%;padding:7px 8px;font-size:8px;min-height:32px;border-radius:10px}
+
+  .timeline-panel{padding:8px 10px}
+  .timeline-wrap{height:100%;gap:6px}
+  .timeline-label{font-size:7px}
+  .timeline{gap:5px;padding:2px 0}
+  .ball{min-width:30px;height:30px;font-size:8px}
+  .timeline-score{padding:6px 7px;font-size:8px;border-radius:9px}
+
+  .scoring-grid{grid-template-columns:1fr;gap:8px;height:100%}
+  .scoring-main,.scoring-tools{padding:10px;border-radius:14px}
+  .score-section-title{font-size:7px;margin-bottom:7px}
+  .run-grid{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .run-btn{height:44px;border-radius:12px;font-size:16px}
+  .event-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+  .event-btn{min-height:36px;padding:6px 4px;border-radius:11px;font-size:8.5px}
+  .tool-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .tool-btn{min-height:34px;padding:6px 5px;border-radius:11px;font-size:7.5px}
+  .tool-btn.undo{grid-column:1/-1;min-height:36px;font-size:9px}
+  .info-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px}
+  .info-card{padding:8px 7px;border-radius:11px}
+  .info-card span{font-size:6px}
+  .info-card strong{font-size:12px}
+  .scorer-line{margin-top:8px;padding:8px 9px;border-radius:11px;font-size:8px}
+
+  .modal-wrap{padding:8px}
+  .modal{width:100%;max-height:calc(100dvh - 16px);border-radius:20px}
+  .modal-head{padding:14px}
+  .modal-head h3{font-size:16px}
+  .modal-head p{font-size:9px}
+  .modal-body{padding:14px;max-height:calc(100dvh - 110px);overflow:auto}
+  .modal-actions .btn{flex:1}
+}
+
+@media (max-width: 390px){
+  .page{grid-template-rows:1fr 1.22fr .96fr .5fr 2.32fr}
+  .team-info h1{font-size:15px}
+  .score-big{font-size:30px}
+  .batter-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .bstat:nth-child(4),.bstat:nth-child(5){display:none}
+  .run-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
