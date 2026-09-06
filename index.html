@@ -433,6 +433,362 @@ select option{background:#07111e}
   .info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+
+/* =========================================================
+   MOBILE COCKPIT v2 — TRUE SINGLE VIEWPORT SCORING DESK
+   ========================================================= */
+@media (max-width:640px){
+  :root{--radius:16px;--radius2:14px;--radius3:11px}
+
+  html,body{
+    width:100%;
+    height:100dvh;
+    min-height:100dvh;
+    overflow:hidden;
+    overscroll-behavior:none;
+  }
+
+  body{font-size:12px}
+  body::before{background-size:32px 32px;opacity:.12}
+
+  .appbar{
+    position:relative;
+    height:48px;
+    min-height:48px;
+    padding:5px 7px;
+    gap:6px;
+  }
+  .brand{gap:7px;min-width:0}
+  .brand-mark{width:32px;height:32px;border-radius:10px;font-size:10px}
+  .brand strong{font-size:10px;white-space:nowrap}
+  .brand span,.status-chip{display:none!important}
+  .app-actions{gap:5px;flex-wrap:nowrap}
+  .app-actions .btn{
+    min-height:32px;
+    padding:6px 8px;
+    border-radius:9px;
+    font-size:8px;
+    white-space:nowrap;
+  }
+
+  .page{
+    width:100%;
+    height:calc(100dvh - 48px);
+    min-height:0;
+    margin:0;
+    padding:5px;
+    gap:5px;
+    overflow:hidden;
+    display:grid;
+    grid-template-rows:104px 112px 82px 40px minmax(0,1fr);
+  }
+
+  .panel{
+    min-width:0;
+    min-height:0;
+    border-radius:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.02);
+  }
+
+  /* MATCHUP — score centered again, teams left/right */
+  .matchup{
+    min-height:0;
+    height:100%;
+    padding:7px;
+    gap:6px;
+    grid-template-columns:minmax(0,1fr) 88px minmax(0,1fr)!important;
+    align-items:center;
+  }
+  .matchup::before{display:none}
+  .center-score{
+    order:0!important;
+    padding:0!important;
+    min-width:0;
+  }
+  .team-card,
+  .team-card.right{
+    min-width:0;
+    min-height:0;
+    height:82px;
+    padding:7px;
+    gap:6px;
+    border-radius:13px;
+  }
+  .team-card.right{justify-content:flex-end!important;text-align:right!important}
+  .team-card.right .team-crest{order:2!important}
+  .team-crest{
+    width:34px;
+    height:34px;
+    border-radius:11px;
+    font-size:10px;
+  }
+  .team-info small{font-size:5.5px;letter-spacing:.10em}
+  .team-info h1{
+    margin-top:2px;
+    font-size:clamp(10px,3vw,13px)!important;
+    letter-spacing:-.03em;
+  }
+  .team-info p{margin-top:3px;font-size:6.5px}
+  .vs{font-size:6px;letter-spacing:.16em}
+  .score-big{margin-top:1px;font-size:30px!important;line-height:.86}
+  .score-overs{margin-top:3px;font-size:9px}
+  .score-meta{margin-top:5px;gap:3px;flex-wrap:nowrap}
+  .meta-pill{
+    padding:3px 4px;
+    font-size:5px;
+    letter-spacing:.04em;
+    white-space:nowrap;
+  }
+  .meta-pill strong{margin-left:2px}
+
+  /* SECTION HEADERS */
+  .section-head{
+    height:28px;
+    min-height:28px;
+    padding:5px 9px;
+  }
+  .section-head .title{font-size:7px;letter-spacing:.15em}
+  .section-head .sub{display:none!important}
+
+  /* BATTERS — two equal compact cards */
+  .batters-panel{
+    height:calc(100% - 28px);
+    min-height:0;
+    padding:6px;
+  }
+  .batters-grid{
+    height:100%;
+    min-height:0;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:6px;
+  }
+  .batter-card{
+    min-width:0;
+    min-height:0;
+    height:100%;
+    padding:7px;
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .batter-top{gap:4px}
+  .player-id{gap:5px;min-width:0;flex:1}
+  .avatar{width:25px;height:25px;border-radius:8px;font-size:6.5px}
+  .player-name{
+    min-width:0;
+    max-width:100%;
+    font-size:8.5px;
+    line-height:1.05;
+  }
+  .role{
+    flex:none;
+    max-width:42px;
+    padding:3px 4px;
+    border-radius:7px;
+    font-size:5px;
+    line-height:1;
+    letter-spacing:.04em;
+    text-align:center;
+  }
+  .batter-stats{
+    grid-template-columns:1.05fr .9fr 1fr!important;
+    gap:4px;
+    margin-top:6px;
+  }
+  .bstat{
+    min-width:0;
+    padding:5px;
+    border-radius:8px;
+  }
+  .bstat:nth-child(4),.bstat:nth-child(5){display:none!important}
+  .bstat span{font-size:4.8px;letter-spacing:.05em}
+  .bstat strong,.bstat.primary strong{margin-top:2px;font-size:11px!important;line-height:1}
+  .batter-actions{display:none!important}
+
+  /* BOWLER — one strip + O/R/W only */
+  .bowler-panel{
+    height:calc(100% - 28px);
+    min-height:0;
+    padding:6px;
+  }
+  .bowler-card{
+    height:100%;
+    min-height:0;
+    display:grid!important;
+    grid-template-columns:minmax(0,1.55fr) repeat(3,minmax(0,.5fr))!important;
+    gap:5px;
+    align-items:center;
+  }
+  .bowler-main{
+    grid-column:auto!important;
+    height:100%;
+    min-width:0;
+    padding:6px;
+    border-radius:11px;
+    gap:6px;
+  }
+  .bowler-avatar{width:28px;height:28px;font-size:7px}
+  .bowler-name{font-size:9px}
+  .bowler-sub{margin-top:2px;font-size:6px}
+  .bstat2{
+    display:block!important;
+    min-width:0;
+    padding:5px 3px;
+    border-radius:9px;
+  }
+  .bstat2:nth-of-type(5),.bstat2:nth-of-type(6){display:none!important}
+  .bstat2 span{font-size:4.7px;letter-spacing:.04em}
+  .bstat2 strong{margin-top:2px;font-size:10px}
+  .bowler-actions{display:none!important}
+
+  /* TIMELINE */
+  .timeline-panel{height:100%;padding:5px 7px}
+  .timeline-wrap{height:100%;min-height:0;gap:5px}
+  .timeline-label{font-size:5.8px;letter-spacing:.1em}
+  .timeline{gap:4px;padding:0;overflow-x:auto;overflow-y:hidden}
+  .ball{min-width:24px;height:24px;padding:0 4px;font-size:6.5px}
+  .timeline-score{padding:4px 5px;border-radius:7px;font-size:6.5px}
+
+  /* SCORING AREA — uses all remaining height */
+  .scoring-panel{
+    min-height:0;
+    height:100%;
+    padding:6px;
+    overflow:hidden;
+  }
+  .scoring-grid{
+    height:100%;
+    min-height:0;
+    display:grid!important;
+    grid-template-columns:minmax(0,1.65fr) minmax(108px,.55fr)!important;
+    gap:6px;
+  }
+  .scoring-main,.scoring-tools{
+    min-width:0;
+    min-height:0;
+    height:100%;
+    padding:7px;
+    border-radius:11px;
+    overflow:hidden;
+  }
+  .score-section-title{
+    gap:5px;
+    margin-bottom:5px;
+    font-size:5.8px;
+    letter-spacing:.10em;
+  }
+  .score-section-title[style]{margin-top:7px!important}
+
+  .run-grid{
+    display:grid!important;
+    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+    gap:4px;
+  }
+  .run-btn{
+    height:36px!important;
+    min-width:0;
+    padding:0;
+    border-radius:10px!important;
+    font-size:13px!important;
+  }
+
+  .event-grid{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:4px!important;
+    margin-top:5px!important;
+  }
+  .event-btn{
+    min-width:0;
+    min-height:29px!important;
+    padding:4px 2px;
+    border-radius:9px!important;
+    font-size:6.8px!important;
+    line-height:1;
+  }
+
+  .tool-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+  .tool-btn{
+    min-width:0;
+    min-height:27px!important;
+    padding:4px 3px;
+    border-radius:8px!important;
+    font-size:5.9px!important;
+    line-height:1.05;
+  }
+  .tool-btn.undo{
+    grid-column:1/-1!important;
+    min-height:29px!important;
+    font-size:6.8px!important;
+  }
+  .info-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:4px!important;
+    margin-top:5px!important;
+  }
+  .info-card{padding:5px;border-radius:8px}
+  .info-card span{font-size:4.5px;letter-spacing:.04em}
+  .info-card strong{margin-top:2px;font-size:9px}
+  .scorer-line{
+    margin-top:5px;
+    padding:5px 6px;
+    border-radius:8px;
+    font-size:5.5px;
+  }
+
+  /* Outcome dialogs stay touch friendly and scroll internally */
+  .modal-wrap{padding:6px}
+  .modal,.modal.small{width:100%;max-height:calc(100dvh - 12px);border-radius:16px}
+  .modal-head{padding:10px 11px}
+  .modal-head h3{font-size:13px}
+  .modal-head p{font-size:7.5px}
+  .modal-head .btn{padding:7px 8px;font-size:7px}
+  .modal-body{padding:10px 11px;max-height:calc(100dvh - 80px);overflow:auto}
+  .form-grid{gap:7px}
+  .outcome-section{gap:6px}
+  .outcome-section-title{font-size:6.5px}
+  .outcome-grid,.outcome-grid.runs{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px}
+  .outcome-choice{min-height:36px;padding:6px 4px;border-radius:9px;font-size:7px}
+  .outcome-note{padding:7px;font-size:6.5px}
+  .modal-actions{margin-top:9px;gap:5px}
+  .modal-actions .btn{min-height:34px;padding:7px 8px;font-size:8px;flex:1}
+}
+
+/* Short phones: squeeze vertically without changing functionality */
+@media (max-width:640px) and (max-height:760px){
+  .appbar{height:44px;min-height:44px}
+  .page{
+    height:calc(100dvh - 44px);
+    grid-template-rows:92px 102px 74px 34px minmax(0,1fr);
+  }
+  .team-card,.team-card.right{height:70px}
+  .team-crest{width:30px;height:30px}
+  .score-big{font-size:27px!important}
+  .section-head{height:24px;min-height:24px;padding:4px 8px}
+  .batters-panel,.bowler-panel{height:calc(100% - 24px)}
+  .run-btn{height:31px!important;font-size:11px!important}
+  .event-btn{min-height:25px!important}
+  .tool-btn{min-height:23px!important}
+  .tool-btn.undo{min-height:25px!important}
+  .info-card{padding:4px}
+  .scorer-line{display:none}
+}
+
+@media (max-width:360px){
+  .app-actions .btn{padding:6px 6px;font-size:7px}
+  .brand strong{font-size:9px}
+  .matchup{grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr)!important}
+  .team-crest{display:none}
+  .team-card,.team-card.right{justify-content:center!important;text-align:center!important}
+  .score-big{font-size:26px!important}
+  .run-grid{gap:3px}
+  .run-btn{font-size:11px!important}
+}
+
 </style>
 </head>
 <body>
