@@ -10,22 +10,26 @@
 :root{
   --bg:#050912;
   --panel:#0b1524;
-  --panel2:#0d1a2c;
-  --panel3:#111f34;
-  --line:rgba(255,255,255,.09);
+  --panel2:#0d1b2e;
+  --line:rgba(255,255,255,.085);
   --line2:rgba(255,255,255,.15);
-  --text:#f7fbff;
-  --muted:#7e91aa;
-  --muted2:#a7b8cb;
-  --green:#4ff0b5;
+  --text:#f6fbff;
+  --muted:#7b8fa8;
+  --muted2:#a6b6c9;
+  --green:#50efb5;
   --cyan:#50c8ff;
-  --violet:#8f7aff;
-  --amber:#ffbf6a;
-  --red:#ff6379;
-  --shadow:0 24px 70px rgba(0,0,0,.28);
-  --radius:26px;
-  --radius2:18px;
-  --radius3:14px;
+  --violet:#8d78ff;
+  --amber:#ffc06b;
+  --red:#ff6279;
+  --shadow:0 24px 72px rgba(0,0,0,.30);
+  --r1:26px;
+  --r2:18px;
+  --r3:13px;
+
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
 }
 
 *{
@@ -37,10 +41,6 @@ body{
   margin:0;
   min-height:100%;
   background:var(--bg);
-}
-
-html{
-  scroll-behavior:smooth;
 }
 
 body{
@@ -57,13 +57,18 @@ body{
 
   background:
     radial-gradient(
-      900px 520px at 10% 8%,
-      rgba(79,240,181,.08),
+      900px 520px at 8% -5%,
+      rgba(80,239,181,.075),
       transparent 62%
     ),
     radial-gradient(
-      900px 520px at 92% 2%,
+      900px 520px at 92% 0%,
       rgba(80,200,255,.10),
+      transparent 62%
+    ),
+    radial-gradient(
+      700px 480px at 82% 90%,
+      rgba(141,120,255,.06),
       transparent 64%
     ),
     linear-gradient(
@@ -84,30 +89,33 @@ body::before{
 
   pointer-events:none;
 
+  opacity:.15;
+
   background-image:
     linear-gradient(
-      rgba(255,255,255,.018) 1px,
+      rgba(255,255,255,.02) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(255,255,255,.018) 1px,
+      rgba(255,255,255,.02) 1px,
       transparent 1px
     );
 
-  background-size:44px 44px;
+  background-size:42px 42px;
 
   mask-image:
     linear-gradient(
       to bottom,
       black,
-      transparent 90%
+      transparent 92%
     );
 }
 
 button,
 input,
-select{
+select,
+textarea{
   font:inherit;
 }
 
@@ -118,12 +126,14 @@ button{
 button:disabled{
   opacity:.35;
   cursor:not-allowed;
-  transform:none!important;
-  box-shadow:none!important;
+
+  transform:none !important;
+  box-shadow:none !important;
 }
 
 input,
-select{
+select,
+textarea{
   width:100%;
 
   color:var(--text);
@@ -131,20 +141,23 @@ select{
   background:#08121f;
 
   border:1px solid var(--line);
+
   outline:none;
 
-  border-radius:13px;
+  border-radius:12px;
 
-  padding:12px 13px;
+  padding:11px 12px;
 }
 
 input:focus,
-select:focus{
-  border-color:rgba(79,240,181,.32);
+select:focus,
+textarea:focus{
+  border-color:
+    rgba(80,239,181,.30);
 
   box-shadow:
     0 0 0 3px
-    rgba(79,240,181,.05);
+    rgba(80,239,181,.05);
 }
 
 select option{
@@ -162,7 +175,7 @@ select option{
 
   z-index:80;
 
-  min-height:64px;
+  min-height:62px;
 
   display:flex;
   align-items:center;
@@ -170,21 +183,23 @@ select option{
   gap:12px;
 
   padding:
-    9px
-    clamp(12px,2vw,26px);
+    calc(8px + var(--safe-top))
+    max(14px,var(--safe-right))
+    8px
+    max(14px,var(--safe-left));
 
   border-bottom:
     1px solid var(--line);
 
   background:
-    rgba(4,8,15,.90);
+    rgba(4,8,15,.91);
 
   backdrop-filter:
     blur(20px);
 
   box-shadow:
-    0 12px 40px
-    rgba(0,0,0,.16);
+    0 10px 36px
+    rgba(0,0,0,.14);
 }
 
 .brand{
@@ -207,28 +222,25 @@ select option{
 
   flex:none;
 
+  font-weight:950;
+
+  letter-spacing:-.05em;
+
   background:
     linear-gradient(
       145deg,
-      rgba(79,240,181,.22),
+      rgba(80,239,181,.22),
       rgba(80,200,255,.08) 58%,
-      rgba(143,122,255,.12)
+      rgba(141,120,255,.12)
     );
 
   border:
     1px solid
-    rgba(79,240,181,.22);
+    rgba(80,239,181,.22);
 
   box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,.08),
-
-    0 12px 34px
-    rgba(0,0,0,.22);
-
-  font-weight:950;
-
-  letter-spacing:-.05em;
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 12px 30px rgba(0,0,0,.22);
 }
 
 .brand strong{
@@ -248,7 +260,7 @@ select option{
 
   color:var(--muted);
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:850;
 
@@ -280,14 +292,14 @@ select option{
 
   border:
     1px solid
-    rgba(79,240,181,.15);
+    rgba(80,239,181,.15);
 
   background:
-    rgba(79,240,181,.05);
+    rgba(80,239,181,.05);
 
-  color:#d9ffef;
+  color:#ddfff1;
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:900;
 
@@ -306,7 +318,7 @@ select option{
 
   box-shadow:
     0 0 0 5px
-    rgba(79,240,181,.07);
+    rgba(80,239,181,.07);
 }
 
 .btn{
@@ -318,13 +330,13 @@ select option{
 
   border-radius:12px;
 
-  padding:9px 12px;
+  padding:9px 11px;
 
   font-weight:800;
 
   cursor:pointer;
 
-  transition:.16s ease;
+  transition:.15s ease;
 }
 
 .btn:hover{
@@ -349,17 +361,17 @@ select option{
 .btn.primary:hover{
   box-shadow:
     0 12px 28px
-    rgba(79,240,181,.18);
+    rgba(80,239,181,.18);
 }
 
 .btn.danger{
   background:
-    rgba(255,99,121,.07);
+    rgba(255,98,121,.07);
 
   border-color:
-    rgba(255,99,121,.22);
+    rgba(255,98,121,.22);
 
-  color:#ffdbe2;
+  color:#ffdce2;
 }
 
 
@@ -375,11 +387,11 @@ select option{
     );
 
   margin:
-    12px auto 28px;
+    12px auto 26px;
 
   display:grid;
 
-  gap:12px;
+  gap:11px;
 }
 
 .panel{
@@ -391,7 +403,7 @@ select option{
     1px solid var(--line);
 
   border-radius:
-    var(--radius);
+    var(--r1);
 
   background:
     linear-gradient(
@@ -402,7 +414,6 @@ select option{
 
   box-shadow:
     var(--shadow),
-
     inset 0 1px 0
     rgba(255,255,255,.025);
 }
@@ -418,10 +429,10 @@ select option{
   background:
     linear-gradient(
       120deg,
-      rgba(255,255,255,.025),
+      rgba(255,255,255,.022),
       transparent 26%,
-      transparent 70%,
-      rgba(79,240,181,.015)
+      transparent 72%,
+      rgba(80,239,181,.014)
     );
 }
 
@@ -434,16 +445,16 @@ select option{
   align-items:center;
   justify-content:space-between;
 
-  gap:12px;
+  gap:10px;
 
-  padding:13px 16px;
+  padding:11px 15px;
 
   border-bottom:
     1px solid var(--line);
 }
 
 .section-head .title{
-  font-size:10px;
+  font-size:9px;
 
   font-weight:950;
 
@@ -451,7 +462,7 @@ select option{
 
   text-transform:uppercase;
 
-  color:#9badc2;
+  color:#9aacc1;
 }
 
 .section-head .sub{
@@ -459,7 +470,7 @@ select option{
 
   color:#687b91;
 
-  font-size:9px;
+  font-size:8px;
 }
 
 
@@ -468,9 +479,9 @@ select option{
 ========================================================= */
 
 .matchup{
-  min-height:178px;
+  min-height:170px;
 
-  padding:18px;
+  padding:16px;
 
   display:grid;
 
@@ -481,21 +492,19 @@ select option{
 
   align-items:center;
 
-  gap:15px;
+  gap:14px;
 
   background:
     radial-gradient(
       620px 250px at 5% 110%,
-      rgba(79,240,181,.11),
+      rgba(80,239,181,.10),
       transparent 65%
     ),
-
     radial-gradient(
       620px 260px at 97% -10%,
-      rgba(80,200,255,.13),
+      rgba(80,200,255,.12),
       transparent 64%
     ),
-
     linear-gradient(
       135deg,
       #0f2037,
@@ -509,8 +518,8 @@ select option{
 
   position:absolute;
 
-  left:25%;
-  right:25%;
+  left:26%;
+  right:26%;
 
   bottom:-145px;
 
@@ -520,7 +529,7 @@ select option{
 
   border:
     1px solid
-    rgba(79,240,181,.08);
+    rgba(80,239,181,.075);
 
   transform:
     perspective(500px)
@@ -529,7 +538,7 @@ select option{
   background:
     radial-gradient(
       ellipse at center,
-      rgba(79,240,181,.045) 0 24%,
+      rgba(80,239,181,.04) 0 24%,
       transparent 25%
     );
 }
@@ -546,7 +555,7 @@ select option{
 
   gap:13px;
 
-  padding:16px;
+  padding:15px;
 
   border-radius:20px;
 
@@ -575,7 +584,7 @@ select option{
     linear-gradient(
       145deg,
       rgba(80,200,255,.18),
-      rgba(143,122,255,.08)
+      rgba(141,120,255,.08)
     );
 
   border-color:
@@ -583,8 +592,8 @@ select option{
 }
 
 .team-crest{
-  width:66px;
-  height:66px;
+  width:64px;
+  height:64px;
 
   border-radius:20px;
 
@@ -596,13 +605,13 @@ select option{
   background:
     linear-gradient(
       145deg,
-      rgba(79,240,181,.19),
+      rgba(80,239,181,.19),
       rgba(80,200,255,.07)
     );
 
   border:
     1px solid
-    rgba(79,240,181,.20);
+    rgba(80,239,181,.20);
 
   font-size:20px;
 
@@ -611,11 +620,8 @@ select option{
   letter-spacing:-.05em;
 
   box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,.08),
-
-    0 16px 36px
-    rgba(0,0,0,.18);
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 16px 34px rgba(0,0,0,.18);
 }
 
 .team-info{
@@ -676,7 +682,7 @@ select option{
 .vs{
   color:#73869d;
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:950;
 
@@ -729,15 +735,15 @@ select option{
 
   justify-content:center;
 
-  gap:6px;
+  gap:5px;
 
   flex-wrap:wrap;
 
-  margin-top:10px;
+  margin-top:9px;
 }
 
 .meta-pill{
-  padding:6px 8px;
+  padding:5px 7px;
 
   border:
     1px solid var(--line);
@@ -749,7 +755,7 @@ select option{
 
   color:#7890a8;
 
-  font-size:7px;
+  font-size:6px;
 
   font-weight:900;
 
@@ -761,7 +767,7 @@ select option{
 .meta-pill strong{
   color:#f5fbff;
 
-  margin-left:4px;
+  margin-left:3px;
 }
 
 
@@ -770,7 +776,7 @@ select option{
 ========================================================= */
 
 .batters-panel{
-  padding:14px;
+  padding:12px;
 }
 
 .batters-grid{
@@ -783,13 +789,13 @@ select option{
   grid-template-columns:
     1fr 1fr;
 
-  gap:10px;
+  gap:9px;
 }
 
 .batter-card{
-  padding:13px;
+  padding:12px;
 
-  border-radius:16px;
+  border-radius:15px;
 
   border:
     1px solid
@@ -798,10 +804,9 @@ select option{
   background:
     radial-gradient(
       240px 100px at 12% 0%,
-      rgba(79,240,181,.065),
+      rgba(80,239,181,.06),
       transparent 70%
     ),
-
     linear-gradient(
       180deg,
       rgba(255,255,255,.03),
@@ -813,10 +818,9 @@ select option{
   background:
     radial-gradient(
       240px 100px at 12% 0%,
-      rgba(80,200,255,.065),
+      rgba(80,200,255,.06),
       transparent 70%
     ),
-
     linear-gradient(
       180deg,
       rgba(255,255,255,.03),
@@ -828,10 +832,9 @@ select option{
   display:flex;
 
   align-items:center;
-
   justify-content:space-between;
 
-  gap:9px;
+  gap:8px;
 }
 
 .player-id{
@@ -839,16 +842,16 @@ select option{
 
   align-items:center;
 
-  gap:9px;
+  gap:8px;
 
   min-width:0;
 }
 
 .avatar{
-  width:34px;
-  height:34px;
+  width:33px;
+  height:33px;
 
-  border-radius:12px;
+  border-radius:11px;
 
   display:grid;
   place-items:center;
@@ -856,15 +859,15 @@ select option{
   flex:none;
 
   background:
-    rgba(79,240,181,.09);
+    rgba(80,239,181,.09);
 
   border:
     1px solid
-    rgba(79,240,181,.15);
+    rgba(80,239,181,.15);
 
   color:#defff3;
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:950;
 }
@@ -880,7 +883,7 @@ select option{
 }
 
 .player-name{
-  font-size:13px;
+  font-size:12px;
 
   font-weight:850;
 
@@ -898,14 +901,14 @@ select option{
 
   border:
     1px solid
-    rgba(79,240,181,.18);
+    rgba(80,239,181,.18);
 
   background:
-    rgba(79,240,181,.055);
+    rgba(80,239,181,.055);
 
   color:#dffff2;
 
-  font-size:7px;
+  font-size:6px;
 
   font-weight:950;
 
@@ -928,21 +931,21 @@ select option{
   display:grid;
 
   grid-template-columns:
-    1.15fr
+    1.1fr
     .9fr
     1fr
-    .72fr
-    .72fr;
+    .7fr
+    .7fr;
 
-  gap:6px;
+  gap:5px;
 
-  margin-top:10px;
+  margin-top:9px;
 }
 
 .bstat{
-  padding:8px 9px;
+  padding:7px 8px;
 
-  border-radius:11px;
+  border-radius:10px;
 
   background:
     rgba(255,255,255,.022);
@@ -959,7 +962,7 @@ select option{
 
   color:#677b93;
 
-  font-size:7px;
+  font-size:6px;
 
   font-weight:900;
 
@@ -973,11 +976,11 @@ select option{
 
   margin-top:3px;
 
-  font-size:15px;
+  font-size:14px;
 }
 
 .bstat.primary strong{
-  font-size:23px;
+  font-size:22px;
 
   letter-spacing:-.05em;
 }
@@ -993,7 +996,7 @@ select option{
 .batter-actions .btn{
   padding:7px 9px;
 
-  font-size:9px;
+  font-size:8px;
 }
 
 
@@ -1002,7 +1005,7 @@ select option{
 ========================================================= */
 
 .bowler-panel{
-  padding:14px;
+  padding:12px;
 }
 
 .bowler-card{
@@ -1013,11 +1016,11 @@ select option{
   display:grid;
 
   grid-template-columns:
-    minmax(220px,1.25fr)
-    repeat(6,minmax(72px,.5fr))
+    minmax(210px,1.25fr)
+    repeat(6,minmax(70px,.5fr))
     auto;
 
-  gap:8px;
+  gap:7px;
 
   align-items:center;
 }
@@ -1027,29 +1030,29 @@ select option{
 
   align-items:center;
 
-  gap:10px;
+  gap:9px;
 
   min-width:0;
 
-  padding:12px;
+  padding:11px;
 
-  border-radius:15px;
+  border-radius:14px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(143,122,255,.08),
+      rgba(141,120,255,.08),
       rgba(80,200,255,.03)
     );
 
   border:
     1px solid
-    rgba(143,122,255,.14);
+    rgba(141,120,255,.14);
 }
 
 .bowler-avatar{
-  width:40px;
-  height:40px;
+  width:38px;
+  height:38px;
 
   border-radius:50%;
 
@@ -1059,21 +1062,21 @@ select option{
   flex:none;
 
   background:
-    rgba(143,122,255,.13);
+    rgba(141,120,255,.13);
 
   border:
     1px solid
-    rgba(143,122,255,.18);
+    rgba(141,120,255,.18);
 
   color:#e3deff;
 
-  font-size:10px;
+  font-size:9px;
 
   font-weight:950;
 }
 
 .bowler-name{
-  font-size:14px;
+  font-size:13px;
 
   font-weight:850;
 
@@ -1089,13 +1092,13 @@ select option{
 
   color:#6d8096;
 
-  font-size:9px;
+  font-size:8px;
 }
 
 .bstat2{
-  padding:10px 7px;
+  padding:9px 6px;
 
-  border-radius:12px;
+  border-radius:11px;
 
   border:
     1px solid var(--line);
@@ -1113,7 +1116,7 @@ select option{
 
   color:#687c94;
 
-  font-size:7px;
+  font-size:6px;
 
   font-weight:900;
 
@@ -1127,13 +1130,13 @@ select option{
 
   margin-top:3px;
 
-  font-size:15px;
+  font-size:14px;
 }
 
 .bowler-actions{
   display:flex;
 
-  gap:6px;
+  gap:5px;
 
   flex-wrap:wrap;
 
@@ -1141,9 +1144,9 @@ select option{
 }
 
 .bowler-actions .btn{
-  font-size:9px;
+  font-size:8px;
 
-  padding:8px 9px;
+  padding:7px 8px;
 }
 
 
@@ -1152,7 +1155,7 @@ select option{
 ========================================================= */
 
 .timeline-panel{
-  padding:11px 14px;
+  padding:9px 12px;
 }
 
 .timeline-wrap{
@@ -1164,7 +1167,7 @@ select option{
 
   align-items:center;
 
-  gap:9px;
+  gap:8px;
 }
 
 .timeline-label{
@@ -1172,7 +1175,7 @@ select option{
 
   color:#71859b;
 
-  font-size:8px;
+  font-size:7px;
 
   font-weight:950;
 
@@ -1184,11 +1187,11 @@ select option{
 .timeline{
   display:flex;
 
-  gap:6px;
+  gap:5px;
 
   overflow-x:auto;
 
-  padding:3px 1px;
+  padding:2px 1px;
 
   scrollbar-width:thin;
 
@@ -1211,11 +1214,11 @@ select option{
 
   flex:0 0 auto;
 
-  min-width:34px;
+  min-width:32px;
 
-  height:34px;
+  height:32px;
 
-  padding:0 7px;
+  padding:0 6px;
 
   border-radius:50%;
 
@@ -1231,10 +1234,9 @@ select option{
       rgba(255,255,255,.09),
       transparent 30%
     ),
-
     rgba(255,255,255,.03);
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:950;
 
@@ -1255,38 +1257,38 @@ select option{
   color:#e7e1ff;
 
   border-color:
-    rgba(143,122,255,.25);
+    rgba(141,120,255,.25);
 
   background:
-    rgba(143,122,255,.09);
+    rgba(141,120,255,.09);
 }
 
 .ball.wicket{
   color:#ffdce2;
 
   border-color:
-    rgba(255,99,121,.27);
+    rgba(255,98,121,.27);
 
   background:
-    rgba(255,99,121,.09);
+    rgba(255,98,121,.09);
 }
 
 .ball.extra{
   color:#ffe4bd;
 
   border-color:
-    rgba(255,191,106,.23);
+    rgba(255,192,107,.23);
 
   background:
-    rgba(255,191,106,.07);
+    rgba(255,192,107,.07);
 }
 
 .timeline-score{
   flex:none;
 
-  padding:7px 9px;
+  padding:6px 8px;
 
-  border-radius:10px;
+  border-radius:9px;
 
   border:
     1px solid var(--line);
@@ -1294,7 +1296,7 @@ select option{
   background:
     rgba(255,255,255,.02);
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:900;
 
@@ -1307,7 +1309,7 @@ select option{
 ========================================================= */
 
 .scoring-panel{
-  padding:14px;
+  padding:12px;
 }
 
 .scoring-grid{
@@ -1321,7 +1323,7 @@ select option{
     minmax(0,1.25fr)
     minmax(300px,.75fr);
 
-  gap:10px;
+  gap:9px;
 }
 
 .scoring-main,
@@ -1330,12 +1332,12 @@ select option{
     1px solid
     rgba(255,255,255,.07);
 
-  border-radius:17px;
+  border-radius:16px;
 
   background:
     rgba(255,255,255,.015);
 
-  padding:12px;
+  padding:11px;
 }
 
 .score-section-title{
@@ -1343,13 +1345,13 @@ select option{
 
   align-items:center;
 
-  gap:9px;
+  gap:8px;
 
-  margin-bottom:8px;
+  margin-bottom:7px;
 
   color:#6f839a;
 
-  font-size:8px;
+  font-size:7px;
 
   font-weight:950;
 
@@ -1377,17 +1379,17 @@ select option{
       minmax(0,1fr)
     );
 
-  gap:7px;
+  gap:6px;
 }
 
 .run-btn{
-  height:58px;
+  height:54px;
 
   border:
     1px solid
     rgba(255,255,255,.09);
 
-  border-radius:15px;
+  border-radius:14px;
 
   background:
     linear-gradient(
@@ -1396,7 +1398,7 @@ select option{
       rgba(255,255,255,.016)
     );
 
-  font-size:20px;
+  font-size:18px;
 
   font-weight:950;
 
@@ -1417,13 +1419,13 @@ select option{
     translateY(-2px);
 
   border-color:
-    rgba(79,240,181,.23);
+    rgba(80,239,181,.23);
 
   background:
     linear-gradient(
       180deg,
-      rgba(79,240,181,.08),
-      rgba(79,240,181,.02)
+      rgba(80,239,181,.08),
+      rgba(80,239,181,.02)
     );
 }
 
@@ -1449,13 +1451,13 @@ select option{
   color:#ece7ff;
 
   border-color:
-    rgba(143,122,255,.25);
+    rgba(141,120,255,.25);
 
   background:
     linear-gradient(
       145deg,
-      rgba(143,122,255,.21),
-      rgba(143,122,255,.05)
+      rgba(141,120,255,.21),
+      rgba(141,120,255,.05)
     );
 }
 
@@ -1468,23 +1470,23 @@ select option{
       minmax(0,1fr)
     );
 
-  gap:7px;
+  gap:6px;
 
-  margin-top:8px;
+  margin-top:7px;
 }
 
 .event-btn{
-  min-height:43px;
+  min-height:40px;
 
   border:
     1px solid var(--line);
 
-  border-radius:12px;
+  border-radius:11px;
 
   background:
     rgba(255,255,255,.025);
 
-  font-size:10px;
+  font-size:9px;
 
   font-weight:850;
 
@@ -1505,20 +1507,20 @@ select option{
   color:#ffd5dd;
 
   border-color:
-    rgba(255,99,121,.23);
+    rgba(255,98,121,.23);
 
   background:
-    rgba(255,99,121,.07);
+    rgba(255,98,121,.07);
 }
 
 .event-btn.extra{
   color:#ffe0b0;
 
   border-color:
-    rgba(255,191,106,.20);
+    rgba(255,192,107,.20);
 
   background:
-    rgba(255,191,106,.06);
+    rgba(255,192,107,.06);
 }
 
 .tool-grid{
@@ -1527,16 +1529,16 @@ select option{
   grid-template-columns:
     1fr 1fr;
 
-  gap:6px;
+  gap:5px;
 }
 
 .tool-btn{
-  min-height:40px;
+  min-height:37px;
 
   border:
     1px solid var(--line);
 
-  border-radius:12px;
+  border-radius:11px;
 
   background:
     linear-gradient(
@@ -1547,7 +1549,7 @@ select option{
 
   color:#9cb0c7;
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:850;
 
@@ -1572,12 +1574,12 @@ select option{
   color:#dffff2;
 
   border-color:
-    rgba(79,240,181,.18);
+    rgba(80,239,181,.18);
 
   background:
-    rgba(79,240,181,.055);
+    rgba(80,239,181,.055);
 
-  font-size:10px;
+  font-size:9px;
 }
 
 .info-grid{
@@ -1586,15 +1588,15 @@ select option{
   grid-template-columns:
     1fr 1fr;
 
-  gap:6px;
+  gap:5px;
 
-  margin-top:8px;
+  margin-top:7px;
 }
 
 .info-card{
-  padding:9px;
+  padding:8px;
 
-  border-radius:12px;
+  border-radius:11px;
 
   border:
     1px solid var(--line);
@@ -1608,7 +1610,7 @@ select option{
 
   color:#687c94;
 
-  font-size:7px;
+  font-size:6px;
 
   font-weight:900;
 
@@ -1620,17 +1622,17 @@ select option{
 .info-card strong{
   display:block;
 
-  margin-top:4px;
+  margin-top:3px;
 
-  font-size:15px;
+  font-size:14px;
 }
 
 .scorer-line{
-  margin-top:8px;
+  margin-top:7px;
 
-  padding:9px 10px;
+  padding:8px 9px;
 
-  border-radius:12px;
+  border-radius:11px;
 
   border:
     1px solid
@@ -1640,6 +1642,7 @@ select option{
     rgba(80,200,255,.035);
 
   display:flex;
+
   align-items:center;
   justify-content:space-between;
 
@@ -1647,7 +1650,7 @@ select option{
 
   color:#9eb5ca;
 
-  font-size:9px;
+  font-size:8px;
 }
 
 .scorer-line strong{
@@ -1697,7 +1700,7 @@ select option{
   border:
     1px solid var(--line2);
 
-  border-radius:24px;
+  border-radius:23px;
 
   background:#0a1422;
 
@@ -1744,7 +1747,7 @@ select option{
 
   gap:12px;
 
-  padding:17px 18px;
+  padding:16px 17px;
 
   border-bottom:
     1px solid var(--line);
@@ -1753,7 +1756,7 @@ select option{
 .modal-head h3{
   margin:0;
 
-  font-size:18px;
+  font-size:17px;
 
   letter-spacing:-.025em;
 }
@@ -1763,11 +1766,11 @@ select option{
 
   color:#6f8298;
 
-  font-size:9px;
+  font-size:8px;
 }
 
 .modal-body{
-  padding:17px 18px 18px;
+  padding:16px 17px 17px;
 }
 
 .form-grid{
@@ -1776,7 +1779,7 @@ select option{
   grid-template-columns:
     1fr 1fr;
 
-  gap:11px;
+  gap:10px;
 }
 
 .field{
@@ -1794,7 +1797,7 @@ select option{
 .field label{
   color:#6f8298;
 
-  font-size:8px;
+  font-size:7px;
 
   font-weight:900;
 
@@ -1806,7 +1809,7 @@ select option{
 .hint{
   color:#64788f;
 
-  font-size:8px;
+  font-size:7px;
 
   line-height:1.45;
 }
@@ -1818,7 +1821,7 @@ select option{
 
   gap:7px;
 
-  margin-top:15px;
+  margin-top:14px;
 
   flex-wrap:wrap;
 }
@@ -1833,7 +1836,7 @@ select option{
 
   flex-direction:column;
 
-  gap:8px;
+  gap:7px;
 
   grid-column:1/-1;
 }
@@ -1841,7 +1844,7 @@ select option{
 .outcome-section-title{
   color:#6f8298;
 
-  font-size:8px;
+  font-size:7px;
 
   font-weight:900;
 
@@ -1859,27 +1862,27 @@ select option{
       minmax(108px,1fr)
     );
 
-  gap:7px;
+  gap:6px;
 }
 
 .outcome-grid.runs{
   grid-template-columns:
     repeat(
       7,
-      minmax(48px,1fr)
+      minmax(44px,1fr)
     );
 }
 
 .outcome-choice{
-  min-height:44px;
+  min-height:42px;
 
-  padding:9px 10px;
+  padding:8px 9px;
 
   border:
     1px solid
     rgba(255,255,255,.085);
 
-  border-radius:12px;
+  border-radius:11px;
 
   background:
     linear-gradient(
@@ -1890,7 +1893,7 @@ select option{
 
   color:#9fb1c7;
 
-  font-size:9px;
+  font-size:8px;
 
   font-weight:850;
 
@@ -1901,10 +1904,6 @@ select option{
   cursor:pointer;
 
   transition:.14s ease;
-
-  box-shadow:
-    inset 0 1px 0
-    rgba(255,255,255,.025);
 }
 
 .outcome-choice:hover{
@@ -1912,12 +1911,12 @@ select option{
     translateY(-1px);
 
   border-color:
-    rgba(79,240,181,.20);
+    rgba(80,239,181,.20);
 
   color:#fff;
 
   background:
-    rgba(79,240,181,.045);
+    rgba(80,239,181,.045);
 }
 
 .outcome-choice.active{
@@ -1934,7 +1933,7 @@ select option{
 
   box-shadow:
     0 9px 24px
-    rgba(79,240,181,.16);
+    rgba(80,239,181,.16);
 }
 
 .outcome-choice.danger.active{
@@ -1948,10 +1947,6 @@ select option{
     );
 
   border-color:#ff7186;
-
-  box-shadow:
-    0 9px 24px
-    rgba(255,99,121,.15);
 }
 
 .outcome-choice.warning.active{
@@ -1965,10 +1960,6 @@ select option{
     );
 
   border-color:#ffc875;
-
-  box-shadow:
-    0 9px 24px
-    rgba(255,191,106,.14);
 }
 
 .outcome-choice.info.active{
@@ -1982,18 +1973,14 @@ select option{
     );
 
   border-color:#66d1ff;
-
-  box-shadow:
-    0 9px 24px
-    rgba(80,200,255,.14);
 }
 
 .outcome-note{
   grid-column:1/-1;
 
-  padding:9px 10px;
+  padding:8px 9px;
 
-  border-radius:11px;
+  border-radius:10px;
 
   border:
     1px solid
@@ -2004,7 +1991,7 @@ select option{
 
   color:#667b92;
 
-  font-size:8px;
+  font-size:7px;
 
   line-height:1.45;
 }
@@ -2019,7 +2006,11 @@ select option{
 
   right:14px;
 
-  bottom:14px;
+  bottom:
+    calc(
+      14px +
+      var(--safe-bottom)
+    );
 
   z-index:180;
 
@@ -2037,9 +2028,9 @@ select option{
 }
 
 .toast{
-  padding:11px 12px;
+  padding:10px 11px;
 
-  border-radius:12px;
+  border-radius:11px;
 
   border:
     1px solid var(--line2);
@@ -2050,7 +2041,7 @@ select option{
     0 14px 40px
     rgba(0,0,0,.3);
 
-  font-size:9px;
+  font-size:8px;
 
   animation:
     modalIn .18s ease;
@@ -2065,7 +2056,7 @@ select option{
 
   .matchup{
     grid-template-columns:
-      1fr 170px 1fr;
+      1fr 165px 1fr;
   }
 
   .bowler-card{
@@ -2098,14 +2089,6 @@ select option{
     display:none;
   }
 
-  .run-grid{
-    grid-template-columns:
-      repeat(
-        7,
-        1fr
-      );
-  }
-
   .event-grid{
     grid-template-columns:
       repeat(
@@ -2118,103 +2101,163 @@ select option{
 
 
 /* =========================================================
-   MOBILE SINGLE-PAGE SCORER
+   UNIVERSAL MOBILE
 ========================================================= */
 
 @media(max-width:640px){
 
+  :root{
+    --phone-bar:52px;
+    --phone-gap:4px;
+  }
+
   html,
   body{
-    height:100svh;
+    width:100%;
+    max-width:100%;
+    min-height:100%;
 
-    overflow:hidden;
+    overflow-x:hidden;
   }
 
   body{
-    min-height:100svh;
+    min-height:100dvh;
   }
 
+
+  /* APP BAR */
+
   .appbar{
-    height:56px;
+    height:
+      calc(
+        var(--phone-bar) +
+        var(--safe-top)
+      );
 
-    min-height:56px;
+    min-height:
+      calc(
+        var(--phone-bar) +
+        var(--safe-top)
+      );
 
-    padding:7px 9px;
+    padding:
+      calc(5px + var(--safe-top))
+      max(7px,var(--safe-right))
+      5px
+      max(7px,var(--safe-left));
 
-    gap:7px;
+    gap:5px;
+  }
+
+  .brand{
+    gap:6px;
   }
 
   .brand-mark{
-    width:36px;
+    width:32px;
+    height:32px;
 
-    height:36px;
+    border-radius:10px;
 
-    border-radius:12px;
-
-    font-size:12px;
+    font-size:9px;
   }
 
   .brand strong{
-    font-size:11px;
+    font-size:9px;
+
+    max-width:105px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
   }
 
-  .brand span{
+  .brand span,
+  .status-chip{
     display:none;
   }
 
   .app-actions{
-    gap:5px;
+    gap:4px;
+
+    flex-wrap:nowrap;
   }
 
   .app-actions .btn{
-    padding:8px 8px;
+    min-height:31px;
 
-    font-size:8px;
+    padding:5px 7px;
 
-    border-radius:10px;
+    border-radius:9px;
+
+    font-size:6.5px;
+
+    white-space:nowrap;
   }
+
+
+  /* PAGE */
 
   .page{
     width:100%;
+    max-width:none;
 
     height:
       calc(
-        100svh - 56px
+        100dvh -
+        var(--phone-bar) -
+        var(--safe-top)
       );
+
+    min-height:0;
 
     margin:0;
 
-    padding:5px;
+    padding:
+      var(--phone-gap)
+      max(var(--phone-gap),var(--safe-right))
+      max(var(--phone-gap),var(--safe-bottom))
+      max(var(--phone-gap),var(--safe-left));
 
-    gap:5px;
-
-    overflow:hidden;
+    display:grid;
 
     grid-template-rows:
-      106px
-      132px
-      92px
-      42px
-      minmax(0,1fr);
+      auto
+      auto
+      auto
+      auto
+      auto;
+
+    align-content:start;
+
+    gap:var(--phone-gap);
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    overscroll-behavior-y:contain;
+
+    scrollbar-width:none;
+  }
+
+  .page::-webkit-scrollbar{
+    display:none;
   }
 
   .panel{
-    border-radius:17px;
+    min-width:0;
 
-    box-shadow:
-      0 12px 34px
-      rgba(0,0,0,.22),
-
-      inset 0 1px 0
-      rgba(255,255,255,.02);
+    border-radius:14px;
   }
 
   .section-head{
-    padding:7px 9px;
+    min-height:22px;
+
+    padding:4px 7px;
   }
 
   .section-head .title{
-    font-size:8px;
+    font-size:6px;
   }
 
   .section-head .sub{
@@ -2227,14 +2270,14 @@ select option{
   .matchup{
     min-height:0;
 
-    padding:8px;
-
-    gap:6px;
+    padding:6px;
 
     grid-template-columns:
       minmax(0,1fr)
-      86px
+      clamp(62px,21vw,82px)
       minmax(0,1fr);
+
+    gap:4px;
   }
 
   .matchup::before{
@@ -2242,13 +2285,15 @@ select option{
   }
 
   .team-card{
-    min-height:0;
+    min-width:0;
 
-    padding:8px;
+    min-height:58px;
 
-    gap:7px;
+    padding:5px;
 
-    border-radius:13px;
+    gap:4px;
+
+    border-radius:10px;
   }
 
   .team-card.right{
@@ -2262,111 +2307,136 @@ select option{
   }
 
   .team-crest{
-    width:38px;
+    width:30px;
+    height:30px;
 
-    height:38px;
+    border-radius:9px;
 
-    border-radius:12px;
-
-    font-size:12px;
+    font-size:8px;
   }
 
   .team-info small{
-    font-size:5.8px;
+    font-size:4px;
   }
 
   .team-info h1{
-    font-size:13px;
+    margin-top:1px;
 
-    margin-top:2px;
+    font-size:
+      clamp(
+        8px,
+        3vw,
+        11px
+      );
+
+    line-height:1.05;
   }
 
   .team-info p{
-    font-size:6.5px;
+    margin-top:1px;
 
-    margin-top:3px;
+    font-size:4.5px;
   }
 
   .vs{
-    font-size:6px;
+    font-size:4px;
   }
 
   .score-big{
-    font-size:29px;
-
     margin-top:1px;
+
+    font-size:
+      clamp(
+        22px,
+        8vw,
+        28px
+      );
   }
 
   .score-overs{
-    font-size:8px;
+    margin-top:1px;
 
-    margin-top:2px;
+    font-size:6px;
   }
 
   .score-meta{
-    margin-top:5px;
+    gap:1px;
 
-    gap:2px;
+    margin-top:3px;
+
+    flex-wrap:nowrap;
   }
 
   .meta-pill{
-    padding:3px 4px;
+    min-width:0;
 
-    font-size:5px;
+    padding:2px 2px;
+
+    font-size:3px;
+
+    white-space:nowrap;
+  }
+
+  .meta-pill strong{
+    margin-left:1px;
   }
 
 
-  /* BATSMEN */
+  /* BATTERS */
 
   .batters-panel{
-    padding:7px;
+    padding:5px;
   }
 
   .batters-grid{
-    height:100%;
-
     grid-template-columns:
-      1fr 1fr;
+      minmax(0,1fr)
+      minmax(0,1fr);
 
-    gap:6px;
+    gap:4px;
   }
 
   .batter-card{
-    padding:7px;
-
-    border-radius:12px;
-
     min-width:0;
+
+    padding:5px;
+
+    border-radius:9px;
 
     overflow:hidden;
   }
 
   .batter-top{
-    gap:5px;
+    gap:3px;
   }
 
   .player-id{
-    gap:5px;
+    gap:3px;
   }
 
   .avatar{
-    width:27px;
+    width:21px;
+    height:21px;
 
-    height:27px;
+    border-radius:7px;
 
-    border-radius:9px;
-
-    font-size:7px;
+    font-size:5px;
   }
 
   .player-name{
-    font-size:9px;
+    font-size:6.5px;
   }
 
   .role{
-    padding:3px 5px;
+    max-width:43px;
 
-    font-size:5.3px;
+    padding:2px 3px;
+
+    font-size:3.2px;
+
+    line-height:1.05;
+
+    text-align:center;
   }
 
   .batter-stats{
@@ -2374,35 +2444,39 @@ select option{
       1.05fr
       .85fr
       1fr
-      .62fr
-      .62fr;
+      .64fr
+      .64fr;
 
-    gap:3px;
+    gap:1px;
 
-    margin-top:5px;
+    margin-top:3px;
   }
 
   .bstat{
-    padding:4px 3px;
+    display:block !important;
 
-    border-radius:8px;
+    min-width:0;
+
+    padding:2px 1px;
+
+    border-radius:6px;
 
     text-align:center;
   }
 
   .bstat span{
-    font-size:4px;
+    font-size:2.6px;
 
-    letter-spacing:.01em;
+    letter-spacing:0;
   }
 
   .bstat strong,
   .bstat.primary strong{
-    font-size:8px;
-
     margin-top:1px;
 
-    line-height:1.05;
+    font-size:5.8px;
+
+    line-height:1;
   }
 
   .batter-actions{
@@ -2413,20 +2487,20 @@ select option{
   /* BOWLER */
 
   .bowler-panel{
-    padding:7px;
+    padding:5px;
   }
 
   .bowler-card{
+    display:grid;
+
     grid-template-columns:
-      1.45fr
+      1.35fr
       repeat(
         6,
         minmax(0,1fr)
       );
 
-    gap:3px;
-
-    height:100%;
+    gap:2px;
 
     align-items:stretch;
   }
@@ -2434,55 +2508,63 @@ select option{
   .bowler-main{
     grid-column:auto;
 
-    padding:6px;
-
-    border-radius:11px;
-
-    gap:5px;
-
     min-width:0;
-  }
 
-  .bowler-avatar{
-    width:28px;
+    min-height:27px;
 
-    height:28px;
-
-    font-size:7px;
-  }
-
-  .bowler-name{
-    font-size:8px;
-  }
-
-  .bowler-sub{
-    font-size:5.5px;
-
-    margin-top:1px;
-  }
-
-  .bstat2{
-    padding:4px 2px;
+    padding:3px 4px;
 
     border-radius:8px;
 
-    display:flex;
+    gap:3px;
+  }
+
+  .bowler-avatar{
+    width:20px;
+    height:20px;
+
+    font-size:5px;
+  }
+
+  .bowler-name{
+    font-size:5.8px;
+  }
+
+  .bowler-sub{
+    margin-top:0;
+
+    font-size:3px;
+  }
+
+  .bstat2{
+    display:flex !important;
+
+    min-width:0;
+
+    min-height:27px;
+
+    padding:2px 1px;
+
+    border-radius:6px;
 
     flex-direction:column;
 
+    align-items:center;
     justify-content:center;
   }
 
   .bstat2 span{
-    font-size:3.8px;
+    font-size:2.5px;
 
     letter-spacing:0;
   }
 
   .bstat2 strong{
-    font-size:7.7px;
-
     margin-top:1px;
+
+    font-size:5.8px;
+
+    line-height:1;
   }
 
   .bowler-actions{
@@ -2493,71 +2575,75 @@ select option{
   /* TIMELINE */
 
   .timeline-panel{
-    padding:6px 8px;
+    padding:4px 6px;
   }
 
   .timeline-wrap{
-    height:100%;
+    min-height:25px;
 
-    gap:5px;
+    gap:3px;
   }
 
   .timeline-label{
-    font-size:5.8px;
+    max-width:58px;
+
+    font-size:3.8px;
+
+    white-space:nowrap;
   }
 
   .timeline{
-    gap:4px;
+    gap:2px;
 
-    padding:1px 0;
+    padding:0;
   }
 
   .ball{
-    min-width:27px;
+    min-width:21px;
 
-    height:27px;
+    height:21px;
 
-    font-size:7px;
+    padding:0 3px;
+
+    font-size:4.5px;
   }
 
   .timeline-score{
-    padding:4px 6px;
+    padding:2px 4px;
 
-    font-size:6px;
+    border-radius:6px;
 
-    border-radius:8px;
+    font-size:4.3px;
+
+    white-space:nowrap;
   }
 
 
   /* SCORING */
 
   .scoring-panel{
-    padding:6px;
+    padding:4px;
   }
 
   .scoring-grid{
-    display:grid;
-
     grid-template-columns:1fr;
 
-    gap:5px;
-
-    height:100%;
+    gap:3px;
   }
 
   .scoring-main,
   .scoring-tools{
-    padding:7px;
+    padding:5px;
 
-    border-radius:12px;
+    border-radius:9px;
   }
 
   .score-section-title{
-    font-size:5.8px;
+    margin-bottom:2px;
 
-    margin-bottom:4px;
+    gap:3px;
 
-    gap:5px;
+    font-size:3.8px;
   }
 
   .run-grid{
@@ -2567,15 +2653,22 @@ select option{
         minmax(0,1fr)
       );
 
-    gap:4px;
+    gap:2px;
   }
 
   .run-btn{
-    height:36px;
+    height:
+      clamp(
+        28px,
+        4.6dvh,
+        36px
+      );
 
-    border-radius:10px;
+    min-width:0;
 
-    font-size:13px;
+    border-radius:7px;
+
+    font-size:9px;
   }
 
   .event-grid{
@@ -2585,43 +2678,51 @@ select option{
         minmax(0,1fr)
       );
 
-    gap:4px;
+    gap:2px;
 
-    margin-top:5px;
+    margin-top:3px;
   }
 
   .event-btn{
-    min-height:30px;
+    min-height:
+      clamp(
+        22px,
+        3.7dvh,
+        28px
+      );
 
-    padding:4px 3px;
+    padding:2px 1px;
 
-    border-radius:9px;
+    border-radius:7px;
 
-    font-size:6.8px;
-  }
+    font-size:4.8px;
 
-  .scoring-tools{
-    padding-top:6px;
+    line-height:1.05;
   }
 
   .tool-grid{
     grid-template-columns:
       repeat(
-        4,
+        3,
         minmax(0,1fr)
       );
 
-    gap:4px;
+    gap:2px;
   }
 
   .tool-btn{
-    min-height:28px;
+    min-height:
+      clamp(
+        21px,
+        3.4dvh,
+        27px
+      );
 
-    padding:4px 3px;
+    padding:2px 1px;
 
-    border-radius:9px;
+    border-radius:7px;
 
-    font-size:5.8px;
+    font-size:4.4px;
 
     line-height:1.05;
   }
@@ -2629,9 +2730,9 @@ select option{
   .tool-btn.undo{
     grid-column:1/-1;
 
-    min-height:29px;
+    min-height:23px;
 
-    font-size:7px;
+    font-size:5px;
   }
 
   .info-grid{
@@ -2641,29 +2742,31 @@ select option{
         minmax(0,1fr)
       );
 
-    gap:4px;
+    gap:2px;
 
-    margin-top:4px;
+    margin-top:2px;
   }
 
   .info-card{
-    padding:5px 4px;
+    min-width:0;
 
-    border-radius:8px;
+    padding:3px 1px;
+
+    border-radius:6px;
 
     text-align:center;
   }
 
   .info-card span{
-    font-size:4px;
+    font-size:2.5px;
 
     letter-spacing:0;
   }
 
   .info-card strong{
-    font-size:8px;
-
     margin-top:1px;
+
+    font-size:5.8px;
   }
 
   .scorer-line{
@@ -2671,51 +2774,67 @@ select option{
   }
 
 
-  /* MODAL */
+  /* MOBILE MODALS */
 
   .modal-wrap{
-    padding:7px;
+    padding:
+      6px
+      max(6px,var(--safe-right))
+      max(6px,var(--safe-bottom))
+      max(6px,var(--safe-left));
 
     align-items:end;
   }
 
-  .modal{
+  .modal,
+  .modal.small{
     width:100%;
+    max-width:100%;
 
     max-height:
       calc(
-        100svh - 14px
+        100dvh -
+        12px -
+        var(--safe-top) -
+        var(--safe-bottom)
       );
 
     border-radius:
-      18px 18px 0 0;
-  }
-
-  .modal.small{
-    width:100%;
+      16px 16px 0 0;
   }
 
   .modal-head{
-    padding:12px;
+    padding:10px;
   }
 
   .modal-head h3{
-    font-size:15px;
+    font-size:13px;
   }
 
   .modal-head p{
-    font-size:8px;
+    font-size:7px;
   }
 
   .modal-body{
-    padding:12px;
+    padding:9px;
 
     max-height:
       calc(
-        100svh - 96px
+        100dvh -
+        82px -
+        var(--safe-top) -
+        var(--safe-bottom)
       );
 
     overflow:auto;
+
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .modal input,
+  .modal select,
+  .modal textarea{
+    font-size:16px;
   }
 
   .form-grid{
@@ -2726,7 +2845,7 @@ select option{
     grid-template-columns:
       repeat(
         2,
-        1fr
+        minmax(0,1fr)
       );
   }
 
@@ -2734,158 +2853,331 @@ select option{
     grid-template-columns:
       repeat(
         7,
-        1fr
+        minmax(0,1fr)
       );
   }
 
   .outcome-choice{
-    min-height:38px;
+    min-height:36px;
 
-    padding:7px 5px;
+    padding:5px 3px;
 
-    font-size:8px;
+    font-size:7px;
+  }
+
+  .modal-actions{
+    position:sticky;
+
+    bottom:0;
+
+    background:#0a1422;
+
+    padding-top:5px;
   }
 
   .modal-actions .btn{
     flex:1;
+
+    min-height:39px;
   }
 
 }
 
 
-@media(max-width:390px){
+/* =========================================================
+   VERY NARROW PHONES
+========================================================= */
 
-  .page{
-    grid-template-rows:
-      102px
-      128px
-      90px
-      40px
+@media(max-width:359px){
+
+  .brand strong{
+    display:none;
+  }
+
+  #setupBtn,
+  #changeScorerBtn{
+    font-size:0;
+
+    padding-inline:7px;
+  }
+
+  #setupBtn::after{
+    content:"Setup";
+
+    font-size:6.5px;
+  }
+
+  #changeScorerBtn::after{
+    content:"Scorer";
+
+    font-size:6.5px;
+  }
+
+  .matchup{
+    grid-template-columns:
+      minmax(0,1fr)
+      56px
       minmax(0,1fr);
-  }
-
-  .team-info h1{
-    font-size:12px;
-  }
-
-  .score-big{
-    font-size:27px;
-  }
-
-  .run-btn{
-    height:34px;
-  }
-
-  .event-btn{
-    min-height:28px;
-  }
-
-  .tool-btn{
-    min-height:26px;
-  }
-
-}
-
-
-@media(max-height:720px) and (max-width:640px){
-
-  .page{
-    grid-template-rows:
-      96px
-      118px
-      82px
-      38px
-      minmax(0,1fr);
-  }
-
-  .appbar{
-    height:52px;
-
-    min-height:52px;
-  }
-
-  .page{
-    height:
-      calc(
-        100svh - 52px
-      );
-  }
-
-  .brand-mark{
-    width:32px;
-
-    height:32px;
-  }
-
-  .app-actions .btn{
-    padding:6px 7px;
-  }
-
-  .team-card{
-    padding:6px;
   }
 
   .team-crest{
-    width:34px;
+    display:none;
+  }
 
-    height:34px;
+  .team-card{
+    justify-content:flex-start !important;
+
+    text-align:left !important;
+  }
+
+  .team-card.right{
+    justify-content:flex-end !important;
+
+    text-align:right !important;
   }
 
   .team-info h1{
-    font-size:11px;
+    font-size:7.8px;
   }
 
   .score-big{
-    font-size:25px;
+    font-size:20px;
+  }
+
+  .meta-pill{
+    font-size:2.6px;
+  }
+
+  .role{
+    max-width:38px;
+
+    font-size:2.8px;
+  }
+
+}
+
+
+/* =========================================================
+   SHORT PHONES
+========================================================= */
+
+@media(max-width:640px) and (max-height:700px){
+
+  :root{
+    --phone-bar:48px;
+    --phone-gap:3px;
+  }
+
+  .brand-mark{
+    width:28px;
+    height:28px;
+  }
+
+  .app-actions .btn{
+    min-height:28px;
+
+    padding-block:3px;
+  }
+
+  .team-card{
+    min-height:52px;
+
+    padding:4px;
+  }
+
+  .team-crest{
+    width:27px;
+    height:27px;
+  }
+
+  .score-big{
+    font-size:21px;
+  }
+
+  .batters-panel,
+  .bowler-panel{
+    padding:4px;
+  }
+
+  .section-head{
+    min-height:19px;
+
+    padding:3px 6px;
   }
 
   .batter-card{
-    padding:6px;
+    padding:4px;
   }
 
   .avatar{
-    width:24px;
-
-    height:24px;
+    width:19px;
+    height:19px;
   }
 
-  .player-name{
-    font-size:8px;
-  }
-
-  .bstat{
-    padding:3px 2px;
-  }
-
-  .bowler-panel,
-  .batters-panel{
-    padding:6px;
+  .batter-stats{
+    margin-top:2px;
   }
 
   .bowler-main{
-    padding:5px;
+    min-height:24px;
+
+    padding:2px 4px;
   }
 
   .bowler-avatar{
-    width:25px;
+    width:18px;
+    height:18px;
+  }
 
-    height:25px;
+  .bstat2{
+    min-height:24px;
+  }
+
+  .timeline-panel{
+    padding:3px 5px;
+  }
+
+  .timeline-wrap{
+    min-height:22px;
+  }
+
+  .ball{
+    min-width:19px;
+    height:19px;
   }
 
   .run-btn{
-    height:31px;
+    height:27px;
   }
 
   .event-btn{
-    min-height:25px;
+    min-height:21px;
   }
 
   .tool-btn{
-    min-height:23px;
+    min-height:20px;
   }
 
   .tool-btn.undo{
-    min-height:24px;
+    min-height:21px;
+  }
+
+  .info-card{
+    padding:2px 1px;
+  }
+
+}
+
+
+@media(max-width:640px) and (max-height:610px){
+
+  .info-grid{
+    display:none;
+  }
+
+  .scoring-main,
+  .scoring-tools{
+    padding:4px;
+  }
+
+  .run-btn{
+    height:25px;
+  }
+
+  .event-btn{
+    min-height:20px;
+  }
+
+  .tool-btn{
+    min-height:19px;
+  }
+
+  .tool-btn.undo{
+    min-height:20px;
+  }
+
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONES
+========================================================= */
+
+@media(max-width:940px) and (orientation:landscape){
+
+  html,
+  body{
+    height:auto;
+
+    overflow:auto;
+  }
+
+  .appbar{
+    position:sticky;
+
+    min-height:46px;
+
+    height:auto;
+  }
+
+  .page{
+    width:
+      min(
+        100% - 8px,
+        1100px
+      );
+
+    height:auto;
+
+    min-height:0;
+
+    margin:
+      4px auto 12px;
+
+    padding:0;
+
+    overflow:visible;
+
+    grid-template-columns:
+      minmax(0,1fr)
+      minmax(0,1fr);
+
+    grid-template-rows:auto;
+
+    gap:4px;
+  }
+
+  .page > .matchup,
+  .page > .timeline-panel,
+  .page > .scoring-panel{
+    grid-column:1/-1;
+  }
+
+  .batters-grid{
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .scoring-grid{
+    grid-template-columns:
+      minmax(0,1.25fr)
+      minmax(250px,.75fr);
+  }
+
+  .run-btn{
+    height:36px;
+  }
+
+  .event-btn{
+    min-height:29px;
+  }
+
+  .tool-grid{
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
   }
 
 }
@@ -2915,6 +3207,7 @@ select option{
     </div>
 
   </div>
+
 
   <div class="app-actions">
 
@@ -2997,6 +3290,7 @@ select option{
       >
         0.0 overs
       </div>
+
 
       <div class="score-meta">
 
@@ -3083,8 +3377,6 @@ select option{
 
       <div class="batters-grid">
 
-        <!-- STRIKER -->
-
         <article class="batter-card">
 
           <div class="batter-top">
@@ -3164,8 +3456,6 @@ select option{
 
         </article>
 
-
-        <!-- NON STRIKER -->
 
         <article class="batter-card">
 
@@ -3302,44 +3592,32 @@ select option{
 
         <div class="bstat2">
           <span>Overs</span>
-          <strong id="bowlerOvers">
-            0.0
-          </strong>
+          <strong id="bowlerOvers">0.0</strong>
         </div>
 
         <div class="bstat2">
           <span>Runs</span>
-          <strong id="bowlerRuns">
-            0
-          </strong>
+          <strong id="bowlerRuns">0</strong>
         </div>
 
         <div class="bstat2">
           <span>Wickets</span>
-          <strong id="bowlerWickets">
-            0
-          </strong>
+          <strong id="bowlerWickets">0</strong>
         </div>
 
         <div class="bstat2">
           <span>WD</span>
-          <strong id="bowlerWides">
-            0
-          </strong>
+          <strong id="bowlerWides">0</strong>
         </div>
 
         <div class="bstat2">
           <span>NB</span>
-          <strong id="bowlerNB">
-            0
-          </strong>
+          <strong id="bowlerNB">0</strong>
         </div>
 
         <div class="bstat2">
           <span>ECO</span>
-          <strong id="bowlerEcon">
-            0.00
-          </strong>
+          <strong id="bowlerEcon">0.00</strong>
         </div>
 
 
@@ -3472,7 +3750,7 @@ select option{
 
         <div
           class="score-section-title"
-          style="margin-top:11px"
+          style="margin-top:9px"
         >
           Advanced Outcomes
         </div>
@@ -3686,6 +3964,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -3698,6 +3977,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -3712,6 +3992,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -3724,6 +4005,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -3740,6 +4022,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -3761,6 +4044,7 @@ select option{
 
         </div>
 
+
         <div class="field full">
 
           <label>
@@ -3774,18 +4058,21 @@ select option{
 
         </div>
 
+
         <div class="field full">
 
           <label>
             Team A Players
           </label>
 
-          <input
+          <textarea
             id="teamAPlayersInput"
-            placeholder="Comma-separated player names"
-          >
+            rows="4"
+            placeholder="Comma-separated or one per line"
+          ></textarea>
 
         </div>
+
 
         <div class="field full">
 
@@ -3793,10 +4080,11 @@ select option{
             Team B Players
           </label>
 
-          <input
+          <textarea
             id="teamBPlayersInput"
-            placeholder="Comma-separated player names"
-          >
+            rows="4"
+            placeholder="Comma-separated or one per line"
+          ></textarea>
 
         </div>
 
@@ -3829,7 +4117,7 @@ select option{
 
 
 <!-- ========================================================
-     OUTCOME MODAL
+     EVENT MODAL
 ========================================================= -->
 
 <div
@@ -3848,7 +4136,7 @@ select option{
         </h3>
 
         <p id="eventSub">
-          Select the exact match outcome.
+          Select the exact outcome.
         </p>
 
       </div>
@@ -3945,6 +4233,7 @@ select option{
 
         </div>
 
+
         <div class="field full">
 
           <label>
@@ -3954,6 +4243,7 @@ select option{
           <input id="editBatterName">
 
         </div>
+
 
         <div class="field">
 
@@ -3969,6 +4259,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -3982,6 +4273,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -3997,6 +4289,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -4010,6 +4303,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field full">
 
@@ -4112,6 +4406,7 @@ select option{
 
         </div>
 
+
         <div class="field full">
 
           <label>
@@ -4122,15 +4417,20 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
-            Overs (example 3.2)
+            Overs
           </label>
 
-          <input id="editBowlerOvers">
+          <input
+            id="editBowlerOvers"
+            placeholder="Example 3.2"
+          >
 
         </div>
+
 
         <div class="field">
 
@@ -4146,6 +4446,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -4159,6 +4460,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -4174,6 +4476,7 @@ select option{
 
         </div>
 
+
         <div class="field">
 
           <label>
@@ -4187,6 +4490,7 @@ select option{
           >
 
         </div>
+
 
         <div class="field">
 
@@ -4309,6 +4613,63 @@ select option{
 </div>
 
 
+<!-- ========================================================
+     CHANGE BOWLER
+========================================================= -->
+
+<div
+  class="modal-wrap"
+  id="changeBowlerModal"
+>
+
+  <div class="modal small">
+
+    <div class="modal-head">
+
+      <div>
+
+        <h3>
+          Change Bowler
+        </h3>
+
+        <p>
+          Tap a bowler to make them current.
+        </p>
+
+      </div>
+
+      <button
+        class="btn"
+        data-close="changeBowlerModal"
+      >
+        Close
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div class="outcome-section">
+
+        <div class="outcome-section-title">
+          Select Bowler
+        </div>
+
+        <div
+          class="outcome-grid"
+          id="bowlerChoiceGrid"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <div
   class="toast-stack"
   id="toastStack"
@@ -4322,7 +4683,7 @@ select option{
 
 
   const STORAGE_KEY =
-    'mk97-scoring-desk-v4';
+    'mk97-scoring-desk-v5';
 
 
   const $ =
@@ -4440,7 +4801,7 @@ select option{
 
     return {
 
-      version:4,
+      version:5,
 
       configured:false,
 
@@ -4508,7 +4869,7 @@ select option{
 
       if(
         !s ||
-        s.version !== 4
+        s.version !== 5
       ){
         return freshState();
       }
@@ -4542,6 +4903,162 @@ select option{
     'striker';
 
 
+  const current =
+    () =>
+      state.innings[
+        state.currentInnings
+      ];
+
+
+  const oversText =
+    b =>
+      `${
+        Math.floor(
+          (b || 0) / 6
+        )
+      }.${
+        (b || 0) % 6
+      }`;
+
+
+  const oversToBalls =
+    v => {
+
+      const m =
+        String(
+          v || '0.0'
+        )
+        .trim()
+        .match(
+          /^(\d+)(?:\.(\d))?$/
+        );
+
+
+      return m
+
+        ? (
+            Number(m[1]) * 6
+            +
+            Math.min(
+              5,
+              Number(m[2] || 0)
+            )
+          )
+
+        : 0;
+
+    };
+
+
+  const initials =
+    name =>
+      (
+        String(
+          name || '—'
+        )
+        .trim()
+        .split(/\s+/)
+        .slice(0,2)
+        .map(
+          x =>
+            x[0]
+        )
+        .join('')
+        .toUpperCase()
+
+        ||
+
+        '—'
+      );
+
+
+  const strikeRate =
+    b =>
+      b && b.balls
+
+        ? (
+            (
+              b.runs /
+              b.balls
+            )
+            *
+            100
+          )
+          .toFixed(2)
+
+        : '0.00';
+
+
+  const economy =
+    b =>
+      b && b.balls
+
+        ? (
+            b.runs /
+            (
+              b.balls /
+              6
+            )
+          )
+          .toFixed(2)
+
+        : '0.00';
+
+
+  const runRate =
+    inn =>
+      inn.balls
+
+        ? (
+            inn.runs /
+            (
+              inn.balls /
+              6
+            )
+          )
+          .toFixed(2)
+
+        : '0.00';
+
+
+  const extrasTotal =
+    inn =>
+      (
+        inn.extras.wd
+        +
+        inn.extras.nb
+        +
+        inn.extras.b
+        +
+        inn.extras.lb
+      );
+
+
+  const safe =
+    v =>
+      String(
+        v ?? ''
+      )
+      .replace(
+        /[&<>"']/g,
+        c => ({
+          '&':'&amp;',
+          '<':'&lt;',
+          '>':'&gt;',
+          '"':'&quot;',
+          "'":'&#39;'
+        }[c])
+      );
+
+
+  const maxWickets =
+    inn =>
+      Math.min(
+        10,
+        inn.batters.length - 1
+      );
+
+
   function save(){
 
     const out =
@@ -4554,151 +5071,6 @@ select option{
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify(out)
-    );
-
-  }
-
-
-  function current(){
-
-    return state.innings[
-      state.currentInnings
-    ];
-
-  }
-
-
-  function oversText(b){
-
-    return `${
-      Math.floor(b/6)
-    }.${b%6}`;
-
-  }
-
-
-  function oversToBalls(v){
-
-    const m =
-      String(
-        v || '0.0'
-      )
-      .trim()
-      .match(
-        /^(\d+)(?:\.(\d))?$/
-      );
-
-
-    if(!m)
-      return 0;
-
-
-    return (
-      Number(m[1]) * 6 +
-      Math.min(
-        5,
-        Number(m[2] || 0)
-      )
-    );
-
-  }
-
-
-  function initials(name){
-
-    return (
-      String(name || '—')
-      .trim()
-      .split(/\s+/)
-      .slice(0,2)
-      .map(x => x[0])
-      .join('')
-      .toUpperCase()
-      ||
-      '—'
-    );
-
-  }
-
-
-  function strikeRate(b){
-
-    return b.balls
-      ? (
-          (
-            b.runs /
-            b.balls
-          )
-          *
-          100
-        ).toFixed(2)
-      : '0.00';
-
-  }
-
-
-  function economy(b){
-
-    return b.balls
-      ? (
-          b.runs /
-          (
-            b.balls / 6
-          )
-        ).toFixed(2)
-      : '0.00';
-
-  }
-
-
-  function runRate(inn){
-
-    return inn.balls
-      ? (
-          inn.runs /
-          (
-            inn.balls / 6
-          )
-        ).toFixed(2)
-      : '0.00';
-
-  }
-
-
-  function extras(inn){
-
-    return (
-      inn.extras.wd +
-      inn.extras.nb +
-      inn.extras.b +
-      inn.extras.lb
-    );
-
-  }
-
-
-  function safe(v){
-
-    return String(v ?? '')
-      .replace(
-        /[&<>"']/g,
-        c => ({
-          '&':'&amp;',
-          '<':'&lt;',
-          '>':'&gt;',
-          '"':'&quot;',
-          "'":'&#39;'
-        }[c])
-      );
-
-  }
-
-
-  function maxWickets(inn){
-
-    return Math.min(
-      10,
-      inn.batters.length - 1
     );
 
   }
@@ -4729,6 +5101,7 @@ select option{
 
         el.style.opacity =
           '0';
+
 
         el.style.transform =
           'translateY(6px)';
@@ -4828,7 +5201,8 @@ select option{
 
 
     if(
-      state.matchComplete ||
+      state.matchComplete
+      ||
       current().complete
     ){
 
@@ -4906,7 +5280,8 @@ select option{
     inn.deliveries.push({
 
       id:
-        Date.now() +
+        Date.now()
+        +
         Math.random(),
 
       type,
@@ -4935,7 +5310,8 @@ select option{
   function finishOver(inn){
 
     if(
-      inn.balls > 0 &&
+      inn.balls > 0
+      &&
       inn.balls % 6 === 0
     ){
 
@@ -4949,7 +5325,8 @@ select option{
       toast(
         `Over ${
           Math.floor(
-            inn.balls / 6
+            inn.balls /
+            6
           )
         } complete.`
       );
@@ -4978,8 +5355,10 @@ select option{
       ||
 
       (
-        state.currentInnings === 1 &&
-        state.target &&
+        state.currentInnings === 1
+        &&
+        state.target
+        &&
         inn.runs >=
         state.target
       );
@@ -4994,7 +5373,8 @@ select option{
 
 
     if(
-      state.currentInnings === 0
+      state.currentInnings ===
+      0
     ){
 
       state.target =
@@ -5080,7 +5460,8 @@ select option{
       const left =
         Math.max(
           0,
-          maxWickets(b) -
+          maxWickets(b)
+          -
           b.wickets
         );
 
@@ -5260,7 +5641,8 @@ select option{
 
 
     if(
-      type === 'bye'
+      type ===
+      'bye'
     ){
 
       inn.extras.b += r;
@@ -5278,6 +5660,7 @@ select option{
         type,
         runs:r,
         legal:true,
+
         token:
           `${r}${
             type === 'bye'
@@ -5303,6 +5686,7 @@ select option{
 
     render();
 
+
     closeModal(
       'eventModal'
     );
@@ -5322,7 +5706,8 @@ select option{
 
 
     if(
-      !b ||
+      !b
+      ||
       b.out
     ){
       return;
@@ -5343,9 +5728,11 @@ select option{
     if(
       bowlerCredit
     ){
+
       inn.bowlers[
         inn.bowler
       ].wickets++;
+
     }
 
 
@@ -5383,30 +5770,35 @@ select option{
 
     const completed =
       Number(
-        eventState.values.runs ||
+        eventState.values.runs
+        ||
         0
       );
 
 
     const wicket =
-      eventState.values.wicket ||
+      eventState.values.wicket
+      ||
       'none';
 
 
     const total =
-      1 + completed;
+      1 +
+      completed;
 
 
     inn.runs += total;
 
 
-    inn.extras.wd += total;
+    inn.extras.wd +=
+      total;
 
 
     bow.runs += total;
 
 
-    bow.wides += total;
+    bow.wides +=
+      total;
 
 
     inn.partnershipRuns +=
@@ -5427,7 +5819,8 @@ select option{
 
 
     if(
-      wicket !== 'none'
+      wicket !==
+      'none'
     ){
 
       let side =
@@ -5454,20 +5847,24 @@ select option{
 
       const credit =
 
-        wicket === 'stumped'
+        wicket ===
+        'stumped'
 
         ||
 
-        wicket === 'hitwicket';
+        wicket ===
+        'hitwicket';
 
 
       const text =
 
-        wicket === 'stumped'
+        wicket ===
+        'stumped'
 
           ? `st b ${bow.name}`
 
-          : wicket === 'hitwicket'
+          : wicket ===
+            'hitwicket'
 
           ? 'hit wicket'
 
@@ -5491,9 +5888,7 @@ select option{
       token +=
 
         wicket === 'runout'
-
         ||
-
         wicket === 'runoutNS'
 
           ? '+RO'
@@ -5507,8 +5902,11 @@ select option{
       inn,
       {
         type:'wide',
+
         runs:total,
+
         legal:false,
+
         token
       }
     );
@@ -5520,6 +5918,7 @@ select option{
     save();
 
     render();
+
 
     closeModal(
       'eventModal'
@@ -5558,18 +5957,21 @@ select option{
 
     const add =
       Number(
-        eventState.values.runs ||
+        eventState.values.runs
+        ||
         0
       );
 
 
     const source =
-      eventState.values.source ||
+      eventState.values.source
+      ||
       'bat';
 
 
     const wicket =
-      eventState.values.wicket ||
+      eventState.values.wicket
+      ||
       'none';
 
 
@@ -5583,7 +5985,8 @@ select option{
     bow.noBalls++;
 
 
-    bow.runs += 1;
+    bow.runs +=
+      1;
 
 
     inn.partnershipRuns +=
@@ -5591,13 +5994,16 @@ select option{
 
 
     if(
-      source === 'bat'
+      source ===
+      'bat'
     ){
 
-      bat.runs += add;
+      bat.runs +=
+        add;
 
 
-      bow.runs += add;
+      bow.runs +=
+        add;
 
 
       if(add === 4)
@@ -5610,18 +6016,22 @@ select option{
     }
 
     else if(
-      source === 'bye'
+      source ===
+      'bye'
     ){
 
-      inn.extras.b += add;
+      inn.extras.b +=
+        add;
 
     }
 
     else if(
-      source === 'legbye'
+      source ===
+      'legbye'
     ){
 
-      inn.extras.lb += add;
+      inn.extras.lb +=
+        add;
 
     }
 
@@ -5640,7 +6050,8 @@ select option{
 
 
     if(
-      wicket !== 'none'
+      wicket !==
+      'none'
     ){
 
       let side =
@@ -5667,11 +6078,13 @@ select option{
 
       const text =
 
-        wicket === 'obstructing'
+        wicket ===
+        'obstructing'
 
           ? 'obstructing the field'
 
-          : wicket === 'hitballtwice'
+          : wicket ===
+            'hitballtwice'
 
           ? 'hit the ball twice'
 
@@ -5702,8 +6115,12 @@ select option{
       inn,
       {
         type:'noball',
-        runs:1 + add,
+
+        runs:
+          1 + add,
+
         legal:false,
+
         token
       }
     );
@@ -5715,6 +6132,7 @@ select option{
     save();
 
     render();
+
 
     closeModal(
       'eventModal'
@@ -5746,24 +6164,28 @@ select option{
 
 
     const type =
-      eventState.values.dismissal ||
+      eventState.values.dismissal
+      ||
       'bowled';
 
 
     const completed =
       Number(
-        eventState.values.runs ||
+        eventState.values.runs
+        ||
         0
       );
 
 
     const source =
-      eventState.values.source ||
+      eventState.values.source
+      ||
       'bat';
 
 
     const legal =
-      eventState.values.legal !==
+      eventState.values.legal
+      !==
       'no';
 
 
@@ -5784,7 +6206,8 @@ select option{
 
 
       if(
-        source === 'bat'
+        source ===
+        'bat'
       ){
 
         inn.batters[
@@ -5800,24 +6223,29 @@ select option{
         if(
           completed === 4
         ){
+
           inn.batters[
             originalStriker
           ].fours++;
+
         }
 
 
         if(
           completed === 6
         ){
+
           inn.batters[
             originalStriker
           ].sixes++;
+
         }
 
       }
 
       else if(
-        source === 'bye'
+        source ===
+        'bye'
       ){
 
         inn.extras.b +=
@@ -5826,7 +6254,8 @@ select option{
       }
 
       else if(
-        source === 'legbye'
+        source ===
+        'legbye'
       ){
 
         inn.extras.lb +=
@@ -5864,12 +6293,8 @@ select option{
     }
 
 
-    const runoutNS =
-      type === 'runoutNS';
-
-
     let side =
-      runoutNS
+      type === 'runoutNS'
         ? 'nonStriker'
         : 'striker';
 
@@ -5957,8 +6382,12 @@ select option{
       inn,
       {
         type:'wicket',
-        runs:completed,
+
+        runs:
+          completed,
+
         legal,
+
         token:
           completed
             ? `W+${completed}`
@@ -5968,7 +6397,8 @@ select option{
 
 
     if(
-      !maybeComplete() &&
+      !maybeComplete()
+      &&
       legal
     ){
       finishOver(inn);
@@ -5978,6 +6408,7 @@ select option{
     save();
 
     render();
+
 
     closeModal(
       'eventModal'
@@ -5989,7 +6420,8 @@ select option{
   function requiredRate(){
 
     if(
-      state.currentInnings !== 1 ||
+      state.currentInnings !== 1
+      ||
       !state.target
     ){
       return '—';
@@ -6023,7 +6455,8 @@ select option{
           (
             left / 6
           )
-        ).toFixed(2)
+        )
+        .toFixed(2)
 
       : '∞';
 
@@ -6066,7 +6499,8 @@ select option{
   function ballClass(t){
 
     if(
-      t.includes('W') ||
+      t.includes('W')
+      ||
       t.includes('RO')
     ){
       return 'wicket';
@@ -6323,7 +6757,7 @@ select option{
 
 
     $('extras').textContent =
-      extras(inn);
+      extrasTotal(inn);
 
 
     $('projected').textContent =
@@ -6337,13 +6771,15 @@ select option{
     $('wicketsLeft').textContent =
       Math.max(
         0,
-        maxWickets(inn) -
+        maxWickets(inn)
+        -
         inn.wickets
       );
 
 
     $('scorerNameLabel').textContent =
-      state.scorer ||
+      state.scorer
+      ||
       'Scorer';
 
 
@@ -6425,15 +6861,11 @@ select option{
 
 
     $('teamAPlayersInput').value =
-      state.playersA.join(
-        ', '
-      );
+      state.playersA.join('\n');
 
 
     $('teamBPlayersInput').value =
-      state.playersB.join(
-        ', '
-      );
+      state.playersB.join('\n');
 
 
     openModal(
@@ -6462,11 +6894,11 @@ select option{
       .filter(Boolean);
 
 
-    return (
-      arr.length >= 2
-        ? arr
-        : defaultPlayers(team)
-    );
+    return arr.length >= 2
+
+      ? arr
+
+      : defaultPlayers(team);
 
   }
 
@@ -6496,7 +6928,9 @@ select option{
           100,
           Number(
             $('oversInput').value
-          ) || 20
+          )
+          ||
+          20
         )
       );
 
@@ -6545,23 +6979,28 @@ select option{
 
       ||
 
-      JSON.stringify(a) !==
+      JSON.stringify(a)
+      !==
       JSON.stringify(
         state.playersA
       )
 
       ||
 
-      JSON.stringify(b) !==
+      JSON.stringify(b)
+      !==
       JSON.stringify(
         state.playersB
       );
 
 
     if(
-      state.configured &&
-      changed &&
-      current().deliveries.length &&
+      state.configured
+      &&
+      changed
+      &&
+      current().deliveries.length
+      &&
       !confirm(
         'Changing teams, squads, batting order or overs will restart the match. Continue?'
       )
@@ -6710,7 +7149,8 @@ select option{
   ){
 
     const active =
-      eventState.values[group] ===
+      eventState.values[group]
+      ===
       value
 
         ? 'active'
@@ -6754,7 +7194,8 @@ select option{
             )
             .filter(
               x =>
-                x.dataset.group ===
+                x.dataset.group
+                ===
                 btn.dataset.group
             )
             .forEach(
@@ -6822,7 +7263,7 @@ select option{
 
 
     $('eventSub').textContent =
-      'Tap the exact wide outcome. No dropdowns.';
+      'Tap the exact wide outcome.';
 
 
     $('eventFields').innerHTML = `
@@ -6888,7 +7329,7 @@ select option{
 
 
       <div class="outcome-note">
-        Wide does not count as a legal ball. Additional completed runs determine whether the batters change ends.
+        Wide does not count as a legal ball.
       </div>
 
     `;
@@ -6931,7 +7372,7 @@ select option{
 
 
     $('eventSub').textContent =
-      'Tap run source, additional runs and any wicket outcome.';
+      'Tap run source, additional runs and wicket outcome.';
 
 
     $('eventFields').innerHTML = `
@@ -7070,7 +7511,7 @@ select option{
 
 
     $('eventSub').textContent =
-      'Every dismissal option is visible as a single tap.';
+      'Every dismissal option is one tap.';
 
 
     $('eventFields').innerHTML = `
@@ -7181,7 +7622,7 @@ select option{
       <div class="outcome-section">
 
         <div class="outcome-section-title">
-          Runs Type
+          Run Type
         </div>
 
         <div class="outcome-grid">
@@ -7282,10 +7723,6 @@ select option{
       'Tap the number of runs completed.';
 
 
-    eventState.values.runs =
-      '1';
-
-
     $('eventFields').innerHTML = `
 
       <div class="outcome-section">
@@ -7335,7 +7772,8 @@ select option{
   function applyEvent(){
 
     if(
-      eventState.type === 'wide'
+      eventState.type ===
+      'wide'
     ){
 
       applyWide();
@@ -7343,7 +7781,8 @@ select option{
     }
 
     else if(
-      eventState.type === 'noball'
+      eventState.type ===
+      'noball'
     ){
 
       applyNoBall();
@@ -7351,7 +7790,8 @@ select option{
     }
 
     else if(
-      eventState.type === 'wicket'
+      eventState.type ===
+      'wicket'
     ){
 
       applyWicket();
@@ -7359,19 +7799,25 @@ select option{
     }
 
     else if(
-      eventState.type === 'bye'
+      eventState.type ===
+      'bye'
 
       ||
 
-      eventState.type === 'legbye'
+      eventState.type ===
+      'legbye'
     ){
 
       scoreBye(
+
         eventState.type,
+
         Number(
-          eventState.values.runs ||
+          eventState.values.runs
+          ||
           1
         )
+
       );
 
     }
@@ -7391,7 +7837,8 @@ select option{
 
     $('batterModalTitle').textContent =
 
-      which === 'striker'
+      which ===
+      'striker'
 
         ? 'Edit Striker'
 
@@ -7400,7 +7847,8 @@ select option{
 
     const currentIndex =
 
-      which === 'striker'
+      which ===
+      'striker'
 
         ? inn.striker
 
@@ -7520,7 +7968,9 @@ select option{
         0,
         Number(
           $('editBatterRuns').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7529,7 +7979,9 @@ select option{
         0,
         Number(
           $('editBatterBalls').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7538,7 +7990,9 @@ select option{
         0,
         Number(
           $('editBatter4s').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7547,7 +8001,9 @@ select option{
         0,
         Number(
           $('editBatter6s').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7576,7 +8032,8 @@ select option{
     }
 
     else if(
-      role === 'nonstriker'
+      role ===
+      'nonstriker'
     ){
 
       if(
@@ -7698,7 +8155,8 @@ select option{
 
     $('editBowlerCurrent').value =
 
-      i === inn.bowler
+      i ===
+      inn.bowler
 
         ? 'yes'
 
@@ -7749,7 +8207,9 @@ select option{
         0,
         Number(
           $('editBowlerRuns').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7758,7 +8218,9 @@ select option{
         0,
         Number(
           $('editBowlerWickets').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7767,7 +8229,9 @@ select option{
         0,
         Number(
           $('editBowlerWides').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
@@ -7776,12 +8240,15 @@ select option{
         0,
         Number(
           $('editBowlerNB').value
-        ) || 0
+        )
+        ||
+        0
       );
 
 
     if(
-      $('editBowlerCurrent').value ===
+      $('editBowlerCurrent').value
+      ===
       'yes'
     ){
 
@@ -7808,64 +8275,82 @@ select option{
   }
 
 
-  function quickChangeBowler(){
+  function openChangeBowler(){
 
     const inn =
       current();
 
 
-    const list =
+    $('bowlerChoiceGrid').innerHTML =
+
       inn.bowlers
       .map(
         (b,i) =>
-          `${i+1}. ${b.name}`
+          `
+            <button
+              class="outcome-choice ${
+                i === inn.bowler
+                  ? 'active'
+                  : ''
+              }"
+              data-bowler-index="${i}"
+            >
+
+              ${safe(b.name)}
+
+              <br>
+
+              <small>
+                ${oversText(b.balls)}
+                ·
+                ${b.runs}/${b.wickets}
+              </small>
+
+            </button>
+          `
       )
-      .join('\n');
+      .join('');
 
 
-    const v =
-      prompt(
-        `Enter bowler number:\n${list}`,
-        String(
-          inn.bowler + 1
+    $$(
+      '#bowlerChoiceGrid [data-bowler-index]'
+    )
+    .forEach(
+      btn =>
+        btn.addEventListener(
+          'click',
+          () => {
+
+            pushHistory();
+
+
+            inn.bowler =
+              Number(
+                btn.dataset.bowlerIndex
+              );
+
+
+            save();
+
+            render();
+
+
+            closeModal(
+              'changeBowlerModal'
+            );
+
+
+            toast(
+              `${inn.bowlers[inn.bowler].name} is now bowling.`
+            );
+
+          }
         )
-      );
+    );
 
 
-    if(
-      v === null
-    ){
-      return;
-    }
-
-
-    const i =
-      Math.max(
-        0,
-        Math.min(
-          inn.bowlers.length - 1,
-          (
-            Number(v) ||
-            1
-          ) - 1
-        )
-      );
-
-
-    pushHistory();
-
-
-    inn.bowler =
-      i;
-
-
-    save();
-
-    render();
-
-
-    toast(
-      `${inn.bowlers[i].name} is now bowling.`
+    openModal(
+      'changeBowlerModal'
     );
 
   }
@@ -7937,7 +8422,8 @@ select option{
 
 
     if(
-      state.currentInnings === 0
+      state.currentInnings ===
+      0
     ){
 
       state.target =
@@ -8026,6 +8512,10 @@ select option{
 
   }
 
+
+  /* =====================================================
+     EVENTS
+  ====================================================== */
 
   $$('.runAction')
   .forEach(
@@ -8222,14 +8712,14 @@ select option{
   $('changeBowlerBtn')
   .addEventListener(
     'click',
-    quickChangeBowler
+    openChangeBowler
   );
 
 
   $('toolChangeBowler')
   .addEventListener(
     'click',
-    quickChangeBowler
+    openChangeBowler
   );
 
 
@@ -8296,11 +8786,14 @@ select option{
         e => {
 
           if(
-            e.target === m
+            e.target ===
+            m
           ){
+
             closeModal(
               m.id
             );
+
           }
 
         }
@@ -8314,7 +8807,7 @@ select option{
 
       if(
         e.target.matches(
-          'input,select'
+          'input,select,textarea'
         )
       ){
         return;
@@ -8322,7 +8815,8 @@ select option{
 
 
       if(
-        e.key >= '0' &&
+        e.key >= '0'
+        &&
         e.key <= '6'
       ){
 
@@ -8336,7 +8830,8 @@ select option{
 
 
       if(
-        e.key.toLowerCase() ===
+        e.key.toLowerCase()
+        ===
         'u'
       ){
 
@@ -8346,11 +8841,34 @@ select option{
 
 
       if(
-        e.key.toLowerCase() ===
+        e.key.toLowerCase()
+        ===
         'w'
       ){
 
         openWicket();
+
+      }
+
+
+      if(
+        e.key.toLowerCase()
+        ===
+        'd'
+      ){
+
+        openWide();
+
+      }
+
+
+      if(
+        e.key.toLowerCase()
+        ===
+        'n'
+      ){
+
+        openNoBall();
 
       }
 
