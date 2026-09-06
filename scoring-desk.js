@@ -612,10 +612,9 @@
 
     renderTimeline(inn);
     $('timelineScore').textContent = `${inn.runs}/${inn.wickets} · ${oversText(inn.balls)}`;
-    $('projected').textContent = projected(inn);
     $('drawerProjected').textContent = projected(inn);
-    $('dlsValue').textContent = dls.value;
-    $('dlsNote').textContent = dls.note;
+    $('drawerDlsValue').textContent = dls.value;
+    $('drawerDlsNote').textContent = dls.note;
     $('extras').textContent = extrasTotal(inn);
     $('partnership').textContent = inn.partnershipRuns;
     $('wicketsLeft').textContent = Math.max(0, maxWickets(inn) - inn.wickets);

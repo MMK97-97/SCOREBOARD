@@ -338,3 +338,484 @@ select option{background:#07111e}
   .bowler-layout{grid-template-columns:1.5fr .5fr}
   .row-three{grid-template-columns:repeat(6,minmax(0,1fr))}
 }
+
+/* =========================================================
+   MK97 MOBILE ONE-VIEWPORT MODE
+   Keeps the live scoring desk inside the visible phone page.
+   The outer document never scrolls on phone-size screens.
+   ========================================================= */
+@media (max-width:640px){
+  :root{
+    --onepage-header:44px;
+    --onepage-gap:3px;
+    --match-h:clamp(70px,12.2dvh,84px);
+    --batters-h:clamp(76px,13.4dvh,90px);
+    --tabs-h:30px;
+    --bowler-h:clamp(80px,13.5dvh,92px);
+    --intel-h:clamp(34px,6.2dvh,42px);
+    --timeline-h:clamp(24px,4.5dvh,30px);
+  }
+
+  html,body{
+    width:100%;
+    height:100%;
+    min-height:100%;
+    overflow:hidden!important;
+    overscroll-behavior:none;
+  }
+  body{
+    height:100dvh;
+    min-height:100dvh;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+
+  .appbar{
+    position:relative!important;
+    top:auto;
+    height:calc(var(--onepage-header) + var(--safe-top));
+    min-height:calc(var(--onepage-header) + var(--safe-top));
+    padding:calc(4px + var(--safe-top)) max(6px,var(--safe-right)) 4px max(6px,var(--safe-left));
+    flex:none;
+  }
+  .menu-toggle{width:31px;height:31px;border-radius:10px}
+  .menu-toggle svg{width:14px;height:14px}
+  .brand-mark{width:29px;height:29px;border-radius:9px;font-size:8px}
+  .brand strong{font-size:8px;max-width:92px}
+  .app-actions .btn{min-height:29px;padding:4px 7px;border-radius:9px;font-size:6.5px}
+
+  .page{
+    width:100%;
+    height:calc(100dvh - var(--onepage-header) - var(--safe-top));
+    min-height:0;
+    max-height:none;
+    margin:0;
+    padding:var(--onepage-gap) max(var(--onepage-gap),var(--safe-right)) max(var(--onepage-gap),var(--safe-bottom)) max(var(--onepage-gap),var(--safe-left));
+    display:grid;
+    grid-template-rows:var(--match-h) var(--batters-h) var(--tabs-h) minmax(0,1fr);
+    gap:var(--onepage-gap);
+    overflow:hidden!important;
+    align-content:stretch;
+  }
+  .page > *{min-height:0;min-width:0}
+  .page > .panel:nth-child(1),
+  .page > .panel:nth-child(2),
+  .page > .switch-panel{height:100%;min-height:0}
+  .panel{border-radius:11px}
+
+  /* Match header remains one compact horizontal broadcast strip. */
+  .matchup{
+    height:100%;min-height:0!important;
+    padding:4px;
+    grid-template-columns:minmax(0,1fr) clamp(58px,20vw,78px) minmax(0,1fr)!important;
+    gap:3px;
+    align-items:center;
+  }
+  .team-card{
+    height:calc(100% - 2px);
+    min-height:0!important;
+    padding:4px;
+    gap:4px;
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .team-card.right{justify-content:flex-end;text-align:right}
+  .team-card.right .team-crest{order:2}
+  .team-crest{width:27px;height:27px;border-radius:8px;font-size:7px}
+  .team-info small{font-size:3.3px;letter-spacing:.11em}
+  .team-info h1{margin-top:1px;font-size:clamp(7px,2.5vw,10px);line-height:1.05}
+  .team-info p{margin-top:1px;font-size:3.5px}
+  .vs{font-size:3.3px}
+  .score-big{margin-top:0;font-size:clamp(22px,7.3vw,29px);line-height:.88}
+  .score-overs{margin-top:1px;font-size:5px}
+  .score-meta{margin-top:2px;gap:1px;flex-wrap:nowrap}
+  .meta-pill{padding:1px 2px;font-size:2.5px;line-height:1.25}
+
+  /* Batsmen: always side-by-side. */
+  .page > .panel:nth-child(2){display:grid;grid-template-rows:17px minmax(0,1fr);overflow:hidden}
+  .section-head{min-height:0;height:17px;padding:3px 6px}
+  .section-head .title{font-size:5.2px;letter-spacing:.14em}
+  .batters-panel{height:100%;min-height:0;padding:3px}
+  .batters-grid{height:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:3px}
+  .batter-card{height:100%;min-height:0;padding:4px;border-radius:8px;display:grid;grid-template-rows:20px minmax(0,1fr);overflow:hidden}
+  .batter-top{min-width:0;gap:2px}
+  .player-id{gap:3px;min-width:0}
+  .avatar{width:19px;height:19px;border-radius:6px;font-size:4.5px}
+  .player-name{font-size:6px;line-height:1;max-width:calc(100% - 22px)}
+  .role{max-width:38px;padding:2px 3px;font-size:2.5px;line-height:1;white-space:normal}
+  .batter-stats{height:100%;grid-template-columns:1fr .82fr 1fr .62fr .62fr;gap:1px;margin-top:2px;align-items:stretch}
+  .bstat{min-width:0;min-height:0;padding:2px 1px;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .bstat span{font-size:2.4px;letter-spacing:0;line-height:1}
+  .bstat strong,.bstat.primary strong{margin-top:1px;font-size:6.5px;line-height:1}
+
+  /* Tabs consume one very small row. */
+  .switch-panel{padding:2px}
+  .view-switcher{width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+  .view-tab{min-height:0;height:100%;border-radius:8px;font-size:5.3px;letter-spacing:.11em;padding:0 4px}
+
+  /* Live content fills only the remaining viewport height. */
+  #liveScoringView,
+  #scorecardView{
+    min-height:0;
+    height:100%;
+    overflow:hidden!important;
+  }
+  #liveScoringView:not([hidden]){
+    display:grid!important;
+    grid-template-rows:var(--bowler-h) var(--intel-h) var(--timeline-h) minmax(0,1fr);
+    gap:var(--onepage-gap);
+  }
+  #scorecardView:not([hidden]){display:block!important}
+  #liveScoringView > .panel{height:100%;min-height:0;overflow:hidden}
+
+  /* Bowler + previous over in one compact row. */
+  #liveScoringView > .panel:first-child{display:grid;grid-template-rows:17px minmax(0,1fr)}
+  .bowler-panel{height:100%;min-height:0;padding:3px}
+  .bowler-layout{height:100%;min-height:0;grid-template-columns:minmax(0,1.58fr) minmax(76px,.42fr)!important;gap:3px}
+  .current-bowler-card{height:100%;min-height:0;display:grid;grid-template-columns:1.35fr repeat(3,minmax(0,1fr));grid-template-rows:1fr 1fr;gap:2px;align-items:stretch}
+  .bowler-main{grid-column:1;grid-row:1 / span 2;height:100%;min-height:0!important;padding:4px;border-radius:7px;gap:3px;overflow:hidden}
+  .bowler-avatar{width:21px;height:21px;font-size:4.5px}
+  .bowler-name{font-size:5.5px;line-height:1;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .bowler-sub{margin-top:1px;font-size:2.7px}
+  .bstat2{height:100%;min-height:0!important;padding:1px;border-radius:5px}
+  .bstat2 span{font-size:2.3px;letter-spacing:0;line-height:1}
+  .bstat2 strong{margin-top:1px;font-size:5.8px;line-height:1}
+  .previous-over-card{height:100%;min-height:0;padding:4px;border-radius:7px;gap:2px;overflow:hidden;justify-content:flex-start}
+  .previous-over-head{display:block}
+  .mini-title{font-size:3.4px;line-height:1.05;letter-spacing:.06em}
+  .previous-over-tag{display:none}
+  .previous-over-name{font-size:6px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .previous-over-figures{font-size:4px;line-height:1.05}
+  .previous-over-chips{gap:1px;max-height:20px;overflow:hidden}
+  .mini-chip{padding:2px 3px;font-size:3.4px;line-height:1}
+
+  /* Projected and DLS are one compact strip. */
+  .metrics-panel{height:100%;min-height:0;padding:2px}
+  .metrics-grid{height:100%;grid-template-columns:1fr 1fr!important;gap:2px}
+  .metric-card{height:100%;min-height:0;padding:3px 7px;border-radius:7px;gap:0;display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr 1fr;align-items:center}
+  .metric-label{grid-row:1 / span 2;font-size:3.4px;letter-spacing:.1em;margin-right:6px}
+  .metric-card strong{font-size:13px;line-height:1;align-self:end}
+  .metric-status{font-size:3.2px;line-height:1;align-self:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* Timeline remains one line. */
+  .timeline-panel{height:100%;min-height:0;padding:2px 4px}
+  .timeline-wrap{height:100%;min-height:0;gap:2px;flex-wrap:nowrap!important}
+  .timeline-label{max-width:54px;font-size:3.2px;line-height:1;white-space:nowrap}
+  .timeline{min-width:0;gap:1px;padding:0;overflow-x:auto}
+  .ball{min-width:17px;height:17px;padding:0 2px;font-size:3.7px}
+  .timeline-score{width:auto!important;padding:2px 3px;border-radius:5px;font-size:3.7px;white-space:nowrap}
+
+  /* Scoring gets all remaining vertical space; always exactly 3 rows. */
+  .scoring-panel{height:100%;min-height:0;padding:2px;display:grid;grid-template-rows:15px minmax(0,1fr)}
+  .scoring-panel .section-head{height:15px;padding:2px 5px}
+  .scoring-wrap{height:100%;min-height:0;display:grid;grid-template-rows:1fr 1fr .78fr;gap:3px;padding:0}
+  .score-row{height:100%;min-height:0;gap:3px}
+  .row-one{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .row-two{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.28fr)!important}
+  .row-three{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .run-btn,.undo-big,.event-btn{height:100%!important;min-height:0!important;border-radius:8px;margin:0}
+  .run-btn{font-size:clamp(13px,4.2vw,18px)}
+  .undo-big{grid-column:auto!important;padding:0 2px;font-size:clamp(4.4px,1.45vw,6px);line-height:1.05;letter-spacing:.02em}
+  .event-btn{padding:0 1px;font-size:clamp(4px,1.35vw,5.4px);line-height:1.02}
+
+  /* Scorecard stays inside the same page. Only the scorecard area can
+     internally scroll if an 11-player table cannot physically fit. */
+  #scorecardView .scorecard-panel{height:100%;min-height:0;display:grid;grid-template-rows:17px minmax(0,1fr);overflow:hidden}
+  #scorecardView .scorecard-grid{height:100%;min-height:0;padding:3px;gap:3px;grid-template-columns:1fr!important;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+  #scorecardView .scorecard-grid::-webkit-scrollbar{display:none}
+  #scorecardView .team-scorecard{border-radius:8px}
+  #scorecardView .team-scorecard-head{padding:5px 6px}
+  #scorecardView .scorecard-kicker{font-size:3px}
+  #scorecardView .team-scorecard-head h3{margin-top:1px;font-size:8px}
+  #scorecardView .team-scorecard-summary{padding:3px 4px;border-radius:5px;font-size:4px}
+  #scorecardView .team-scorecard-body{padding:4px;gap:4px}
+  #scorecardView .card-group{gap:2px}
+  #scorecardView .card-group h4{font-size:3.6px}
+  #scorecardView .scorecard-summary-grid{grid-template-columns:repeat(4,1fr);gap:2px}
+  #scorecardView .summary-tile{padding:3px;border-radius:5px}
+  #scorecardView .summary-tile span{font-size:2.5px}
+  #scorecardView .summary-tile strong{margin-top:1px;font-size:6px}
+  #scorecardView .table-wrap{border-radius:6px;overflow:auto}
+  #scorecardView .score-table{min-width:340px;font-size:5px}
+  #scorecardView .score-table thead th{padding:3px;font-size:3px}
+  #scorecardView .score-table tbody td{padding:3px}
+  #scorecardView .score-note{padding:4px;font-size:4px}
+}
+
+/* Short phones: iPhone SE-class / small Samsung viewports. */
+@media (max-width:640px) and (max-height:700px){
+  :root{
+    --onepage-header:40px;
+    --onepage-gap:2px;
+    --match-h:66px;
+    --batters-h:72px;
+    --tabs-h:27px;
+    --bowler-h:76px;
+    --intel-h:31px;
+    --timeline-h:22px;
+  }
+  .appbar{padding:calc(3px + var(--safe-top)) max(5px,var(--safe-right)) 3px max(5px,var(--safe-left))}
+  .menu-toggle{width:28px;height:28px}.brand-mark{width:27px;height:27px}.app-actions .btn{min-height:27px}
+  .score-big{font-size:21px}.team-crest{width:24px;height:24px}.team-info h1{font-size:7px}
+  .batter-card{grid-template-rows:18px minmax(0,1fr)}.avatar{width:17px;height:17px}.player-name{font-size:5.4px}
+  .scoring-panel{grid-template-rows:13px minmax(0,1fr)}.scoring-panel .section-head{height:13px}
+}
+
+/* Ultra-narrow phones retain the same one-page structure. */
+@media (max-width:360px){
+  .brand strong{max-width:68px;font-size:7px}
+  .app-actions .btn{padding-inline:5px;font-size:5.7px}
+  .matchup{grid-template-columns:minmax(0,1fr) 53px minmax(0,1fr)!important}
+  .team-crest{display:none}
+  .team-card{padding:3px}
+  .team-info h1{font-size:6.4px}
+  .role{max-width:33px;font-size:2.2px}
+  .bowler-layout{grid-template-columns:minmax(0,1.65fr) minmax(66px,.35fr)!important}
+  .run-btn{font-size:13px}
+  .undo-big{font-size:4px}
+  .event-btn{font-size:3.8px}
+}
+
+/* =========================================================
+   MK97 TRUE ONE-PAGE RESPONSIVE LAYOUT
+   Main document is locked to the visible viewport on desktop,
+   tablets, iPhone and Samsung/Android phone sizes.
+   ========================================================= */
+html,body{
+  width:100%;
+  height:100%;
+  min-height:100%;
+  overflow:hidden!important;
+  overscroll-behavior:none;
+}
+body{
+  height:100dvh;
+  min-height:100dvh;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+}
+.appbar{
+  position:relative!important;
+  top:auto!important;
+  flex:none;
+}
+.page{
+  width:min(1500px,100%);
+  height:100%;
+  min-height:0;
+  max-height:100%;
+  margin:0 auto;
+  padding:8px max(8px,var(--safe-right)) max(8px,var(--safe-bottom)) max(8px,var(--safe-left));
+  display:grid;
+  grid-template-rows:minmax(0,1.02fr) minmax(0,1.03fr) 44px minmax(0,2.30fr);
+  gap:7px;
+  overflow:hidden!important;
+  align-content:stretch;
+}
+.page > *{min-width:0;min-height:0}
+.page > .panel:nth-child(1),
+.page > .panel:nth-child(2),
+.page > .switch-panel{height:100%;min-height:0;overflow:hidden}
+
+.matchup{height:100%;min-height:0;padding:10px}
+.team-card{min-height:0;height:calc(100% - 2px);padding:10px}
+.team-crest{width:clamp(42px,4.2vw,60px);height:clamp(42px,4.2vw,60px)}
+.team-info h1{font-size:clamp(18px,2.1vw,31px)}
+.score-big{font-size:clamp(42px,5.1vw,72px)}
+.score-overs{font-size:clamp(10px,1vw,13px)}
+
+.page > .panel:nth-child(2){display:grid;grid-template-rows:30px minmax(0,1fr)}
+.section-head{height:30px;min-height:0;padding:6px 12px}
+.section-head .title{font-size:9px}
+.batters-panel{height:100%;min-height:0;padding:7px}
+.batters-grid{height:100%;min-height:0;gap:7px}
+.batter-card{height:100%;min-height:0;padding:8px;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+.batter-stats{min-height:0;margin-top:6px;align-items:stretch}
+.bstat{min-height:0;padding:5px 7px;display:flex;flex-direction:column;justify-content:center}
+.bstat.primary strong{font-size:clamp(17px,1.8vw,24px)}
+.bstat strong{font-size:clamp(12px,1.2vw,16px)}
+
+.switch-panel{padding:4px 7px}
+.view-switcher{width:min(100%,430px);height:100%}
+.view-tab{height:100%;min-height:0;padding:0 12px}
+
+#liveScoringView,
+#scorecardView{
+  min-width:0;
+  min-height:0;
+  height:100%;
+  overflow:hidden!important;
+}
+#liveScoringView:not([hidden]){
+  display:grid!important;
+  grid-template-rows:minmax(0,.86fr) minmax(0,.20fr) minmax(0,1.18fr);
+  gap:7px;
+}
+#liveScoringView > .panel{height:100%;min-height:0;overflow:hidden}
+#liveScoringView > .panel:first-child{display:grid;grid-template-rows:30px minmax(0,1fr)}
+
+.bowler-panel{height:100%;min-height:0;padding:7px}
+.bowler-layout{height:100%;min-height:0;gap:7px}
+.current-bowler-card{height:100%;min-height:0;gap:5px}
+.bowler-main{min-height:0;height:100%;padding:7px}
+.bowler-avatar{width:34px;height:34px}
+.bowler-name{font-size:12px}
+.bowler-sub{font-size:8px}
+.bstat2{min-height:0;height:100%;padding:5px 4px}
+.bstat2 span{font-size:6px}
+.bstat2 strong{font-size:13px;margin-top:2px}
+.previous-over-card{height:100%;min-height:0;padding:8px;gap:5px;overflow:hidden}
+.previous-over-name{font-size:14px}
+.previous-over-figures{font-size:10px}
+.previous-over-chips{gap:3px;overflow:hidden}
+.mini-chip{padding:4px 6px;font-size:7px}
+
+.timeline-panel{height:100%;min-height:0;padding:3px 8px}
+.timeline-wrap{height:100%;min-height:0}
+.ball{min-width:26px;height:26px;font-size:7px}
+
+.scoring-panel{height:100%;min-height:0;padding:4px;display:grid;grid-template-rows:22px minmax(0,1fr)}
+.scoring-panel .section-head{height:22px;padding:3px 7px}
+.scoring-wrap{height:100%;min-height:0;display:grid;grid-template-rows:1fr 1fr .72fr;gap:5px}
+.score-row{height:100%;min-height:0;gap:5px}
+.run-btn,.undo-big,.event-btn{height:100%!important;min-height:0!important;margin:0}
+.run-btn{font-size:clamp(20px,2.5vw,32px)}
+.undo-big{font-size:clamp(9px,1vw,16px)}
+.event-btn{font-size:clamp(8px,.9vw,12px)}
+
+/* Projected and DLS now live only in Settings. */
+.menu-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.menu-stat{min-width:0}
+.menu-stat.dls-stat small{display:block;margin-top:6px;color:#7890a8;font-size:9px;font-weight:700;line-height:1.2}
+.settings-menu{
+  max-height:min(760px,calc(100dvh - 86px - var(--safe-top) - var(--safe-bottom)));
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+}
+
+/* Scorecard never increases document height. Long tables scroll only
+   inside the scorecard workspace. */
+#scorecardView:not([hidden]){display:block!important}
+#scorecardView .scorecard-panel{height:100%;min-height:0;display:grid;grid-template-rows:30px minmax(0,1fr);overflow:hidden}
+#scorecardView .scorecard-grid{height:100%;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+
+/* Tablet / smaller laptop tuning. */
+@media (min-width:641px) and (max-width:1100px){
+  .page{padding:6px;gap:5px;grid-template-rows:minmax(0,.95fr) minmax(0,1.00fr) 40px minmax(0,2.40fr)}
+  .matchup{padding:7px;grid-template-columns:minmax(0,1fr) 135px minmax(0,1fr)}
+  .team-card{padding:7px}.team-crest{width:44px;height:44px}.team-info h1{font-size:19px}.score-big{font-size:46px}
+  .page > .panel:nth-child(2),#liveScoringView > .panel:first-child{grid-template-rows:26px minmax(0,1fr)}
+  .section-head{height:26px;padding:5px 9px}.section-head .title{font-size:8px}
+  .batters-panel,.bowler-panel{padding:5px}.batter-card{padding:6px}.avatar{width:28px;height:28px}.player-name{font-size:10px}
+  .bowler-layout{grid-template-columns:minmax(0,1.55fr) minmax(210px,.45fr)}
+  .current-bowler-card{grid-template-columns:minmax(150px,1.1fr) repeat(6,minmax(0,1fr));gap:3px}.bowler-main{padding:5px}.bstat2{padding:3px 2px}
+  .previous-over-card{padding:6px}.previous-over-name{font-size:12px}.previous-over-figures{font-size:8px}
+  .scoring-panel{grid-template-rows:19px minmax(0,1fr)}.scoring-panel .section-head{height:19px}
+  .scoring-wrap,.score-row{gap:4px}
+}
+
+/* Phones: no page scrolling. Everything in Live Scoring remains inside
+   the phone viewport and scales by both width and height. */
+@media (max-width:640px){
+  :root{
+    --onepage-header:42px;
+    --onepage-gap:2px;
+    --match-h:clamp(64px,11.0dvh,80px);
+    --batters-h:clamp(70px,12.0dvh,86px);
+    --tabs-h:28px;
+    --bowler-h:clamp(72px,12.4dvh,88px);
+    --timeline-h:clamp(21px,3.8dvh,27px);
+  }
+
+  .appbar{
+    height:calc(var(--onepage-header) + var(--safe-top));
+    min-height:calc(var(--onepage-header) + var(--safe-top));
+    padding:calc(3px + var(--safe-top)) max(5px,var(--safe-right)) 3px max(5px,var(--safe-left));
+  }
+  .menu-toggle{width:29px;height:29px;border-radius:9px}
+  .menu-toggle svg{width:13px;height:13px}
+  .brand-mark{width:27px;height:27px;border-radius:8px;font-size:7px}
+  .brand strong{font-size:7.5px;max-width:86px}
+  .brand span,.status-chip{display:none}
+  .app-actions .btn{min-height:27px;padding:3px 6px;border-radius:8px;font-size:6px}
+
+  .page{
+    width:100%;
+    height:calc(100dvh - var(--onepage-header) - var(--safe-top));
+    min-height:0;
+    margin:0;
+    padding:var(--onepage-gap) max(var(--onepage-gap),var(--safe-right)) max(var(--onepage-gap),var(--safe-bottom)) max(var(--onepage-gap),var(--safe-left));
+    grid-template-rows:var(--match-h) var(--batters-h) var(--tabs-h) minmax(0,1fr);
+    gap:var(--onepage-gap);
+  }
+  .panel{border-radius:10px}
+
+  .matchup{height:100%;min-height:0!important;padding:3px;grid-template-columns:minmax(0,1fr) clamp(54px,18vw,70px) minmax(0,1fr)!important;gap:2px}
+  .team-card{height:calc(100% - 2px);min-height:0!important;padding:3px;gap:3px;border-radius:7px;overflow:hidden}
+  .team-card.right{justify-content:flex-end;text-align:right}.team-card.right .team-crest{order:2}
+  .team-crest{width:24px;height:24px;border-radius:7px;font-size:6px}
+  .team-info small{font-size:3px}.team-info h1{margin-top:1px;font-size:clamp(6.5px,2.4vw,9px);line-height:1.02}.team-info p{margin-top:1px;font-size:3.2px}
+  .vs{font-size:3px}.score-big{margin-top:0;font-size:clamp(20px,6.8vw,27px);line-height:.88}.score-overs{margin-top:1px;font-size:4.5px}.score-meta{margin-top:2px;gap:1px;flex-wrap:nowrap}.meta-pill{padding:1px 2px;font-size:2.3px}
+
+  .page > .panel:nth-child(2){grid-template-rows:15px minmax(0,1fr)}
+  .section-head{height:15px!important;min-height:0;padding:2px 5px!important}.section-head .title{font-size:4.8px}
+  .batters-panel{height:100%;min-height:0;padding:2px}.batters-grid{height:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:2px}
+  .batter-card{height:100%;min-height:0;padding:3px;border-radius:7px;grid-template-rows:18px minmax(0,1fr)}
+  .batter-top{gap:2px}.player-id{gap:2px}.avatar{width:17px;height:17px;border-radius:5px;font-size:4px}.player-name{font-size:5.4px}.role{max-width:34px;padding:1px 2px;font-size:2.2px;line-height:1}
+  .batter-stats{height:100%;grid-template-columns:1fr .82fr 1fr .62fr .62fr;gap:1px;margin-top:1px}.bstat{padding:1px;border-radius:4px}.bstat span{font-size:2.1px;letter-spacing:0}.bstat strong,.bstat.primary strong{margin-top:1px;font-size:5.8px}
+
+  .switch-panel{padding:1px}.view-switcher{width:100%;height:100%;gap:2px}.view-tab{height:100%;min-height:0;border-radius:7px;font-size:4.8px;padding:0 3px}
+
+  #liveScoringView:not([hidden]){
+    display:grid!important;
+    grid-template-rows:var(--bowler-h) var(--timeline-h) minmax(0,1fr)!important;
+    gap:var(--onepage-gap)!important;
+  }
+  #liveScoringView > .panel:first-child{grid-template-rows:15px minmax(0,1fr)}
+  .bowler-panel{height:100%;min-height:0;padding:2px}
+  .bowler-layout{height:100%;min-height:0;grid-template-columns:minmax(0,1.6fr) minmax(70px,.4fr)!important;gap:2px}
+  .current-bowler-card{height:100%;min-height:0;display:grid;grid-template-columns:1.35fr repeat(3,minmax(0,1fr));grid-template-rows:1fr 1fr;gap:1px;align-items:stretch}
+  .bowler-main{grid-column:1;grid-row:1 / span 2;height:100%;min-height:0!important;padding:3px;border-radius:6px;gap:2px;overflow:hidden}.bowler-avatar{width:18px;height:18px;font-size:4px}.bowler-name{font-size:5px}.bowler-sub{margin-top:0;font-size:2.4px}
+  .bstat2{height:100%;min-height:0!important;padding:1px;border-radius:4px}.bstat2 span{font-size:2.1px;letter-spacing:0}.bstat2 strong{margin-top:1px;font-size:5.2px}
+  .previous-over-card{height:100%;min-height:0;padding:3px;border-radius:6px;gap:1px;overflow:hidden;justify-content:flex-start}.previous-over-head{display:block}.mini-title{font-size:3px}.previous-over-tag{display:none}.previous-over-name{font-size:5.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.previous-over-figures{font-size:3.6px}.previous-over-chips{gap:1px;max-height:18px;overflow:hidden}.mini-chip{padding:2px;font-size:3px}
+
+  .timeline-panel{height:100%;min-height:0;padding:1px 3px}.timeline-wrap{height:100%;min-height:0;gap:2px;flex-wrap:nowrap!important}.timeline-label{max-width:50px;font-size:3px;white-space:nowrap}.timeline{gap:1px;padding:0;overflow-x:auto}.ball{min-width:16px;height:16px;padding:0 2px;font-size:3.4px}.timeline-score{width:auto!important;padding:1px 3px;border-radius:4px;font-size:3.4px;white-space:nowrap}
+
+  .scoring-panel{height:100%;min-height:0;padding:1px;display:grid;grid-template-rows:13px minmax(0,1fr)}
+  .scoring-panel .section-head{height:13px!important;padding:1px 4px!important}
+  .scoring-wrap{height:100%;min-height:0;display:grid;grid-template-rows:1fr 1fr .72fr;gap:2px;padding:0}.score-row{height:100%;min-height:0;gap:2px}
+  .row-one{grid-template-columns:repeat(4,minmax(0,1fr))!important}.row-two{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.28fr)!important}.row-three{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .run-btn,.undo-big,.event-btn{height:100%!important;min-height:0!important;border-radius:7px;margin:0}.run-btn{font-size:clamp(12px,4vw,17px)}.undo-big{grid-column:auto!important;padding:0 2px;font-size:clamp(4px,1.35vw,5.7px);line-height:1.02;letter-spacing:.01em}.event-btn{padding:0 1px;font-size:clamp(3.7px,1.25vw,5.1px);line-height:1}
+
+  .settings-menu{position:fixed;top:calc(var(--safe-top) + 4px);left:max(4px,var(--safe-left));right:max(4px,var(--safe-right));width:auto;max-height:calc(100dvh - var(--safe-top) - var(--safe-bottom) - 8px);border-radius:18px;padding:9px}
+  .settings-head{padding-bottom:8px}.settings-kicker{font-size:6px;margin-bottom:5px}.settings-head h3{font-size:14px}.settings-head p{font-size:8px;margin-top:3px}.drawer-close{width:32px;height:32px;border-radius:10px;font-size:18px}
+  .settings-grid{grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}.menu-action{min-height:48px;padding:6px;gap:5px;border-radius:10px}.menu-action-icon{width:22px;height:22px;border-radius:7px;font-size:8px}.menu-action strong{font-size:8px}.menu-action small{font-size:5.5px;margin-top:2px}.drawer-section-title{margin:8px 0 5px;font-size:6px}
+  .menu-stats{grid-template-columns:1fr 1fr;gap:5px}.menu-stat{min-height:54px;padding:7px;border-radius:10px}.menu-stat span{font-size:5.5px}.menu-stat strong{font-size:18px}.menu-stat.dls-stat small{margin-top:2px;font-size:5px}
+
+  #scorecardView .scorecard-panel{grid-template-rows:15px minmax(0,1fr)}
+  #scorecardView .scorecard-grid{padding:2px;gap:2px;overflow-y:auto}
+}
+
+/* Short phones / browser UI taking more vertical space. */
+@media (max-width:640px) and (max-height:700px){
+  :root{
+    --onepage-header:38px;
+    --match-h:58px;
+    --batters-h:64px;
+    --tabs-h:24px;
+    --bowler-h:66px;
+    --timeline-h:19px;
+  }
+  .menu-toggle{width:26px;height:26px}.brand-mark{width:24px;height:24px}.app-actions .btn{min-height:24px;padding-block:2px}
+  .team-crest{width:21px;height:21px}.score-big{font-size:19px}.batter-card{grid-template-rows:16px minmax(0,1fr)}.avatar{width:15px;height:15px}.player-name{font-size:4.8px}
+  .bowler-avatar{width:16px;height:16px}.previous-over-chips{max-height:15px}
+  .scoring-panel{grid-template-rows:11px minmax(0,1fr)}.scoring-panel .section-head{height:11px!important}.scoring-panel .section-head .title{font-size:4px}
+}
+
+/* Ultra narrow iPhone/Android widths. */
+@media (max-width:360px){
+  .brand strong{max-width:60px;font-size:6.5px}.app-actions .btn{padding-inline:4px;font-size:5.2px}
+  .matchup{grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr)!important}.team-crest{display:none}.team-info h1{font-size:6px}.role{max-width:30px;font-size:2px}
+  .bowler-layout{grid-template-columns:minmax(0,1.68fr) minmax(61px,.32fr)!important}.run-btn{font-size:12px}.undo-big{font-size:3.8px}.event-btn{font-size:3.5px}
+}
