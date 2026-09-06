@@ -257,6 +257,26 @@ select option{background:#07111e}
 .modal-body{padding:19px 20px 20px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{color:#6f8298;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.hint{color:#64788f;font-size:9px;line-height:1.45}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px;flex-wrap:wrap}
+
+/* OUTCOME TILE SELECTOR — no dropdowns in scoring outcomes */
+.outcome-section{display:flex;flex-direction:column;gap:9px;grid-column:1/-1}
+.outcome-section-title{color:#6f8298;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.outcome-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px}
+.outcome-grid.runs{grid-template-columns:repeat(7,minmax(54px,1fr))}
+.outcome-choice{
+  position:relative;min-height:48px;padding:10px 11px;border:1px solid rgba(255,255,255,.085);border-radius:13px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.016));color:#9fb1c7;
+  font-size:10px;font-weight:850;line-height:1.2;text-align:center;cursor:pointer;transition:.14s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)
+}
+.outcome-choice:hover{transform:translateY(-1px);border-color:rgba(79,240,181,.20);color:#fff;background:rgba(79,240,181,.045)}
+.outcome-choice.active{color:#03110c;background:linear-gradient(145deg,#55f0b8,#42d9aa);border-color:#55f0b8;box-shadow:0 9px 24px rgba(79,240,181,.16)}
+.outcome-choice.danger.active{color:#fff;background:linear-gradient(145deg,#ff647c,#e74d69);border-color:#ff7186;box-shadow:0 9px 24px rgba(255,99,121,.15)}
+.outcome-choice.warning.active{color:#161006;background:linear-gradient(145deg,#ffc875,#efa94b);border-color:#ffc875;box-shadow:0 9px 24px rgba(255,191,106,.14)}
+.outcome-choice.info.active{color:#031019;background:linear-gradient(145deg,#66d1ff,#47bde9);border-color:#66d1ff;box-shadow:0 9px 24px rgba(80,200,255,.14)}
+.outcome-note{grid-column:1/-1;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.015);color:#667b92;font-size:9px;line-height:1.5}
+@media(max-width:620px){.outcome-grid.runs{grid-template-columns:repeat(4,1fr)}.outcome-grid{grid-template-columns:repeat(2,1fr)}}
+
 .toast-stack{position:fixed;right:16px;bottom:16px;z-index:180;display:flex;flex-direction:column;gap:8px;width:min(350px,calc(100vw - 32px))}
 .toast{padding:12px 13px;border-radius:13px;border:1px solid var(--line2);background:#102034;box-shadow:0 14px 40px rgba(0,0,0,.3);font-size:10px;animation:modalIn .18s ease}
 
@@ -570,13 +590,95 @@ function proj(i){if(!i.balls)return 0;return Math.round(i.runs+(i.runs/i.balls)*
 function req(){if(state.currentInnings!==1||!state.target)return'—';const i=cur(),need=Math.max(0,state.target-i.runs),left=Math.max(0,i.oversLimit*6-i.balls);return left?(need/(left/6)).toFixed(2):'∞'}
 
 function scoreRun(r){if(!canScore())return;hist();const i=cur(),b=i.batters[i.striker],bo=i.bowlers[i.bowler];i.runs+=r;i.balls++;b.runs+=r;b.balls++;if(r===4)b.fours++;if(r===6)b.sixes++;bo.balls++;bo.runs+=r;i.partnershipRuns+=r;i.partnershipBalls++;addDelivery(i,{type:'run',legal:true,runs:r,token:String(r)});if(r%2)swap(i);if(!checkEnd())endOver(i);save();render()}
-function scoreBye(type){if(!canScore())return;eventType=type;$('eventTitle').textContent=type==='bye'?'Bye':'Leg Bye';$('eventSub').textContent='Select runs completed. This counts as a legal ball.';$('eventFields').innerHTML=`<div class="field full"><label>Runs</label><select id="byeRuns"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>`;open('eventModal')}
+function outcomeTiles(group,hiddenId,options,selected,kind=''){
+  const buttons=options.map(([value,label])=>`<button type="button" class="outcome-choice ${kind} ${String(value)===String(selected)?'active':''}" data-choice-group="${group}" data-choice-value="${esc(value)}" aria-pressed="${String(value)===String(selected)?'true':'false'}">${esc(label)}</button>`).join('');
+  return `<input type="hidden" id="${hiddenId}" value="${esc(selected)}"><div class="outcome-grid ${group.includes('Runs')?'runs':''}">${buttons}</div>`;
+}
+function runChoices(from=0,to=6){const a=[];for(let x=from;x<=to;x++)a.push([String(x),String(x)]);return a}
+function scoreBye(type){
+  if(!canScore())return;
+  eventType=type;
+  $('eventTitle').textContent=type==='bye'?'Bye — Select Outcome':'Leg Bye — Select Outcome';
+  $('eventSub').textContent='Every run outcome is shown as a single tap. This counts as a legal ball.';
+  $('eventFields').innerHTML=`
+    <div class="outcome-section">
+      <div class="outcome-section-title">Runs Completed</div>
+      ${outcomeTiles('byeRunsGroup','byeRuns',runChoices(1,6),'1','info')}
+    </div>
+    <div class="outcome-note">Tap the exact number of completed runs. Odd runs automatically swap strike.</div>`;
+  open('eventModal')
+}
 function applyBye(type){hist();const i=cur(),b=i.batters[i.striker],bo=i.bowlers[i.bowler],r=Math.max(1,Number($('byeRuns').value)||1);i.runs+=r;i.balls++;b.balls++;bo.balls++;i.partnershipRuns+=r;i.partnershipBalls++;if(type==='bye')i.extras.b+=r;else i.extras.lb+=r;addDelivery(i,{type,legal:true,runs:r,token:`${r}${type==='bye'?'B':'Lb'}`});if(r%2)swap(i);if(!checkEnd())endOver(i);save();render();close('eventModal')}
-function openWide(){if(!canScore())return;eventType='wide';$('eventTitle').textContent='Wide — All Outcomes';$('eventSub').textContent='Wide does not count as a legal ball.';$('eventFields').innerHTML=`<div class="field"><label>Additional Runs Completed</label><input id="wideRuns" type="number" min="0" value="0"></div><div class="field"><label>Wicket Outcome</label><select id="wideWicket"><option value="none">No Wicket</option><option value="stumped">Stumped Striker</option><option value="runoutS">Run Out Striker</option><option value="runoutNS">Run Out Non-Striker</option></select></div><div class="field full"><div class="hint">Total wides = 1 penalty + additional completed runs. Stumping is credited to the bowler; run outs are not.</div></div>`;open('eventModal')}
-function applyWide(){hist();const i=cur(),bo=i.bowlers[i.bowler],add=Math.max(0,Number($('wideRuns').value)||0),total=1+add,w=$('wideWicket').value;i.runs+=total;i.extras.wd+=total;bo.runs+=total;bo.wides+=total;i.partnershipRuns+=total;if(add%2)swap(i);let token=add?`Wd+${add}`:'Wd';if(w!=='none'){let side;if(w==='runoutNS')side=add%2?'striker':'nonStriker';else side=add%2?'nonStriker':'striker';const idx=side==='striker'?i.striker:i.nonStriker;dismiss(i,idx,w==='stumped'?`st ? b ${bo.name}`:'run out');if(w==='stumped')bo.wickets++;newBatter(i,side);token+=w==='stumped'?'+W':'+RO'}addDelivery(i,{type:'wide',legal:false,runs:total,token});checkEnd();save();render();close('eventModal')}
-function openNB(){if(!canScore())return;eventType='nb';$('eventTitle').textContent='No Ball — All Outcomes';$('eventSub').textContent='No-ball does not count as a legal ball.';$('eventFields').innerHTML=`<div class="field"><label>Additional Run Source</label><select id="nbSource"><option value="bat">Bat Runs</option><option value="bye">Byes</option><option value="legbye">Leg Byes</option></select></div><div class="field"><label>Additional Runs</label><input id="nbRuns" type="number" min="0" value="0"></div><div class="field full"><label>Wicket Outcome</label><select id="nbWicket"><option value="none">No Wicket</option><option value="runoutS">Run Out Striker</option><option value="runoutNS">Run Out Non-Striker</option><option value="obstructing">Obstructing the Field</option><option value="hitTwice">Hit the Ball Twice</option></select></div>`;open('eventModal')}
+function openWide(){
+  if(!canScore())return;
+  eventType='wide';
+  $('eventTitle').textContent='Wide — All Outcomes';
+  $('eventSub').textContent='All wide outcomes are visible. Wide does not count as a legal ball.';
+  $('eventFields').innerHTML=`
+    <div class="outcome-section">
+      <div class="outcome-section-title">Additional Runs Completed</div>
+      ${outcomeTiles('wideRunsGroup','wideRuns',runChoices(0,6),'0','warning')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Wicket Outcome</div>
+      ${outcomeTiles('wideWicketGroup','wideWicket',[
+        ['none','No Wicket'],['stumped','Stumped'],['hitwicket','Hit Wicket'],['runoutS','Run Out Striker'],['runoutNS','Run Out Non-Striker'],['obstructing','Obstructing Field']
+      ],'none','danger')}
+    </div>
+    <div class="outcome-note">Total wides = 1 penalty + completed runs. Stumped and hit wicket are credited to the bowler; run out and obstructing the field are not.</div>`;
+  open('eventModal')
+}
+function applyWide(){hist();const i=cur(),bo=i.bowlers[i.bowler],add=Math.max(0,Number($('wideRuns').value)||0),total=1+add,w=$('wideWicket').value;i.runs+=total;i.extras.wd+=total;bo.runs+=total;bo.wides+=total;i.partnershipRuns+=total;if(add%2)swap(i);let token=add?`Wd+${add}`:'Wd';if(w!=='none'){let side;if(w==='runoutNS')side=add%2?'striker':'nonStriker';else side=add%2?'nonStriker':'striker';const idx=side==='striker'?i.striker:i.nonStriker;const dismissal=w==='stumped'?`st ? b ${bo.name}`:w==='hitwicket'?'hit wicket':w==='obstructing'?'obstructing the field':'run out';dismiss(i,idx,dismissal);if(w==='stumped'||w==='hitwicket')bo.wickets++;newBatter(i,side);token+=(w==='runoutS'||w==='runoutNS')?'+RO':'+W'}addDelivery(i,{type:'wide',legal:false,runs:total,token});checkEnd();save();render();close('eventModal')}
+function openNB(){
+  if(!canScore())return;
+  eventType='nb';
+  $('eventTitle').textContent='No Ball — All Outcomes';
+  $('eventSub').textContent='Select the run source, additional runs and any permitted wicket outcome.';
+  $('eventFields').innerHTML=`
+    <div class="outcome-section">
+      <div class="outcome-section-title">Additional Run Source</div>
+      ${outcomeTiles('nbSourceGroup','nbSource',[['bat','Bat Runs'],['bye','Byes'],['legbye','Leg Byes']],'bat','info')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Additional Runs</div>
+      ${outcomeTiles('nbRunsGroup','nbRuns',runChoices(0,6),'0','warning')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Wicket Outcome</div>
+      ${outcomeTiles('nbWicketGroup','nbWicket',[
+        ['none','No Wicket'],['runoutS','Run Out Striker'],['runoutNS','Run Out Non-Striker'],['obstructing','Obstructing Field'],['hitTwice','Hit Ball Twice']
+      ],'none','danger')}
+    </div>
+    <div class="outcome-note">A no-ball always adds 1 penalty run and does not count as a legal delivery. Only no-ball-permitted dismissal types are shown.</div>`;
+  open('eventModal')
+}
 function applyNB(){hist();const i=cur(),bo=i.bowlers[i.bowler],strikeBefore=i.striker,b=i.batters[strikeBefore],src=$('nbSource').value,add=Math.max(0,Number($('nbRuns').value)||0),w=$('nbWicket').value;i.runs+=1+add;i.extras.nb++;bo.noBalls++;bo.runs+=1+(src==='bat'?add:0);i.partnershipRuns+=1+add;if(src==='bat'){b.runs+=add;if(add===4)b.fours++;if(add===6)b.sixes++}else if(src==='bye')i.extras.b+=add;else i.extras.lb+=add;if(add%2)swap(i);let token=`Nb${add?`+${add}`:''}`;if(w!=='none'){let side=w==='runoutNS'?(add%2?'striker':'nonStriker'):(add%2?'nonStriker':'striker');const idx=side==='striker'?i.striker:i.nonStriker;dismiss(i,idx,w.startsWith('runout')?'run out':w==='obstructing'?'obstructing the field':'hit the ball twice');newBatter(i,side);token+='+W'}addDelivery(i,{type:'noball',legal:false,runs:1+add,token});checkEnd();save();render();close('eventModal')}
-function openWicket(){if(!canScore())return;eventType='wicket';$('eventTitle').textContent='Wicket — All Probabilities';$('eventSub').textContent='Choose the dismissal type and exact delivery outcome.';$('eventFields').innerHTML=`<div class="field full"><label>Dismissal Type</label><select id="wkType"><option value="bowled">Bowled</option><option value="caught">Caught</option><option value="lbw">LBW</option><option value="stumped">Stumped</option><option value="hitwicket">Hit Wicket</option><option value="runoutS">Run Out Striker</option><option value="runoutNS">Run Out Non-Striker</option><option value="obstructing">Obstructing the Field</option><option value="hitTwice">Hit the Ball Twice</option><option value="retired">Retired Out</option><option value="timedout">Timed Out</option></select></div><div class="field"><label>Runs Completed</label><input id="wkRuns" type="number" min="0" value="0"></div><div class="field"><label>Runs Type</label><select id="wkSource"><option value="bat">Bat Runs</option><option value="bye">Byes</option><option value="legbye">Leg Byes</option></select></div><div class="field full"><label>Count as Legal Ball?</label><select id="wkLegal"><option value="yes">Yes</option><option value="no">No</option></select></div>`;open('eventModal')}
+function openWicket(){
+  if(!canScore())return;
+  eventType='wicket';
+  $('eventTitle').textContent='Wicket — All Probabilities';
+  $('eventSub').textContent='Every dismissal and delivery option is available as a single tap.';
+  $('eventFields').innerHTML=`
+    <div class="outcome-section">
+      <div class="outcome-section-title">Dismissal Type</div>
+      ${outcomeTiles('wkTypeGroup','wkType',[
+        ['bowled','Bowled'],['caught','Caught'],['lbw','LBW'],['stumped','Stumped'],['hitwicket','Hit Wicket'],['runoutS','Run Out Striker'],['runoutNS','Run Out Non-Striker'],['obstructing','Obstructing Field'],['hitTwice','Hit Ball Twice'],['retired','Retired Out'],['timedout','Timed Out']
+      ],'bowled','danger')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Runs Completed</div>
+      ${outcomeTiles('wkRunsGroup','wkRuns',runChoices(0,6),'0','warning')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Runs Type</div>
+      ${outcomeTiles('wkSourceGroup','wkSource',[['bat','Bat Runs'],['bye','Byes'],['legbye','Leg Byes']],'bat','info')}
+    </div>
+    <div class="outcome-section">
+      <div class="outcome-section-title">Count As Legal Ball?</div>
+      ${outcomeTiles('wkLegalGroup','wkLegal',[['yes','Yes — Legal Ball'],['no','No — Not Legal']],'yes','')}
+    </div>`;
+  open('eventModal')
+}
 function applyWicket(){hist();const i=cur(),bo=i.bowlers[i.bowler],type=$('wkType').value,r=Math.max(0,Number($('wkRuns').value)||0),src=$('wkSource').value,legal=$('wkLegal').value==='yes',strikeBefore=i.striker,b=i.batters[strikeBefore];if(r){i.runs+=r;i.partnershipRuns+=r;if(src==='bat'){b.runs+=r;bo.runs+=r;if(r===4)b.fours++;if(r===6)b.sixes++}else if(src==='bye')i.extras.b+=r;else i.extras.lb+=r;if(r%2)swap(i)}if(legal){i.balls++;bo.balls++;i.partnershipBalls++;if(!['retired','timedout'].includes(type))i.batters[i.striker].balls++}let side=type==='runoutNS'?(r%2?'striker':'nonStriker'):(r%2?'nonStriker':'striker'),idx=side==='striker'?i.striker:i.nonStriker;const map={bowled:`b ${bo.name}`,caught:`c ? b ${bo.name}`,lbw:`lbw b ${bo.name}`,stumped:`st ? b ${bo.name}`,hitwicket:'hit wicket',runoutS:'run out',runoutNS:'run out',obstructing:'obstructing the field',hitTwice:'hit the ball twice',retired:'retired out',timedout:'timed out'};dismiss(i,idx,map[type]);if(['bowled','caught','lbw','stumped','hitwicket'].includes(type))bo.wickets++;newBatter(i,side);addDelivery(i,{type:'wicket',legal,runs:r,token:r?`W+${r}`:'W'});if(!checkEnd()&&legal)endOver(i);save();render();close('eventModal')}
 
 function render(){const i=cur(),s=i.batters[i.striker]||{},n=i.batters[i.nonStriker]||{},bo=i.bowlers[i.bowler]||{};$('teamAName').textContent=state.teamA;$('teamBName').textContent=state.teamB;$('teamACrest').textContent=init(state.teamA);$('teamBCrest').textContent=init(state.teamB);const batA=i.battingTeam===state.teamA;$('teamAStatus').textContent=batA?'Batting':'Bowling';$('teamBStatus').textContent=batA?'Bowling':'Batting';$('mainScore').textContent=`${i.runs}/${i.wickets}`;$('mainOvers').textContent=`${ov(i.balls)} overs`;$('crr').textContent=rr(i);$('rrr').textContent=req();$('target').textContent=state.target??'—';$('strikerAvatar').textContent=init(s.name);$('strikerName').textContent=s.name||'—';$('strikerRuns').textContent=s.runs||0;$('strikerBalls').textContent=s.balls||0;$('strikerSR').textContent=sr(s);$('striker4s').textContent=s.fours||0;$('striker6s').textContent=s.sixes||0;$('nonStrikerAvatar').textContent=init(n.name);$('nonStrikerName').textContent=n.name||'—';$('nonStrikerRuns').textContent=n.runs||0;$('nonStrikerBalls').textContent=n.balls||0;$('nonStrikerSR').textContent=sr(n);$('nonStriker4s').textContent=n.fours||0;$('nonStriker6s').textContent=n.sixes||0;$('bowlerAvatar').textContent=init(bo.name);$('bowlerName').textContent=bo.name||'—';$('bowlerOvers').textContent=ov(bo.balls||0);$('bowlerRuns').textContent=bo.runs||0;$('bowlerWickets').textContent=bo.wickets||0;$('bowlerWides').textContent=bo.wides||0;$('bowlerNB').textContent=bo.noBalls||0;$('timeline').innerHTML=i.currentOver.length?i.currentOver.map(t=>`<span class="ball ${tokenClass(t)}">${esc(t)}</span>`).join(''):'<span class="ball">—</span>';$('timelineScore').textContent=`${i.runs}/${i.wickets} · ${ov(i.balls)}`;$('extras').textContent=ex(i);$('projected').textContent=proj(i);$('partnership').textContent=i.partnershipRuns;$('wicketsLeft').textContent=Math.max(0,Math.min(10,i.batters.length-1)-i.wickets);$('scorerNameLabel').textContent=state.scorer;const disabled=!state.configured||state.matchComplete||i.complete;$$('.runAction,#wicketBtn,#wideBtn,#noBallBtn,#byeBtn,#legByeBtn,#endInningsBtn').forEach(x=>x.disabled=disabled);$('undoBtn').disabled=!state.history.length}
@@ -600,6 +702,18 @@ function reset(){if(!confirm('Reset the entire match?'))return;state=fresh();loc
 function endInnings(){if(!canScore())return;if(!confirm('End current innings now?'))return;hist();cur().complete=true;if(state.currentInnings===0){state.target=cur().runs+1;startSecond()}else finishMatch();save();render()}
 
 $$('[data-close]').forEach(b=>b.addEventListener('click',()=>close(b.dataset.close)));$$('.modal-wrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)close(m.id)}));
+
+$('eventFields').addEventListener('click',e=>{
+  const btn=e.target.closest('.outcome-choice');
+  if(!btn)return;
+  const group=btn.dataset.choiceGroup;
+  const value=btn.dataset.choiceValue;
+  $('eventFields').querySelectorAll(`.outcome-choice[data-choice-group="${group}"]`).forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false')});
+  btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+  const hidden=btn.parentElement.previousElementSibling;
+  if(hidden&&hidden.type==='hidden')hidden.value=value;
+});
+
 $$('.runAction').forEach(b=>b.addEventListener('click',()=>scoreRun(Number(b.dataset.runs))));
 $('setupBtn').onclick=()=>{populateSetup();open('setupModal')};$('saveSetupBtn').onclick=saveSetup;
 $('wideBtn').onclick=openWide;$('noBallBtn').onclick=openNB;$('wicketBtn').onclick=openWicket;$('byeBtn').onclick=()=>scoreBye('bye');$('legByeBtn').onclick=()=>scoreBye('legbye');
