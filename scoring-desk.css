@@ -656,3 +656,211 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
   .batter-table .batter-name-cell .strike-badge{max-width:27px}
   .current-row{grid-template-columns:minmax(94px,.86fr) minmax(0,1.8fr)}
 }
+
+/* =========================================================
+   VISIBILITY REFINEMENT — v10.3
+   Visibility only. Existing one-page geometry is preserved.
+   ========================================================= */
+
+/* CRR / RRR / TARGET — stronger contrast and larger text,
+   without changing the scoreboard block height. */
+.rate-strip span{
+  color:#b7c8d9;
+  border-color:rgba(255,255,255,.16);
+  background:rgba(3,10,18,.58);
+  font-weight:950;
+  letter-spacing:.045em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+.rate-strip b{
+  color:#fff;
+  font-weight:950;
+  text-shadow:0 0 12px rgba(255,255,255,.10);
+}
+
+/* Batsmen table — higher contrast headers and values. */
+.batter-table thead th{
+  color:#a9bed1;
+  background:rgba(255,255,255,.024);
+  border-bottom-color:rgba(255,255,255,.10);
+  font-weight:950;
+}
+.batter-table thead th:first-child{color:#d2dfeb}
+.batter-table tbody td{
+  border-right-color:rgba(255,255,255,.075);
+  background:rgba(255,255,255,.012);
+}
+.batter-table tbody td>strong{
+  color:#fff;
+  font-weight:950;
+  text-shadow:0 1px 10px rgba(255,255,255,.045);
+}
+.batter-table .batter-name-cell>strong{color:#f6fbff}
+.batter-table .strike-badge{
+  border-color:rgba(82,237,182,.28);
+  background:rgba(82,237,182,.10);
+  color:#dffff3;
+}
+.batter-table .strike-badge.secondary{
+  border-color:rgba(79,201,255,.25);
+  background:rgba(79,201,255,.08);
+  color:#e3f7ff;
+}
+
+/* Bowler details — stronger headers/figures inside the existing row. */
+.bowler-identity span,
+.previous-copy span,
+.bowler-stats span{
+  color:#9db2c7;
+  font-weight:950;
+  letter-spacing:.09em;
+}
+.bowler-identity strong,
+.bowler-stats strong,
+.previous-copy strong,
+.previous-figures{
+  color:#f7fbff;
+  font-weight:950;
+}
+.bowler-stats>div{
+  border-color:rgba(255,255,255,.085);
+  background:rgba(255,255,255,.023);
+}
+
+/* All number keys use identical internal padding/typography.
+   0 and 5 share the fourth slot horizontally instead of being
+   vertically compressed, keeping the existing 3-row scoring pad. */
+.score-key.run-key{
+  padding:0;
+  font-weight:950;
+  line-height:1;
+}
+.split-key{
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr;
+  gap:4px;
+}
+.score-key.compact{
+  border-radius:14px;
+  font-size:clamp(13px,2.1vw,25px);
+  padding:0;
+}
+
+@media(max-width:640px){
+  /* Visibility increases only; grid-row heights stay untouched. */
+  .rate-strip{
+    gap:2px;
+    margin-top:3px;
+  }
+  .rate-strip span{
+    padding:2px 3px;
+    font-size:4.5px;
+    line-height:1.15;
+    letter-spacing:.015em;
+  }
+  .rate-strip b{
+    margin-left:1px;
+    font-size:5.4px;
+  }
+
+  .batter-table .batter-name-col{width:43%}
+  .batter-table thead th{
+    padding:2px 1px;
+    font-size:4.7px;
+    line-height:1.05;
+    letter-spacing:.015em;
+  }
+  .batter-table thead th:first-child{
+    padding-left:5px;
+    letter-spacing:.045em;
+  }
+  .batter-table tbody td{
+    padding:1px;
+  }
+  .batter-table tbody td>strong{
+    font-size:8.8px;
+    line-height:1;
+  }
+  .batter-table .batter-name-cell{
+    padding-left:5px;
+    padding-right:38px;
+  }
+  .batter-table .batter-name-cell>strong{
+    font-size:8.7px;
+    line-height:1.05;
+  }
+  .batter-table .batter-name-cell .strike-badge{
+    right:3px;
+    max-width:34px;
+    padding:2px 3px;
+    font-size:2.8px;
+    line-height:1;
+  }
+
+  .current-row{
+    grid-template-columns:minmax(108px,.90fr) minmax(0,1.8fr);
+  }
+  .bowler-avatar{
+    width:25px;
+    height:25px;
+    font-size:5px;
+  }
+  .bowler-identity span,
+  .previous-copy span{
+    font-size:3.6px;
+    line-height:1.05;
+  }
+  .bowler-identity strong{
+    margin-top:2px;
+    font-size:8.1px;
+    line-height:1.05;
+  }
+  .bowler-stats span{
+    font-size:3.8px;
+    line-height:1;
+    letter-spacing:.02em;
+  }
+  .bowler-stats strong{
+    margin-top:2px;
+    font-size:8.7px;
+    line-height:1;
+  }
+  .previous-copy strong{
+    font-size:6.5px;
+  }
+  .previous-figures{
+    font-size:5.4px;
+  }
+  .previous-balls span{
+    font-size:3.2px;
+  }
+
+  .scoring-pad{
+    gap:3px;
+  }
+  .score-key.run-key,
+  .score-key.compact{
+    padding:0;
+    font-size:clamp(16px,6vw,23px);
+  }
+  .split-key{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr;
+    gap:3px;
+  }
+  .score-key.compact{
+    border-radius:8px;
+  }
+}
+
+@media(max-width:370px){
+  .rate-strip span{font-size:4px;padding-inline:2px}
+  .rate-strip b{font-size:4.8px}
+  .batter-table thead th{font-size:4.1px}
+  .batter-table tbody td>strong{font-size:8px}
+  .batter-table .batter-name-cell>strong{font-size:7.8px}
+  .bowler-identity strong{font-size:7.4px}
+  .bowler-stats span{font-size:3.4px}
+  .bowler-stats strong{font-size:8px}
+  .score-key.run-key,.score-key.compact{font-size:clamp(15px,5.8vw,20px)}
+}
