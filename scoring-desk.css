@@ -198,3 +198,155 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
 @media(min-width:641px) and (max-height:800px){
   :root{--top-h:54px;--gap:5px}.desk{padding:5px 0}.score-key{border-radius:12px}.team-logo{width:46px;height:46px}.batter-box{padding:7px 8px}.bowler-box{padding:5px 8px}
 }
+
+/* =========================================================
+   COMPACT ONE-PAGE LAYOUT — v10.1
+   Only spacing, batsmen presentation and Live/Scorecard view.
+   ========================================================= */
+
+/* tighter global rhythm */
+:root{--gap:5px}
+.topbar{padding-left:max(8px,var(--safe-left));padding-right:max(8px,var(--safe-right))}
+.desk{
+  padding:5px 0;
+  grid-template-rows:
+    minmax(0,1.00fr)
+    minmax(0,.55fr)
+    minmax(34px,.22fr)
+    minmax(0,.66fr)
+    minmax(25px,.20fr)
+    minmax(0,1.42fr)
+    minmax(38px,.28fr);
+}
+.matchup-panel{padding:7px;gap:7px}
+.team-box{padding:7px 10px}
+.bowler-box{padding:5px 7px;gap:4px}
+.three-over-panel{padding:3px 6px}
+.scoring-pad{padding:5px;gap:5px}
+.undo-shell{padding:0 7%}
+
+/* Batsmen layout from supplied reference */
+.batsmen-row{grid-row:2;gap:var(--gap)}
+.batter-box.compact-batter{
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:minmax(150px,.72fr) minmax(0,1.28fr);
+  align-items:center;
+  gap:14px;
+  border-radius:24px;
+  background:
+    radial-gradient(300px 100px at 0% 0%,rgba(82,237,182,.055),transparent 72%),
+    linear-gradient(180deg,rgba(13,27,46,.96),rgba(8,17,30,.97));
+}
+.hidden-avatar{display:none!important}
+.batter-identity-compact{min-width:0;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px}
+.batter-slot{grid-column:1/-1;color:#738aa1;font-size:7px;font-weight:950;letter-spacing:.13em}
+.batter-identity-compact>strong{min-width:0;font-size:clamp(14px,1.4vw,20px);letter-spacing:-.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.batter-identity-compact .strike-badge{margin-left:0;justify-self:end}
+.batter-inline-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;min-width:0;height:100%;align-items:center}
+.batter-inline-stats>div{min-width:0;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.batter-inline-stats span{display:block;color:#8296aa;font-size:7px;font-weight:900;letter-spacing:.04em;white-space:nowrap}
+.batter-inline-stats strong{display:block;margin-top:4px;font-size:clamp(13px,1.25vw,18px);line-height:1;font-weight:950}
+
+/* Live Scoring / Scorecard selector */
+.view-tabs-panel{grid-row:3;display:grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:14px;overflow:hidden}
+.view-tab{
+  min-width:0;border:0;background:transparent;border-radius:11px;cursor:pointer;
+  color:#91a5b9;font-size:10px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.view-tab.active{color:#effff8;background:linear-gradient(145deg,rgba(82,237,182,.16),rgba(79,201,255,.045));box-shadow:inset 0 0 0 1px rgba(82,237,182,.20)}
+
+/* Explicit grid positions keep the full live desk inside one viewport. */
+.bowler-box{grid-row:4}
+.three-over-panel{grid-row:5}
+.scoring-pad{grid-row:6}
+.undo-shell{grid-row:7}
+
+/* Scorecard occupies the same area as the live scoring controls. */
+.scorecard-view{grid-row:4 / 8;min-height:0;padding:8px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:6px}
+.scorecard-view[hidden]{display:none!important}
+.scorecard-view-head{position:relative;z-index:2;display:grid;gap:8px;padding:5px 6px 7px;border-bottom:1px solid var(--line)}
+.scorecard-view-head>strong{font-size:13px;letter-spacing:.12em}
+.scorecard-team-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scorecard-team-tab{min-height:30px;border:0;border-bottom:1px solid transparent;background:transparent;color:#8297ad;font-size:11px;font-weight:900;letter-spacing:.08em;cursor:pointer}
+.scorecard-team-tab.active{color:#f4fbff;border-bottom-color:var(--mint)}
+.scorecard-content{position:relative;z-index:2;min-height:0;overflow:auto;scrollbar-width:thin;padding:1px}
+.scorecard-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:6px}
+.scorecard-summary>div{padding:7px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.016);text-align:center}
+.scorecard-summary span{display:block;color:#71879c;font-size:6px;font-weight:950;letter-spacing:.08em}
+.scorecard-summary strong{display:block;margin-top:2px;font-size:12px}
+.scorecard-section-title{margin:7px 0 4px;color:#8ca2b8;font-size:7px;font-weight:950;letter-spacing:.12em;text-transform:uppercase}
+.scorecard-table-wrap{overflow:auto;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.012)}
+.scorecard-table{width:100%;border-collapse:collapse;font-size:8px;white-space:nowrap}
+.scorecard-table th{padding:5px 6px;text-align:left;color:#758ba0;background:rgba(255,255,255,.025);font-size:6px;letter-spacing:.07em;text-transform:uppercase}
+.scorecard-table td{padding:5px 6px;border-top:1px solid rgba(255,255,255,.045)}
+.scorecard-empty{height:100%;display:grid;place-items:center;color:#74899f;font-size:9px}
+
+@media(max-width:640px){
+  :root{--top-h:46px;--gap:3px}
+  .topbar{gap:5px;padding-left:max(5px,var(--safe-left));padding-right:max(5px,var(--safe-right))}
+  .menu-button,.brand-mark{width:30px;height:30px;border-radius:9px}
+  .brand-copy strong{font-size:7.5px}.setup-button{min-height:29px;padding:0 7px;font-size:5.5px}
+  .desk{
+    width:calc(100% - 6px);
+    padding:3px 0;
+    grid-template-rows:
+      clamp(72px,13.4dvh,92px)
+      clamp(56px,9.4dvh,68px)
+      clamp(30px,4.4dvh,34px)
+      clamp(68px,11.2dvh,86px)
+      clamp(22px,3.4dvh,27px)
+      minmax(150px,1fr)
+      clamp(32px,5dvh,38px);
+  }
+  .desk-panel{border-radius:10px}
+  .matchup-panel{padding:3px;gap:3px;grid-template-columns:minmax(0,1fr) minmax(58px,.34fr) minmax(0,1fr)}
+  .team-box{padding:3px 5px;gap:4px;border-radius:8px}.team-logo{width:25px;height:25px;border-radius:8px;font-size:5px}.team-copy span{font-size:2.8px}.team-copy strong{margin-top:0;font-size:clamp(6.8px,2.65vw,9.6px)}.team-copy small{margin-top:0;font-size:3px}.vs-label{font-size:2.6px}.main-score{font-size:clamp(22px,8vw,31px)}.main-overs{font-size:4.5px}.rate-strip{margin-top:2px}.rate-strip span{padding:1px 2px;font-size:2.1px}
+
+  .batsmen-row{gap:3px}
+  .batter-box.compact-batter{padding:0 6px;grid-template-columns:minmax(56px,.70fr) minmax(0,1.30fr);gap:4px;border-radius:14px}
+  .batter-identity-compact{column-gap:3px}
+  .batter-slot{font-size:2.7px;letter-spacing:.08em}
+  .batter-identity-compact>strong{font-size:clamp(5.5px,2vw,7.2px)}
+  .batter-identity-compact .strike-badge{padding:1px 2px;font-size:2px;max-width:36px;overflow:hidden;text-overflow:ellipsis}
+  .batter-inline-stats{gap:1px}
+  .batter-inline-stats span{font-size:2.45px;letter-spacing:0}
+  .batter-inline-stats strong{margin-top:1px;font-size:clamp(4.8px,1.7vw,6px)}
+
+  .view-tabs-panel{padding:2px;border-radius:9px}.view-tab{border-radius:7px;font-size:4.8px;letter-spacing:.1em}
+
+  .bowler-box{padding:3px 4px;gap:2px}
+  .current-row{grid-template-columns:minmax(82px,.72fr) minmax(0,1.9fr);padding:2px;gap:2px}
+  .bowler-identity{padding:1px 2px;gap:2px}.bowler-avatar{width:19px;height:19px;font-size:3.5px}.bowler-identity span,.previous-copy span{font-size:2px}.bowler-identity strong{font-size:4.6px;margin-top:0}.bowler-stats{gap:1px}.bowler-stats>div{padding:0;border-radius:4px}.bowler-stats span{font-size:1.8px}.bowler-stats strong{font-size:4.1px;margin-top:0}.previous-row{padding:1px 3px;gap:2px}.previous-copy strong{font-size:4px}.previous-figures{font-size:3.3px}.previous-balls span{min-width:10px;height:10px;font-size:2.3px}
+  .three-over-panel{padding:1px 3px;gap:2px}.timeline-title{font-size:2.4px}.over-group{padding:0 1px}.over-group b{font-size:2.2px}.over-group span{min-width:9px;height:9px;font-size:2px}.timeline-score{font-size:2.6px}
+
+  .scoring-pad{padding:3px;gap:3px;border-radius:11px}.score-key{border-radius:8px;font-size:clamp(9px,4vw,15px)}.score-key.compact{border-radius:6px;font-size:6.5px}.split-key{gap:2px}.extra-key,.wicket-key{font-size:clamp(4.8px,1.8vw,7px)}.end-key{font-size:clamp(4.2px,1.55vw,6.4px)}
+  .undo-shell{padding:0 5%}.undo-button{border-radius:8px;font-size:5px}
+
+  .scorecard-view{padding:4px;gap:3px}.scorecard-view-head{gap:3px;padding:2px 3px 3px}.scorecard-view-head>strong{font-size:6px}.scorecard-team-tabs{gap:4px}.scorecard-team-tab{min-height:20px;font-size:5px}.scorecard-summary{gap:2px;margin-bottom:3px}.scorecard-summary>div{padding:3px;border-radius:5px}.scorecard-summary span{font-size:2.5px}.scorecard-summary strong{font-size:5.5px;margin-top:1px}.scorecard-section-title{margin:4px 0 2px;font-size:3px}.scorecard-table-wrap{border-radius:5px}.scorecard-table{font-size:4px}.scorecard-table th{padding:3px;font-size:2.6px}.scorecard-table td{padding:3px}.scorecard-empty{font-size:4.5px}
+}
+
+@media(max-width:640px) and (max-height:720px){
+  :root{--top-h:42px;--gap:2px}
+  .menu-button,.brand-mark{width:27px;height:27px}.setup-button{min-height:26px}
+  .desk{
+    padding:2px 0;
+    grid-template-rows:
+      clamp(62px,12.2dvh,78px)
+      clamp(48px,8.3dvh,58px)
+      27px
+      clamp(58px,10.3dvh,72px)
+      20px
+      minmax(132px,1fr)
+      30px;
+  }
+  .matchup-panel{padding:2px}.team-box{padding:2px 4px}.team-logo{width:22px;height:22px}.main-score{font-size:21px}
+  .batter-box.compact-batter{padding:0 4px}.scoring-pad{padding:2px;gap:2px}.score-key{border-radius:7px}.undo-button{font-size:4.6px}
+}
+
+@media(min-width:641px) and (max-height:800px){
+  :root{--top-h:52px;--gap:4px}
+  .desk{padding:4px 0;grid-template-rows:minmax(0,.9fr) minmax(0,.48fr) 34px minmax(0,.59fr) 24px minmax(0,1.28fr) 36px}
+  .matchup-panel{padding:5px}.team-box{padding:5px 8px}.batter-box.compact-batter{padding:0 10px}.bowler-box{padding:4px 6px}.scoring-pad{padding:4px;gap:4px}
+}

@@ -75,6 +75,8 @@
   let state = loadState();
   let eventState = { type: null, values: {} };
   let batterEditTarget = 'striker';
+  let activeDeskView = 'live';
+  let activeScorecardTeam = 'A';
 
   const current = () => state.innings[state.currentInnings];
   const oversText = balls => `${Math.floor((balls || 0) / 6)}.${(balls || 0) % 6}`;
@@ -87,6 +89,8 @@
   const economy = b => b && b.balls ? (b.runs / (b.balls / 6)).toFixed(2) : '0.00';
   const runRate = inn => inn.balls ? (inn.runs / (inn.balls / 6)).toFixed(2) : '0.00';
   const maxWickets = inn => Math.min(10, inn.batters.length - 1);
+  const extrasTotal = inn => inn ? inn.extras.wd + inn.extras.nb + inn.extras.b + inn.extras.lb : 0;
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
 
   function save() {
     const copy = clone(state);
@@ -452,6 +456,53 @@
     `).join('') : '<div class="over-group empty"><span>—</span></div>';
   }
 
+  function renderScorecard() {
+    const teamName = activeScorecardTeam === 'A' ? state.teamA : state.teamB;
+    const battingInnings = state.innings.find(inn => inn.battingTeam === teamName);
+    const bowlingInnings = state.innings.find(inn => inn.bowlingTeam === teamName);
+
+    $$('.scorecard-team-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.scorecardTeam === activeScorecardTeam));
+
+    if (!battingInnings && !bowlingInnings) {
+      $('scorecardContent').innerHTML = '<div class="scorecard-empty">No scorecard data yet.</div>';
+      return;
+    }
+
+    const battingRows = battingInnings ? battingInnings.batters.map(b => `
+      <tr>
+        <td>${escapeHtml(b.name)}</td><td>${b.runs}</td><td>${b.balls}</td><td>${b.fours}</td><td>${b.sixes}</td><td>${strikeRate(b)}</td>
+      </tr>`).join('') : '';
+
+    const bowlingRows = bowlingInnings ? bowlingInnings.bowlers.map(b => `
+      <tr>
+        <td>${escapeHtml(b.name)}</td><td>${oversText(b.balls)}</td><td>${b.runs}</td><td>${b.wickets}</td><td>${b.wides}</td><td>${b.noBalls}</td><td>${economy(b)}</td>
+      </tr>`).join('') : '';
+
+    $('scorecardContent').innerHTML = `
+      <div class="scorecard-summary">
+        <div><span>SCORE</span><strong>${battingInnings ? `${battingInnings.runs}/${battingInnings.wickets}` : '—'}</strong></div>
+        <div><span>OVERS</span><strong>${battingInnings ? oversText(battingInnings.balls) : '—'}</strong></div>
+        <div><span>EXTRAS</span><strong>${extrasTotal(battingInnings)}</strong></div>
+        <div><span>TEAM</span><strong>${escapeHtml(teamName)}</strong></div>
+      </div>
+      <div class="scorecard-section-title">Batting</div>
+      ${battingInnings ? `<div class="scorecard-table-wrap"><table class="scorecard-table"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>${battingRows}</tbody></table></div>` : '<div class="scorecard-empty">Yet to bat.</div>'}
+      <div class="scorecard-section-title">Bowling</div>
+      ${bowlingInnings ? `<div class="scorecard-table-wrap"><table class="scorecard-table"><thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>WD</th><th>NB</th><th>ECO</th></tr></thead><tbody>${bowlingRows}</tbody></table></div>` : '<div class="scorecard-empty">No bowling figures yet.</div>'}`;
+  }
+
+  function renderDeskView() {
+    const live = activeDeskView === 'live';
+    $('liveScoringTab').classList.toggle('active', live);
+    $('scorecardTab').classList.toggle('active', !live);
+    $('scorecardView').hidden = live;
+    ['bowler-box', 'three-over-panel', 'scoring-pad', 'undo-shell'].forEach(cls => {
+      const el = document.querySelector(`.${cls}`);
+      if (el) el.hidden = !live;
+    });
+    if (!live) renderScorecard();
+  }
+
   function render() {
     const inn = current();
     const striker = inn.batters[inn.striker] || {};
@@ -499,6 +550,7 @@
     renderPreviousBowler(inn);
     renderThreeOvers(inn);
     $('timelineScore').textContent = `${inn.runs}/${inn.wickets} • ${oversText(inn.balls)}`;
+    renderDeskView();
 
     const disabled = !state.configured || state.matchComplete || inn.complete;
     $$('.run-key,#byeBtn,#legByeBtn,#wicketBtn,#wideBtn,#noBallBtn,#endInningsBtn').forEach(btn => btn.disabled = disabled);
@@ -789,6 +841,10 @@
   $('menuEditBowler').addEventListener('click', () => { closeMenu(); openBowler(); });
   $('menuChangeScorer').addEventListener('click', () => { closeMenu(); openScorer(); });
   $('menuResetMatch').addEventListener('click', resetMatch);
+
+  $('liveScoringTab').addEventListener('click', () => { activeDeskView = 'live'; renderDeskView(); });
+  $('scorecardTab').addEventListener('click', () => { activeDeskView = 'scorecard'; renderDeskView(); });
+  $$('.scorecard-team-tab').forEach(btn => btn.addEventListener('click', () => { activeScorecardTeam = btn.dataset.scorecardTeam; renderScorecard(); }));
 
   $('setupBtn').addEventListener('click', openSetup);
   $('saveSetupBtn').addEventListener('click', saveSetup);

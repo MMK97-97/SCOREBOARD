@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050912" />
   <title>MK97 Cricket Scoring Desk</title>
-  <link rel="stylesheet" href="scoring-desk.css?v=10.0" />
+  <link rel="stylesheet" href="scoring-desk.css?v=10.1" />
 </head>
 <body>
   <header class="topbar">
@@ -92,41 +92,53 @@
     </section>
 
     <section class="batsmen-row">
-      <article class="desk-panel batter-box">
-        <div class="player-line">
-          <div class="player-avatar" id="strikerAvatar">S</div>
-          <div class="player-label">
-            <span>BATSMAN 1</span>
-            <strong id="strikerName">Striker</strong>
-          </div>
+      <article class="desk-panel batter-box compact-batter">
+        <span class="hidden-avatar" id="strikerAvatar">S</span>
+        <div class="batter-identity-compact">
+          <span class="batter-slot">BATSMAN 1</span>
+          <strong id="strikerName">Striker</strong>
           <span class="strike-badge">ON STRIKE</span>
         </div>
-        <div class="batter-numbers">
+        <div class="batter-inline-stats">
           <div><span>RUNS</span><strong id="strikerRuns">0</strong></div>
           <div><span>BALLS</span><strong id="strikerBalls">0</strong></div>
+          <div><span>4's</span><strong id="striker4s">0</strong></div>
+          <div><span>6's</span><strong id="striker6s">0</strong></div>
           <div><span>SR</span><strong id="strikerSR">0.00</strong></div>
-          <div><span>4S</span><strong id="striker4s">0</strong></div>
-          <div><span>6S</span><strong id="striker6s">0</strong></div>
         </div>
       </article>
 
-      <article class="desk-panel batter-box">
-        <div class="player-line">
-          <div class="player-avatar blue" id="nonStrikerAvatar">NS</div>
-          <div class="player-label">
-            <span>BATSMAN 2</span>
-            <strong id="nonStrikerName">Non-Striker</strong>
-          </div>
+      <article class="desk-panel batter-box compact-batter">
+        <span class="hidden-avatar" id="nonStrikerAvatar">NS</span>
+        <div class="batter-identity-compact">
+          <span class="batter-slot">BATSMAN 2</span>
+          <strong id="nonStrikerName">Non-Striker</strong>
           <span class="strike-badge secondary">NON-STRIKER</span>
         </div>
-        <div class="batter-numbers">
+        <div class="batter-inline-stats">
           <div><span>RUNS</span><strong id="nonStrikerRuns">0</strong></div>
           <div><span>BALLS</span><strong id="nonStrikerBalls">0</strong></div>
+          <div><span>4's</span><strong id="nonStriker4s">0</strong></div>
+          <div><span>6's</span><strong id="nonStriker6s">0</strong></div>
           <div><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
-          <div><span>4S</span><strong id="nonStriker4s">0</strong></div>
-          <div><span>6S</span><strong id="nonStriker6s">0</strong></div>
         </div>
       </article>
+    </section>
+
+    <section class="desk-panel view-tabs-panel">
+      <button class="view-tab active" id="liveScoringTab" type="button">LIVE SCORING</button>
+      <button class="view-tab" id="scorecardTab" type="button">SCORECARD</button>
+    </section>
+
+    <section class="desk-panel scorecard-view" id="scorecardView" hidden>
+      <div class="scorecard-view-head">
+        <strong>SCORECARD</strong>
+        <div class="scorecard-team-tabs">
+          <button class="scorecard-team-tab active" type="button" data-scorecard-team="A">TEAM A</button>
+          <button class="scorecard-team-tab" type="button" data-scorecard-team="B">TEAM B</button>
+        </div>
+      </div>
+      <div class="scorecard-content" id="scorecardContent"></div>
     </section>
 
     <section class="desk-panel bowler-box">
@@ -301,6 +313,6 @@
   </div>
 
   <div class="toast-stack" id="toastStack"></div>
-  <script src="scoring-desk.js?v=10.0"></script>
+  <script src="scoring-desk.js?v=10.1"></script>
 </body>
 </html>
