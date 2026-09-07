@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050912" />
   <title>MK97 Cricket Scoring Desk</title>
-  <link rel="stylesheet" href="scoring-desk.css?v=10.4" />
+  <link rel="stylesheet" href="scoring-desk.css?v=10.5" />
 </head>
 <body>
   <header class="topbar">
@@ -91,18 +91,19 @@
       </article>
     </section>
 
-    <section class="batsmen-row">
-      <article class="desk-panel batter-box compact-batter batter-table-card">
+    <section class="batsmen-row merged-batsmen-row">
+      <article class="desk-panel batter-box compact-batter batter-table-card merged-batter-card">
         <span class="hidden-avatar" id="strikerAvatar">S</span>
+        <span class="hidden-avatar" id="nonStrikerAvatar">NS</span>
         <div class="batter-table-wrap">
-          <table class="batter-table" aria-label="Batsman 1 details">
+          <table class="batter-table merged-batter-table" aria-label="Striker and non-striker details">
             <colgroup>
               <col class="batter-name-col">
               <col><col><col><col><col>
             </colgroup>
             <thead>
               <tr>
-                <th>BATSMAN 1</th>
+                <th>BATSMEN</th>
                 <th>RUNS</th>
                 <th>BALLS</th>
                 <th>4's</th>
@@ -111,40 +112,28 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="batter-name-cell"><strong id="strikerName">Striker</strong><span class="strike-badge">ON STRIKE</span></td>
+              <tr class="striker-table-row">
+                <td class="batter-name-cell merged-name-cell">
+                  <div class="batter-name-line">
+                    <strong id="strikerName">Striker</strong>
+                    <button class="swap-arrow-button" id="swapStrikerBtn" type="button" aria-label="Swap striker and non-striker" title="Swap striker">⇄</button>
+                  </div>
+                  <span class="strike-badge">ON STRIKE</span>
+                </td>
                 <td><strong id="strikerRuns">0</strong></td>
                 <td><strong id="strikerBalls">0</strong></td>
                 <td><strong id="striker4s">0</strong></td>
                 <td><strong id="striker6s">0</strong></td>
                 <td><strong id="strikerSR">0.00</strong></td>
               </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-      <article class="desk-panel batter-box compact-batter batter-table-card">
-        <span class="hidden-avatar" id="nonStrikerAvatar">NS</span>
-        <div class="batter-table-wrap">
-          <table class="batter-table" aria-label="Batsman 2 details">
-            <colgroup>
-              <col class="batter-name-col">
-              <col><col><col><col><col>
-            </colgroup>
-            <thead>
-              <tr>
-                <th>BATSMAN 2</th>
-                <th>RUNS</th>
-                <th>BALLS</th>
-                <th>4's</th>
-                <th>6's</th>
-                <th>SR</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="batter-name-cell"><strong id="nonStrikerName">Non-Striker</strong><span class="strike-badge secondary">NON-STRIKER</span></td>
+              <tr class="non-striker-table-row">
+                <td class="batter-name-cell merged-name-cell">
+                  <div class="batter-name-line">
+                    <strong id="nonStrikerName">Non-Striker</strong>
+                    <button class="swap-arrow-button secondary" id="swapNonStrikerBtn" type="button" aria-label="Swap striker and non-striker" title="Swap striker">⇄</button>
+                  </div>
+                  <span class="strike-badge secondary">NON-STRIKER</span>
+                </td>
                 <td><strong id="nonStrikerRuns">0</strong></td>
                 <td><strong id="nonStrikerBalls">0</strong></td>
                 <td><strong id="nonStriker4s">0</strong></td>
@@ -343,6 +332,6 @@
   </div>
 
   <div class="toast-stack" id="toastStack"></div>
-  <script src="scoring-desk.js?v=10.4"></script>
+  <script src="scoring-desk.js?v=10.5"></script>
 </body>
 </html>

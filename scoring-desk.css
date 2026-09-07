@@ -962,3 +962,131 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
   .extra-key,.wicket-key{font-size:clamp(7.4px,2.55vw,9.6px)}
   .end-key{font-size:clamp(6.8px,2.25vw,9px)}
 }
+
+/* =========================================================
+   BATSMEN TABLE MERGE — v10.5
+   Only the batsmen detail presentation is changed.
+   Existing viewport row heights and all other desk geometry remain intact.
+   ========================================================= */
+.merged-batsmen-row{
+  grid-template-columns:1fr;
+}
+.merged-batter-card{
+  width:100%;
+  height:100%;
+}
+.merged-batter-table thead tr{
+  height:27%;
+}
+.merged-batter-table tbody tr{
+  height:36.5%;
+}
+.merged-batter-table tbody tr+tr td{
+  border-top:1px solid rgba(255,255,255,.075);
+}
+.merged-batter-table thead th{
+  color:#c2d3e3;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.095em;
+  text-shadow:0 0 8px rgba(255,255,255,.04);
+}
+.merged-batter-table thead th:first-child{
+  color:#dce8f2;
+}
+.merged-batter-table .batter-name-col{
+  width:39%;
+}
+.merged-name-cell{
+  padding-right:68px!important;
+}
+.batter-name-line{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.batter-name-line>strong{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#f7fbff;
+  font-size:14px;
+  line-height:1.05;
+  font-weight:950;
+  letter-spacing:-.025em;
+}
+.swap-arrow-button{
+  width:26px;
+  height:22px;
+  padding:0;
+  flex:none;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  border:1px solid rgba(82,237,182,.25);
+  background:rgba(82,237,182,.075);
+  color:#eafff6;
+  font-size:14px;
+  line-height:1;
+  font-weight:950;
+  cursor:pointer;
+  transition:transform .12s ease,background .12s ease,border-color .12s ease;
+}
+.swap-arrow-button.secondary{
+  border-color:rgba(79,201,255,.24);
+  background:rgba(79,201,255,.07);
+  color:#e8f8ff;
+}
+.swap-arrow-button:active{
+  transform:scale(.92);
+}
+
+@media(max-width:640px){
+  .merged-batter-table thead th{
+    font-size:5.6px;
+    line-height:1;
+    letter-spacing:.035em;
+  }
+  .merged-batter-table thead th:first-child{
+    padding-left:6px;
+    letter-spacing:.065em;
+  }
+  .merged-batter-table .batter-name-col{
+    width:42%;
+  }
+  .merged-batter-table tbody td>strong{
+    font-size:10px;
+  }
+  .merged-name-cell{
+    padding-left:6px!important;
+    padding-right:43px!important;
+  }
+  .batter-name-line{
+    gap:4px;
+  }
+  .batter-name-line>strong{
+    font-size:9.6px;
+  }
+  .swap-arrow-button{
+    width:21px;
+    height:18px;
+    border-radius:6px;
+    font-size:12px;
+  }
+  .merged-batter-table .merged-name-cell .strike-badge{
+    right:3px;
+    max-width:37px;
+    font-size:2.9px;
+    padding:2px 3px;
+  }
+}
+
+@media(max-width:370px){
+  .merged-batter-table thead th{font-size:5px}
+  .merged-batter-table tbody td>strong{font-size:9px}
+  .batter-name-line>strong{font-size:8.7px}
+  .swap-arrow-button{width:19px;height:17px;font-size:11px}
+  .merged-name-cell{padding-right:39px!important}
+}

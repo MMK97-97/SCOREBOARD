@@ -146,6 +146,15 @@
     [inn.striker, inn.nonStriker] = [inn.nonStriker, inn.striker];
   }
 
+  function manualSwapStrike() {
+    if (!state.configured || state.matchComplete || current().complete) return;
+    pushHistory();
+    swapStrike(current());
+    save();
+    render();
+    toast('Striker and non-striker swapped.');
+  }
+
   function newBatter(inn, side) {
     if (inn.nextBatter >= inn.batters.length) return;
     if (side === 'striker') inn.striker = inn.nextBatter;
@@ -832,6 +841,8 @@
   $('noBallBtn').addEventListener('click', openNoBall);
   $('endInningsBtn').addEventListener('click', endInnings);
   $('undoBtn').addEventListener('click', undo);
+  $('swapStrikerBtn').addEventListener('click', manualSwapStrike);
+  $('swapNonStrikerBtn').addEventListener('click', manualSwapStrike);
 
   $('menuButton').addEventListener('click', openMenu);
   $('drawerClose').addEventListener('click', closeMenu);
