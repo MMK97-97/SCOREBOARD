@@ -5,321 +5,243 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050912" />
   <title>MK97 Cricket Scoring Desk</title>
-  <link rel="stylesheet" href="scoring-desk.css" />
+  <link rel="stylesheet" href="scoring-desk.css?v=10.0" />
 </head>
 <body>
-  <header class="appbar">
-    <div class="appbar-left">
-      <button class="menu-toggle" id="settingsToggle" aria-label="Open settings menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 8.97 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15.03 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.6 8.97a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.03 4.2l.06.06A1.7 1.7 0 0 0 8.97 4.6 1.7 1.7 0 0 0 10 3.08V3h4v.08a1.7 1.7 0 0 0 1.03 1.52 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06a1.7 1.7 0 0 0-.34 1.88A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"></path>
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-button" id="menuButton" aria-label="Open match menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
-
-      <div class="settings-menu" id="settingsMenu">
-        <div class="settings-head">
-          <div class="settings-title-wrap">
-            <div class="settings-kicker"><span class="status-dot"></span> LIVE CONTROL CENTER</div>
-            <h3>Match Settings</h3>
-            <p>Player edits, bowling changes, scorer controls and match intelligence.</p>
-          </div>
-          <button class="drawer-close" id="settingsClose" aria-label="Close settings">×</button>
-        </div>
-
-        <div class="settings-grid">
-          <button class="menu-action" id="menuEditNonStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Non-Striker</strong><small>Change non-striker anytime</small></span></button>
-          <button class="menu-action" id="menuChangeBowlerBtn"><span class="menu-action-icon">↻</span><span><strong>Change Bowler</strong><small>Select the current bowler</small></span></button>
-          <button class="menu-action" id="menuChangeScorerBtn"><span class="menu-action-icon">◎</span><span><strong>Change Scorer</strong><small>Update scoring operator</small></span></button>
-          <button class="menu-action" id="menuResetBtn"><span class="menu-action-icon danger-icon">!</span><span><strong>Reset Match</strong><small>Clear the current match</small></span></button>
-        </div>
-
-        <div class="drawer-section-title">LIVE SNAPSHOT</div>
-        <div class="menu-stats">
-          <div class="menu-stat"><span>Extras</span><strong id="extras">0</strong></div>
-          <div class="menu-stat"><span>Projected</span><strong id="drawerProjected">0</strong></div>
-          <div class="menu-stat dls-stat"><span>DLS</span><strong id="drawerDlsValue">N/A</strong><small id="drawerDlsNote">No interruption</small></div>
-          <div class="menu-stat"><span>Partnership</span><strong id="partnership">0</strong></div>
-          <div class="menu-stat"><span>Wickets Left</span><strong id="wicketsLeft">10</strong></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="brand">
       <div class="brand-mark">MK</div>
-      <div>
+      <div class="brand-copy">
         <strong>MK97 CRICKET</strong>
-        <span>Live Scoring Desk</span>
+        <span>Scoring Desk</span>
       </div>
     </div>
 
-    <div class="app-actions">
-      <div class="status-chip"><span class="status-dot"></span>Autosaved</div>
-      <button class="btn" id="setupBtn">Match Setup</button>
-      <button class="btn" id="topChangeScorerBtn">Change Scorer</button>
-    </div>
+    <button class="setup-button" id="setupBtn">MATCH SETUP</button>
   </header>
 
-  <div class="settings-backdrop" id="settingsBackdrop" aria-hidden="true"></div>
-
-  <main class="page">
-    <section class="panel matchup">
-      <div class="team-card">
-        <div class="team-crest" id="teamACrest">TA</div>
-        <div class="team-info">
-          <small>Team A</small>
-          <h1 id="teamAName">Thunderbolts</h1>
-          <p id="teamAStatus">Batting</p>
-        </div>
+  <div class="menu-backdrop" id="menuBackdrop"></div>
+  <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <span class="drawer-kicker">MATCH MENU</span>
+        <h2>Scoring Controls</h2>
       </div>
-
-      <div class="center-score">
-        <div class="vs">VS</div>
-        <div class="score-big" id="mainScore">0/0</div>
-        <div class="score-overs" id="mainOvers">0.0 overs</div>
-        <div class="score-meta">
-          <span class="meta-pill">CRR <strong id="crr">0.00</strong></span>
-          <span class="meta-pill">RRR <strong id="rrr">—</strong></span>
-          <span class="meta-pill">Target <strong id="target">—</strong></span>
-        </div>
-      </div>
-
-      <div class="team-card right">
-        <div class="team-crest" id="teamBCrest">TB</div>
-        <div class="team-info">
-          <small>Team B</small>
-          <h1 id="teamBName">Strikers</h1>
-          <p id="teamBStatus">Bowling</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <div class="title">Batsmen Details</div>
-        <div class="section-actions">
-          <button class="inline-control" id="swapStrikerBtn">Swap Striker</button>
-          <button class="inline-control" id="editStrikerBtn">Edit Striker</button>
-        </div>
-      </div>
-      <div class="batters-panel">
-        <div class="batters-grid">
-          <article class="batter-card">
-            <div class="batter-top">
-              <div class="player-id">
-                <div class="avatar" id="strikerAvatar">S</div>
-                <div class="player-name" id="strikerName">Striker</div>
-              </div>
-              <span class="role">On Strike</span>
-            </div>
-            <div class="batter-stats">
-              <div class="bstat primary"><span>Runs</span><strong id="strikerRuns">0</strong></div>
-              <div class="bstat"><span>Balls</span><strong id="strikerBalls">0</strong></div>
-              <div class="bstat"><span>SR</span><strong id="strikerSR">0.00</strong></div>
-              <div class="bstat"><span>4s</span><strong id="striker4s">0</strong></div>
-              <div class="bstat"><span>6s</span><strong id="striker6s">0</strong></div>
-            </div>
-          </article>
-
-          <article class="batter-card">
-            <div class="batter-top">
-              <div class="player-id">
-                <div class="avatar" id="nonStrikerAvatar">NS</div>
-                <div class="player-name" id="nonStrikerName">Non-Striker</div>
-              </div>
-              <span class="role blue">Non-Striker</span>
-            </div>
-            <div class="batter-stats">
-              <div class="bstat primary"><span>Runs</span><strong id="nonStrikerRuns">0</strong></div>
-              <div class="bstat"><span>Balls</span><strong id="nonStrikerBalls">0</strong></div>
-              <div class="bstat"><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
-              <div class="bstat"><span>4s</span><strong id="nonStriker4s">0</strong></div>
-              <div class="bstat"><span>6s</span><strong id="nonStriker6s">0</strong></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel switch-panel">
-      <div class="view-switcher">
-        <button class="view-tab active" data-view="live">LIVE SCORING</button>
-        <button class="view-tab" data-view="scorecard">SCORECARD</button>
-      </div>
-    </section>
-
-    <div id="liveScoringView" class="content-view active">
-      <section class="panel">
-        <div class="section-head">
-          <div class="title">Bowler Details</div>
-          <div class="section-actions">
-            <button class="inline-control" id="editBowlerBtn">Edit Bowler</button>
-          </div>
-        </div>
-        <div class="bowler-panel">
-          <div class="bowler-layout">
-            <div class="bowler-card current-bowler-card">
-              <div class="bowler-main">
-                <div class="bowler-avatar" id="bowlerAvatar">B</div>
-                <div class="bowler-info-wrap">
-                  <div class="bowler-name" id="bowlerName">Bowler</div>
-                  <div class="bowler-sub">Current Bowler</div>
-                </div>
-              </div>
-              <div class="bstat2"><span>Overs</span><strong id="bowlerOvers">0.0</strong></div>
-              <div class="bstat2"><span>Runs</span><strong id="bowlerRuns">0</strong></div>
-              <div class="bstat2"><span>Wickets</span><strong id="bowlerWickets">0</strong></div>
-              <div class="bstat2"><span>WD</span><strong id="bowlerWides">0</strong></div>
-              <div class="bstat2"><span>NB</span><strong id="bowlerNB">0</strong></div>
-              <div class="bstat2"><span>ECO</span><strong id="bowlerEcon">0.00</strong></div>
-            </div>
-
-            <div class="previous-over-card">
-              <div class="previous-over-head">
-                <span class="mini-title">Previous Over Bowler</span>
-                <span class="previous-over-tag">Last Completed Over</span>
-              </div>
-              <div class="previous-over-name" id="previousBowlerName">—</div>
-              <div class="previous-over-figures" id="previousBowlerFigures">0.0 • 0/0</div>
-              <div class="previous-over-chips" id="previousOverSummary">
-                <span class="mini-chip">—</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel timeline-panel">
-        <div class="timeline-wrap">
-          <div class="timeline-label">Scoring Timeline</div>
-          <div class="timeline" id="timeline"><span class="ball">—</span></div>
-          <div class="timeline-score" id="timelineScore">0/0 · 0.0</div>
-        </div>
-      </section>
-
-      <section class="panel scoring-panel">
-        <div class="section-head compact-head">
-          <div class="title">Live Scoring</div>
-        </div>
-        <div class="scoring-wrap">
-          <div class="score-row row-one">
-            <button class="run-btn dot runAction" data-runs="0">0</button>
-            <button class="run-btn runAction" data-runs="1">1</button>
-            <button class="run-btn runAction" data-runs="2">2</button>
-            <button class="run-btn runAction" data-runs="3">3</button>
-          </div>
-
-          <div class="score-row row-two">
-            <button class="run-btn four runAction" data-runs="4">4</button>
-            <button class="run-btn runAction" data-runs="5">5</button>
-            <button class="run-btn six runAction" data-runs="6">6</button>
-            <button class="undo-big" id="undoBtn">UNDO LAST ACTION</button>
-          </div>
-
-          <div class="score-row row-three">
-            <button class="event-btn wicket" id="wicketBtn">Wicket</button>
-            <button class="event-btn extra" id="wideBtn">WD</button>
-            <button class="event-btn extra" id="noBallBtn">NB</button>
-            <button class="event-btn extra" id="byeBtn">Bye</button>
-            <button class="event-btn extra" id="legByeBtn">Leg Bye</button>
-            <button class="event-btn" id="endInningsBtn">End Innings</button>
-          </div>
-        </div>
-      </section>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">×</button>
     </div>
 
-    <div id="scorecardView" class="content-view" hidden>
-      <section class="panel scorecard-panel">
-        <div class="section-head">
-          <div class="title">Scorecard</div>
-        </div>
-        <div class="scorecard-grid">
-          <article class="team-scorecard">
-            <div class="team-scorecard-head">
-              <div>
-                <span class="scorecard-kicker">Team A</span>
-                <h3 id="teamAScorecardName">Thunderbolts</h3>
-              </div>
-              <div class="team-scorecard-summary" id="teamAScorecardSummary">Yet to bat</div>
-            </div>
-            <div class="team-scorecard-body" id="teamAScorecardBody"></div>
-          </article>
-
-          <article class="team-scorecard">
-            <div class="team-scorecard-head">
-              <div>
-                <span class="scorecard-kicker">Team B</span>
-                <h3 id="teamBScorecardName">Strikers</h3>
-              </div>
-              <div class="team-scorecard-summary" id="teamBScorecardSummary">Yet to bat</div>
-            </div>
-            <div class="team-scorecard-body" id="teamBScorecardBody"></div>
-          </article>
-        </div>
-      </section>
+    <div class="drawer-actions">
+      <button class="drawer-action" id="menuEditStriker">
+        <span class="drawer-icon">S</span>
+        <span><strong>Edit Striker</strong><small>Change player or batting figures</small></span>
+      </button>
+      <button class="drawer-action" id="menuEditNonStriker">
+        <span class="drawer-icon blue">NS</span>
+        <span><strong>Edit Non-Striker</strong><small>Change player or batting figures</small></span>
+      </button>
+      <button class="drawer-action" id="menuEditBowler">
+        <span class="drawer-icon violet">B</span>
+        <span><strong>Edit Bowler</strong><small>Change current bowler or spell</small></span>
+      </button>
+      <button class="drawer-action" id="menuChangeScorer">
+        <span class="drawer-icon amber">SC</span>
+        <span><strong>Change Scorer</strong><small>Update the scoring operator</small></span>
+      </button>
+      <button class="drawer-action danger" id="menuResetMatch">
+        <span class="drawer-icon red">!</span>
+        <span><strong>Reset Match</strong><small>Clear the current match</small></span>
+      </button>
     </div>
+  </aside>
+
+  <main class="desk">
+    <section class="desk-panel matchup-panel">
+      <article class="team-box team-a">
+        <div class="team-logo" id="teamACrest">TA</div>
+        <div class="team-copy">
+          <span>TEAM A</span>
+          <strong id="teamAName">Thunderbolts</strong>
+          <small id="teamAStatus">Batting</small>
+        </div>
+      </article>
+
+      <div class="match-center">
+        <span class="vs-label">VS</span>
+        <strong class="main-score" id="mainScore">0/0</strong>
+        <span class="main-overs" id="mainOvers">0.0 overs</span>
+        <div class="rate-strip">
+          <span>CRR <b id="crr">0.00</b></span>
+          <span>RRR <b id="rrr">—</b></span>
+          <span>TARGET <b id="target">—</b></span>
+        </div>
+      </div>
+
+      <article class="team-box team-b">
+        <div class="team-copy">
+          <span>TEAM B</span>
+          <strong id="teamBName">Strikers</strong>
+          <small id="teamBStatus">Bowling</small>
+        </div>
+        <div class="team-logo blue" id="teamBCrest">TB</div>
+      </article>
+    </section>
+
+    <section class="batsmen-row">
+      <article class="desk-panel batter-box">
+        <div class="player-line">
+          <div class="player-avatar" id="strikerAvatar">S</div>
+          <div class="player-label">
+            <span>BATSMAN 1</span>
+            <strong id="strikerName">Striker</strong>
+          </div>
+          <span class="strike-badge">ON STRIKE</span>
+        </div>
+        <div class="batter-numbers">
+          <div><span>RUNS</span><strong id="strikerRuns">0</strong></div>
+          <div><span>BALLS</span><strong id="strikerBalls">0</strong></div>
+          <div><span>SR</span><strong id="strikerSR">0.00</strong></div>
+          <div><span>4S</span><strong id="striker4s">0</strong></div>
+          <div><span>6S</span><strong id="striker6s">0</strong></div>
+        </div>
+      </article>
+
+      <article class="desk-panel batter-box">
+        <div class="player-line">
+          <div class="player-avatar blue" id="nonStrikerAvatar">NS</div>
+          <div class="player-label">
+            <span>BATSMAN 2</span>
+            <strong id="nonStrikerName">Non-Striker</strong>
+          </div>
+          <span class="strike-badge secondary">NON-STRIKER</span>
+        </div>
+        <div class="batter-numbers">
+          <div><span>RUNS</span><strong id="nonStrikerRuns">0</strong></div>
+          <div><span>BALLS</span><strong id="nonStrikerBalls">0</strong></div>
+          <div><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
+          <div><span>4S</span><strong id="nonStriker4s">0</strong></div>
+          <div><span>6S</span><strong id="nonStriker6s">0</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="desk-panel bowler-box">
+      <div class="bowler-row current-row">
+        <div class="bowler-identity">
+          <div class="bowler-avatar" id="bowlerAvatar">B</div>
+          <div>
+            <span>CURRENT BOWLER</span>
+            <strong id="bowlerName">Bowler</strong>
+          </div>
+        </div>
+        <div class="bowler-stats">
+          <div><span>OVERS</span><strong id="bowlerOvers">0.0</strong></div>
+          <div><span>RUNS</span><strong id="bowlerRuns">0</strong></div>
+          <div><span>WKTS</span><strong id="bowlerWickets">0</strong></div>
+          <div><span>WD</span><strong id="bowlerWides">0</strong></div>
+          <div><span>NB</span><strong id="bowlerNB">0</strong></div>
+          <div><span>ECO</span><strong id="bowlerEcon">0.00</strong></div>
+        </div>
+      </div>
+
+      <div class="bowler-row previous-row">
+        <div class="previous-copy">
+          <span>PREVIOUS OVER BOWLER</span>
+          <strong id="previousBowlerName">—</strong>
+        </div>
+        <div class="previous-figures" id="previousBowlerFigures">0.0 • 0/0</div>
+        <div class="previous-balls" id="previousOverSummary"><span>—</span></div>
+      </div>
+    </section>
+
+    <section class="desk-panel three-over-panel">
+      <div class="timeline-title">LAST 3 OVERS</div>
+      <div class="three-over-timeline" id="threeOverTimeline">
+        <div class="over-group empty"><span>—</span></div>
+      </div>
+      <div class="timeline-score" id="timelineScore">0/0 • 0.0</div>
+    </section>
+
+    <section class="desk-panel scoring-pad">
+      <button class="score-key run-key" data-runs="1">1</button>
+      <button class="score-key run-key" data-runs="2">2</button>
+      <button class="score-key run-key" data-runs="3">3</button>
+      <div class="split-key">
+        <button class="score-key run-key compact" data-runs="0">0</button>
+        <button class="score-key run-key compact five" data-runs="5">5</button>
+      </div>
+
+      <button class="score-key extra-key" id="byeBtn">BYES</button>
+      <button class="score-key run-key four" data-runs="4">4</button>
+      <button class="score-key wicket-key" id="wicketBtn">WKT</button>
+      <button class="score-key extra-key" id="wideBtn">WD</button>
+
+      <button class="score-key extra-key" id="legByeBtn">LB</button>
+      <button class="score-key run-key six" data-runs="6">6</button>
+      <button class="score-key extra-key" id="noBallBtn">NB</button>
+      <button class="score-key end-key" id="endInningsBtn">END<br>INNINGS</button>
+    </section>
+
+    <section class="undo-shell">
+      <button class="undo-button" id="undoBtn">UNDO LAST ACTION</button>
+    </section>
   </main>
 
+  <!-- MATCH SETUP -->
   <div class="modal-wrap" id="setupModal">
     <div class="modal">
       <div class="modal-head">
-        <div>
-          <h3>Match Setup</h3>
-          <p>Configure teams, squads, innings order and scorer.</p>
-        </div>
-        <button class="btn" data-close="setupModal">Close</button>
+        <div><h3>Match Setup</h3><p>Configure teams, squads and innings.</p></div>
+        <button class="modal-close" data-close="setupModal">×</button>
       </div>
       <div class="modal-body">
         <div class="form-grid">
-          <div class="field"><label>Match Name</label><input id="matchNameInput" value="Tampa Premier League"></div>
-          <div class="field"><label>Venue</label><input id="venueInput" value="Tampa, Florida"></div>
           <div class="field"><label>Team A</label><input id="teamAInput" value="Thunderbolts"></div>
           <div class="field"><label>Team B</label><input id="teamBInput" value="Strikers"></div>
           <div class="field"><label>Overs</label><input id="oversInput" type="number" min="1" max="100" value="20"></div>
           <div class="field"><label>Batting First</label><select id="batFirstInput"><option value="A">Team A</option><option value="B">Team B</option></select></div>
-          <div class="field full"><label>Scorer Name</label><input id="scorerInput" value="Scorer"></div>
-          <div class="field full"><label>Team A Players</label><textarea id="teamAPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
-          <div class="field full"><label>Team B Players</label><textarea id="teamBPlayersInput" rows="4" placeholder="Comma-separated or one per line"></textarea></div>
+          <div class="field full"><label>Team A Players</label><textarea id="teamAPlayersInput" rows="4"></textarea></div>
+          <div class="field full"><label>Team B Players</label><textarea id="teamBPlayersInput" rows="4"></textarea></div>
         </div>
         <div class="modal-actions">
-          <button class="btn" data-close="setupModal">Cancel</button>
-          <button class="btn primary" id="saveSetupBtn">Start / Update Match</button>
+          <button class="ghost-button" data-close="setupModal">Cancel</button>
+          <button class="primary-button" id="saveSetupBtn">Save Match</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- EVENT OUTCOMES -->
   <div class="modal-wrap" id="eventModal">
-    <div class="modal small">
+    <div class="modal outcome-modal">
       <div class="modal-head">
-        <div>
-          <h3 id="eventTitle">Outcome</h3>
-          <p id="eventSub">Select the exact outcome.</p>
-        </div>
-        <button class="btn" data-close="eventModal">Close</button>
+        <div><h3 id="eventTitle">Outcome</h3><p id="eventSub">Select the exact outcome.</p></div>
+        <button class="modal-close" data-close="eventModal">×</button>
       </div>
       <div class="modal-body">
-        <div class="form-grid" id="eventFields"></div>
+        <div class="event-fields" id="eventFields"></div>
         <div class="modal-actions">
-          <button class="btn" data-close="eventModal">Cancel</button>
-          <button class="btn primary" id="applyEventBtn">Apply Outcome</button>
+          <button class="ghost-button" data-close="eventModal">Cancel</button>
+          <button class="primary-button" id="applyEventBtn">Apply Outcome</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- BATTER EDIT -->
   <div class="modal-wrap" id="batterModal">
-    <div class="modal small">
+    <div class="modal small-modal">
       <div class="modal-head">
-        <div>
-          <h3 id="batterModalTitle">Edit Batter</h3>
-          <p>Change player, stats, or strike position anytime.</p>
-        </div>
-        <button class="btn" data-close="batterModal">Close</button>
+        <div><h3 id="batterModalTitle">Edit Batter</h3><p>Change player or figures anytime.</p></div>
+        <button class="modal-close" data-close="batterModal">×</button>
       </div>
       <div class="modal-body">
         <div class="form-grid">
-          <div class="field full"><label>Select Player</label><select id="editBatterSelect"></select></div>
+          <div class="field full"><label>Player</label><select id="editBatterSelect"></select></div>
           <div class="field full"><label>Name</label><input id="editBatterName"></div>
           <div class="field"><label>Runs</label><input id="editBatterRuns" type="number" min="0"></div>
           <div class="field"><label>Balls</label><input id="editBatterBalls" type="number" min="0"></div>
@@ -328,80 +250,57 @@
           <div class="field full"><label>Position</label><select id="editBatterRole"><option value="striker">Set as Striker</option><option value="nonstriker">Set as Non-Striker</option><option value="none">Keep Existing Position</option></select></div>
         </div>
         <div class="modal-actions">
-          <button class="btn" data-close="batterModal">Cancel</button>
-          <button class="btn primary" id="saveBatterBtn">Save Batter</button>
+          <button class="ghost-button" data-close="batterModal">Cancel</button>
+          <button class="primary-button" id="saveBatterBtn">Save Batter</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- BOWLER EDIT -->
   <div class="modal-wrap" id="bowlerModal">
-    <div class="modal small">
+    <div class="modal small-modal">
       <div class="modal-head">
-        <div>
-          <h3>Edit Bowler</h3>
-          <p>Change current bowler or correct spell figures anytime.</p>
-        </div>
-        <button class="btn" data-close="bowlerModal">Close</button>
+        <div><h3>Edit Bowler</h3><p>Change current bowler or correct spell figures.</p></div>
+        <button class="modal-close" data-close="bowlerModal">×</button>
       </div>
       <div class="modal-body">
         <div class="form-grid">
-          <div class="field full"><label>Select Bowler</label><select id="editBowlerSelect"></select></div>
+          <div class="field full"><label>Bowler</label><select id="editBowlerSelect"></select></div>
           <div class="field full"><label>Name</label><input id="editBowlerName"></div>
-          <div class="field"><label>Overs</label><input id="editBowlerOvers" placeholder="Example 3.2"></div>
+          <div class="field"><label>Overs</label><input id="editBowlerOvers" placeholder="3.2"></div>
           <div class="field"><label>Runs</label><input id="editBowlerRuns" type="number" min="0"></div>
           <div class="field"><label>Wickets</label><input id="editBowlerWickets" type="number" min="0"></div>
-          <div class="field"><label>Wides</label><input id="editBowlerWides" type="number" min="0"></div>
-          <div class="field"><label>No Balls</label><input id="editBowlerNB" type="number" min="0"></div>
-          <div class="field"><label>Make Current Bowler</label><select id="editBowlerCurrent"><option value="yes">Yes</option><option value="no">No</option></select></div>
+          <div class="field"><label>WD</label><input id="editBowlerWides" type="number" min="0"></div>
+          <div class="field"><label>NB</label><input id="editBowlerNB" type="number" min="0"></div>
+          <div class="field"><label>Current Bowler</label><select id="editBowlerCurrent"><option value="yes">Yes</option><option value="no">No</option></select></div>
         </div>
         <div class="modal-actions">
-          <button class="btn" data-close="bowlerModal">Cancel</button>
-          <button class="btn primary" id="saveBowlerBtn">Save Bowler</button>
+          <button class="ghost-button" data-close="bowlerModal">Cancel</button>
+          <button class="primary-button" id="saveBowlerBtn">Save Bowler</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- SCORER -->
   <div class="modal-wrap" id="scorerModal">
-    <div class="modal small">
+    <div class="modal small-modal">
       <div class="modal-head">
-        <div>
-          <h3>Change Scorer</h3>
-          <p>Update who is operating the scoring desk.</p>
-        </div>
-        <button class="btn" data-close="scorerModal">Close</button>
+        <div><h3>Change Scorer</h3><p>Update the scoring operator.</p></div>
+        <button class="modal-close" data-close="scorerModal">×</button>
       </div>
       <div class="modal-body">
         <div class="field"><label>Scorer Name</label><input id="newScorerInput"></div>
         <div class="modal-actions">
-          <button class="btn" data-close="scorerModal">Cancel</button>
-          <button class="btn primary" id="saveScorerBtn">Save Scorer</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-wrap" id="changeBowlerModal">
-    <div class="modal small">
-      <div class="modal-head">
-        <div>
-          <h3>Change Bowler</h3>
-          <p>Tap a bowler to make them current.</p>
-        </div>
-        <button class="btn" data-close="changeBowlerModal">Close</button>
-      </div>
-      <div class="modal-body">
-        <div class="outcome-section">
-          <div class="outcome-section-title">Select Bowler</div>
-          <div class="outcome-grid" id="bowlerChoiceGrid"></div>
+          <button class="ghost-button" data-close="scorerModal">Cancel</button>
+          <button class="primary-button" id="saveScorerBtn">Save Scorer</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="toast-stack" id="toastStack"></div>
-
-  <script src="scoring-desk.js"></script>
+  <script src="scoring-desk.js?v=10.0"></script>
 </body>
 </html>
