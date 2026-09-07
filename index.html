@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050912" />
   <title>MK97 Cricket Scoring Desk</title>
-  <link rel="stylesheet" href="scoring-desk.css?v=10.1" />
+  <link rel="stylesheet" href="scoring-desk.css?v=10.2" />
 </head>
 <body>
   <header class="topbar">
@@ -92,35 +92,67 @@
     </section>
 
     <section class="batsmen-row">
-      <article class="desk-panel batter-box compact-batter">
+      <article class="desk-panel batter-box compact-batter batter-table-card">
         <span class="hidden-avatar" id="strikerAvatar">S</span>
-        <div class="batter-identity-compact">
-          <span class="batter-slot">BATSMAN 1</span>
-          <strong id="strikerName">Striker</strong>
-          <span class="strike-badge">ON STRIKE</span>
-        </div>
-        <div class="batter-inline-stats">
-          <div><span>RUNS</span><strong id="strikerRuns">0</strong></div>
-          <div><span>BALLS</span><strong id="strikerBalls">0</strong></div>
-          <div><span>4's</span><strong id="striker4s">0</strong></div>
-          <div><span>6's</span><strong id="striker6s">0</strong></div>
-          <div><span>SR</span><strong id="strikerSR">0.00</strong></div>
+        <div class="batter-table-wrap">
+          <table class="batter-table" aria-label="Batsman 1 details">
+            <colgroup>
+              <col class="batter-name-col">
+              <col><col><col><col><col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>BATSMAN 1</th>
+                <th>RUNS</th>
+                <th>BALLS</th>
+                <th>4's</th>
+                <th>6's</th>
+                <th>SR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="batter-name-cell"><strong id="strikerName">Striker</strong><span class="strike-badge">ON STRIKE</span></td>
+                <td><strong id="strikerRuns">0</strong></td>
+                <td><strong id="strikerBalls">0</strong></td>
+                <td><strong id="striker4s">0</strong></td>
+                <td><strong id="striker6s">0</strong></td>
+                <td><strong id="strikerSR">0.00</strong></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </article>
 
-      <article class="desk-panel batter-box compact-batter">
+      <article class="desk-panel batter-box compact-batter batter-table-card">
         <span class="hidden-avatar" id="nonStrikerAvatar">NS</span>
-        <div class="batter-identity-compact">
-          <span class="batter-slot">BATSMAN 2</span>
-          <strong id="nonStrikerName">Non-Striker</strong>
-          <span class="strike-badge secondary">NON-STRIKER</span>
-        </div>
-        <div class="batter-inline-stats">
-          <div><span>RUNS</span><strong id="nonStrikerRuns">0</strong></div>
-          <div><span>BALLS</span><strong id="nonStrikerBalls">0</strong></div>
-          <div><span>4's</span><strong id="nonStriker4s">0</strong></div>
-          <div><span>6's</span><strong id="nonStriker6s">0</strong></div>
-          <div><span>SR</span><strong id="nonStrikerSR">0.00</strong></div>
+        <div class="batter-table-wrap">
+          <table class="batter-table" aria-label="Batsman 2 details">
+            <colgroup>
+              <col class="batter-name-col">
+              <col><col><col><col><col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>BATSMAN 2</th>
+                <th>RUNS</th>
+                <th>BALLS</th>
+                <th>4's</th>
+                <th>6's</th>
+                <th>SR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="batter-name-cell"><strong id="nonStrikerName">Non-Striker</strong><span class="strike-badge secondary">NON-STRIKER</span></td>
+                <td><strong id="nonStrikerRuns">0</strong></td>
+                <td><strong id="nonStrikerBalls">0</strong></td>
+                <td><strong id="nonStriker4s">0</strong></td>
+                <td><strong id="nonStriker6s">0</strong></td>
+                <td><strong id="nonStrikerSR">0.00</strong></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </article>
     </section>
@@ -313,6 +345,6 @@
   </div>
 
   <div class="toast-stack" id="toastStack"></div>
-  <script src="scoring-desk.js?v=10.1"></script>
+  <script src="scoring-desk.js?v=10.2"></script>
 </body>
 </html>

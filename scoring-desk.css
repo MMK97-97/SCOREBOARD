@@ -350,3 +350,309 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
   .desk{padding:4px 0;grid-template-rows:minmax(0,.9fr) minmax(0,.48fr) 34px minmax(0,.59fr) 24px minmax(0,1.28fr) 36px}
   .matchup-panel{padding:5px}.team-box{padding:5px 8px}.batter-box.compact-batter{padding:0 10px}.bowler-box{padding:4px 6px}.scoring-pad{padding:4px;gap:4px}
 }
+
+/* =========================================================
+   VISIBILITY REFINEMENT — v10.2
+   Requested only: batsmen table structure, team-name spacing,
+   center-score visibility and larger bowler details.
+   ========================================================= */
+
+/* Team name spacing: preserve the existing matchup geometry. */
+.team-box{
+  padding-left:8px;
+  padding-right:8px;
+}
+.team-copy{
+  padding-inline:2px;
+}
+
+/* Make the center scoreboard easier to read without changing its position. */
+.match-center{
+  padding-inline:4px;
+}
+.main-score{
+  font-weight:950;
+  text-shadow:0 8px 28px rgba(0,0,0,.28);
+}
+.main-overs{
+  color:#b7cadc;
+  font-weight:950;
+}
+.rate-strip{
+  gap:5px;
+}
+.rate-strip span{
+  padding:4px 7px;
+  border-color:rgba(255,255,255,.11);
+  background:rgba(2,8,15,.34);
+  color:#9eb2c5;
+  font-size:6px;
+}
+.rate-strip b{
+  color:#ffffff;
+  font-weight:950;
+}
+
+/* Actual table presentation for both batsmen while preserving every existing ID. */
+.batter-box.compact-batter.batter-table-card{
+  padding:0;
+  display:block;
+  border-radius:24px;
+}
+.batter-table-wrap{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+.batter-table{
+  width:100%;
+  height:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  table-layout:fixed;
+}
+.batter-table .batter-name-col{width:42%}
+.batter-table th,
+.batter-table td{
+  min-width:0;
+  border-right:1px solid rgba(255,255,255,.055);
+  text-align:center;
+  vertical-align:middle;
+}
+.batter-table th:last-child,
+.batter-table td:last-child{border-right:0}
+.batter-table thead th{
+  height:32%;
+  padding:5px 5px 3px;
+  color:#8499ae;
+  background:rgba(255,255,255,.014);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  font-size:7px;
+  font-weight:950;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.batter-table thead th:first-child{
+  padding-left:12px;
+  text-align:left;
+  color:#a7bacd;
+  letter-spacing:.12em;
+}
+.batter-table tbody td{
+  padding:5px;
+  background:rgba(255,255,255,.008);
+}
+.batter-table tbody td>strong{
+  display:block;
+  color:#f4f9fd;
+  font-size:15px;
+  line-height:1;
+  font-weight:950;
+}
+.batter-table .batter-name-cell{
+  position:relative;
+  padding-left:12px;
+  padding-right:72px;
+  text-align:left;
+}
+.batter-table .batter-name-cell>strong{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:14px;
+  letter-spacing:-.025em;
+}
+.batter-table .batter-name-cell .strike-badge{
+  position:absolute;
+  top:50%;
+  right:8px;
+  transform:translateY(-50%);
+  margin:0;
+}
+
+/* Bowler values are deliberately enlarged inside the existing fixed-height block. */
+.bowler-box{
+  padding-top:4px;
+  padding-bottom:4px;
+}
+.current-row{
+  grid-template-columns:minmax(185px,.82fr) minmax(0,1.8fr);
+  padding:4px;
+}
+.bowler-identity{
+  gap:9px;
+  padding:3px 6px;
+}
+.bowler-avatar{
+  width:38px;
+  height:38px;
+  font-size:8px;
+}
+.bowler-identity span,
+.previous-copy span{
+  font-size:6px;
+}
+.bowler-identity strong{
+  margin-top:2px;
+  font-size:13px;
+}
+.bowler-stats{
+  gap:4px;
+}
+.bowler-stats>div{
+  padding:3px;
+}
+.bowler-stats span{
+  font-size:6px;
+}
+.bowler-stats strong{
+  margin-top:2px;
+  font-size:13px;
+}
+.previous-copy strong{
+  font-size:10px;
+}
+.previous-figures{
+  font-size:8px;
+}
+
+@media(max-width:640px){
+  /* Keep the exact one-page grid; only redistribute horizontal space. */
+  .matchup-panel{
+    grid-template-columns:minmax(0,1fr) minmax(82px,.44fr) minmax(0,1fr);
+  }
+  .team-box{
+    padding:3px 4px;
+    gap:4px;
+  }
+  .team-copy{
+    padding-inline:1px;
+  }
+  .team-copy strong{
+    font-size:clamp(7.8px,2.85vw,10.5px);
+  }
+  .match-center{
+    padding-inline:1px;
+  }
+  .main-score{
+    font-size:clamp(28px,9.8vw,38px);
+  }
+  .main-overs{
+    margin-top:2px;
+    font-size:5.8px;
+  }
+  .rate-strip{
+    gap:2px;
+    margin-top:3px;
+  }
+  .rate-strip span{
+    padding:2px 3px;
+    font-size:3px;
+    letter-spacing:.02em;
+  }
+
+  .batter-box.compact-batter.batter-table-card{
+    padding:0;
+    border-radius:13px;
+  }
+  .batter-table .batter-name-col{width:44%}
+  .batter-table thead th{
+    padding:3px 1px 2px;
+    font-size:3.1px;
+    letter-spacing:0;
+  }
+  .batter-table thead th:first-child{
+    padding-left:5px;
+    letter-spacing:.05em;
+  }
+  .batter-table tbody td{
+    padding:2px 1px;
+  }
+  .batter-table tbody td>strong{
+    font-size:6.2px;
+  }
+  .batter-table .batter-name-cell{
+    padding-left:5px;
+    padding-right:35px;
+  }
+  .batter-table .batter-name-cell>strong{
+    font-size:6.4px;
+  }
+  .batter-table .batter-name-cell .strike-badge{
+    right:3px;
+    max-width:31px;
+    padding:1px 2px;
+    font-size:2.1px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .bowler-box{
+    padding:2px 3px;
+    gap:2px;
+  }
+  .current-row{
+    grid-template-columns:minmax(103px,.88fr) minmax(0,1.8fr);
+    gap:2px;
+    padding:2px;
+  }
+  .bowler-identity{
+    gap:4px;
+    padding:1px 2px;
+  }
+  .bowler-avatar{
+    width:24px;
+    height:24px;
+    font-size:4.4px;
+  }
+  .bowler-identity span,
+  .previous-copy span{
+    font-size:2.7px;
+  }
+  .bowler-identity strong{
+    margin-top:1px;
+    font-size:6.2px;
+  }
+  .bowler-stats{
+    gap:1px;
+  }
+  .bowler-stats>div{
+    padding:1px;
+    border-radius:5px;
+  }
+  .bowler-stats span{
+    font-size:2.6px;
+  }
+  .bowler-stats strong{
+    margin-top:1px;
+    font-size:6.1px;
+  }
+  .previous-row{
+    padding:1px 3px;
+  }
+  .previous-copy strong{
+    font-size:5px;
+  }
+  .previous-figures{
+    font-size:4px;
+  }
+  .previous-balls span{
+    min-width:12px;
+    height:12px;
+    font-size:2.8px;
+  }
+}
+
+@media(max-width:370px){
+  .matchup-panel{
+    grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr);
+  }
+  .main-score{font-size:28px}
+  .rate-strip span{font-size:2.7px;padding-inline:2px}
+  .batter-table .batter-name-col{width:46%}
+  .batter-table .batter-name-cell{padding-right:31px}
+  .batter-table .batter-name-cell .strike-badge{max-width:27px}
+  .current-row{grid-template-columns:minmax(94px,.86fr) minmax(0,1.8fr)}
+}
