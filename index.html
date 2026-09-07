@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#050912" />
   <title>MK97 Cricket Scoring Desk</title>
-  <link rel="stylesheet" href="scoring-desk.css?v=10.3" />
+  <link rel="stylesheet" href="scoring-desk.css?v=10.4" />
 </head>
 <body>
   <header class="topbar">
@@ -210,24 +210,22 @@
       <div class="timeline-score" id="timelineScore">0/0 • 0.0</div>
     </section>
 
-    <section class="desk-panel scoring-pad">
-      <button class="score-key run-key" data-runs="1">1</button>
-      <button class="score-key run-key" data-runs="2">2</button>
-      <button class="score-key run-key" data-runs="3">3</button>
-      <div class="split-key">
-        <button class="score-key run-key compact" data-runs="0">0</button>
-        <button class="score-key run-key compact five" data-runs="5">5</button>
-      </div>
+    <section class="desk-panel scoring-pad equal-number-pad">
+      <button class="score-key run-key n1" data-runs="1">1</button>
+      <button class="score-key run-key n2" data-runs="2">2</button>
+      <button class="score-key run-key n3" data-runs="3">3</button>
+      <button class="score-key run-key n0" data-runs="0">0</button>
+      <button class="score-key run-key n5 five" data-runs="5">5</button>
 
-      <button class="score-key extra-key" id="byeBtn">BYES</button>
-      <button class="score-key run-key four" data-runs="4">4</button>
-      <button class="score-key wicket-key" id="wicketBtn">WKT</button>
-      <button class="score-key extra-key" id="wideBtn">WD</button>
+      <button class="score-key extra-key byes-key" id="byeBtn">BYES</button>
+      <button class="score-key run-key four n4" data-runs="4">4</button>
+      <button class="score-key wicket-key wkt-key" id="wicketBtn">WKT</button>
+      <button class="score-key extra-key wd-key" id="wideBtn">WD</button>
 
-      <button class="score-key extra-key" id="legByeBtn">LB</button>
-      <button class="score-key run-key six" data-runs="6">6</button>
-      <button class="score-key extra-key" id="noBallBtn">NB</button>
-      <button class="score-key end-key" id="endInningsBtn">END<br>INNINGS</button>
+      <button class="score-key extra-key lb-key" id="legByeBtn">LB</button>
+      <button class="score-key run-key six n6" data-runs="6">6</button>
+      <button class="score-key extra-key nb-key" id="noBallBtn">NB</button>
+      <button class="score-key end-key end-innings-key" id="endInningsBtn">END<br>INNINGS</button>
     </section>
 
     <section class="undo-shell">
@@ -345,6 +343,6 @@
   </div>
 
   <div class="toast-stack" id="toastStack"></div>
-  <script src="scoring-desk.js?v=10.3"></script>
+  <script src="scoring-desk.js?v=10.4"></script>
 </body>
 </html>

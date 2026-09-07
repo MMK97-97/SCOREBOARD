@@ -864,3 +864,101 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
   .bowler-stats strong{font-size:8px}
   .score-key.run-key,.score-key.compact{font-size:clamp(15px,5.8vw,20px)}
 }
+
+/* =========================================================
+   VISIBILITY REFINEMENT — v10.4
+   Requested only: bowler metric-header visibility, timeline
+   ball numbers, action labels, and equal-size number keys.
+   Existing one-page row heights are preserved.
+   ========================================================= */
+
+/* Bowler metric headers — brighter and larger, no geometry change. */
+.bowler-stats span{
+  color:#c1d2e2;
+  font-weight:950;
+  letter-spacing:.075em;
+  text-shadow:0 0 10px rgba(255,255,255,.045);
+}
+
+/* Timeline delivery numbers/tokens — improve legibility inside the same chips. */
+.over-group span{
+  color:#eef7ff;
+  font-weight:950;
+  text-shadow:0 0 8px rgba(255,255,255,.06);
+}
+
+/* Action labels — larger but retain the same button dimensions. */
+.extra-key,
+.wicket-key,
+.end-key{
+  font-weight:950;
+  letter-spacing:.025em;
+}
+
+/* Five-column scoring grid gives every numeric key exactly the same cell size.
+   Non-number actions simply span remaining cells; panel height is unchanged. */
+.scoring-pad.equal-number-pad{
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
+}
+.scoring-pad.equal-number-pad .score-key.run-key{
+  width:100%;
+  height:100%;
+  padding:0;
+  font-size:clamp(17px,2.55vw,30px);
+  line-height:1;
+  border-radius:14px;
+}
+.equal-number-pad .n1{grid-column:1;grid-row:1}
+.equal-number-pad .n2{grid-column:2;grid-row:1}
+.equal-number-pad .n3{grid-column:3;grid-row:1}
+.equal-number-pad .n0{grid-column:4;grid-row:1}
+.equal-number-pad .n5{grid-column:5;grid-row:1}
+.equal-number-pad .byes-key{grid-column:1;grid-row:2}
+.equal-number-pad .n4{grid-column:2;grid-row:2}
+.equal-number-pad .wkt-key{grid-column:3;grid-row:2}
+.equal-number-pad .wd-key{grid-column:4 / span 2;grid-row:2}
+.equal-number-pad .lb-key{grid-column:1;grid-row:3}
+.equal-number-pad .n6{grid-column:2;grid-row:3}
+.equal-number-pad .nb-key{grid-column:3;grid-row:3}
+.equal-number-pad .end-innings-key{grid-column:4 / span 2;grid-row:3}
+
+@media(max-width:640px){
+  .bowler-stats span{
+    font-size:4.7px;
+    line-height:1;
+    letter-spacing:.035em;
+  }
+  .over-group span{
+    min-width:12px;
+    height:12px;
+    padding:0 2px;
+    font-size:3.7px;
+    line-height:1;
+  }
+  .scoring-pad.equal-number-pad{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:3px;
+  }
+  .scoring-pad.equal-number-pad .score-key.run-key{
+    font-size:clamp(20px,7.1vw,28px);
+    border-radius:8px;
+  }
+  .extra-key,
+  .wicket-key,
+  .end-key{
+    font-size:clamp(8px,2.7vw,11px);
+    line-height:1.05;
+  }
+  .end-key{
+    font-size:clamp(7.5px,2.45vw,10px);
+  }
+}
+
+@media(max-width:370px){
+  .bowler-stats span{font-size:4.25px}
+  .over-group span{font-size:3.35px}
+  .scoring-pad.equal-number-pad .score-key.run-key{font-size:clamp(18px,6.8vw,24px)}
+  .extra-key,.wicket-key{font-size:clamp(7.4px,2.55vw,9.6px)}
+  .end-key{font-size:clamp(6.8px,2.25vw,9px)}
+}
