@@ -75,8 +75,6 @@
   let state = loadState();
   let eventState = { type: null, values: {} };
   let batterEditTarget = 'striker';
-  let activeDeskView = 'live';
-  let activeScorecardTeam = 'A';
 
   const current = () => state.innings[state.currentInnings];
   const oversText = balls => `${Math.floor((balls || 0) / 6)}.${(balls || 0) % 6}`;
@@ -465,53 +463,6 @@
     `).join('') : '<div class="over-group empty"><span>—</span></div>';
   }
 
-  function renderScorecard() {
-    const teamName = activeScorecardTeam === 'A' ? state.teamA : state.teamB;
-    const battingInnings = state.innings.find(inn => inn.battingTeam === teamName);
-    const bowlingInnings = state.innings.find(inn => inn.bowlingTeam === teamName);
-
-    $$('.scorecard-team-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.scorecardTeam === activeScorecardTeam));
-
-    if (!battingInnings && !bowlingInnings) {
-      $('scorecardContent').innerHTML = '<div class="scorecard-empty">No scorecard data yet.</div>';
-      return;
-    }
-
-    const battingRows = battingInnings ? battingInnings.batters.map(b => `
-      <tr>
-        <td>${escapeHtml(b.name)}</td><td>${b.runs}</td><td>${b.balls}</td><td>${b.fours}</td><td>${b.sixes}</td><td>${strikeRate(b)}</td>
-      </tr>`).join('') : '';
-
-    const bowlingRows = bowlingInnings ? bowlingInnings.bowlers.map(b => `
-      <tr>
-        <td>${escapeHtml(b.name)}</td><td>${oversText(b.balls)}</td><td>${b.runs}</td><td>${b.wickets}</td><td>${b.wides}</td><td>${b.noBalls}</td><td>${economy(b)}</td>
-      </tr>`).join('') : '';
-
-    $('scorecardContent').innerHTML = `
-      <div class="scorecard-summary">
-        <div><span>SCORE</span><strong>${battingInnings ? `${battingInnings.runs}/${battingInnings.wickets}` : '—'}</strong></div>
-        <div><span>OVERS</span><strong>${battingInnings ? oversText(battingInnings.balls) : '—'}</strong></div>
-        <div><span>EXTRAS</span><strong>${extrasTotal(battingInnings)}</strong></div>
-        <div><span>TEAM</span><strong>${escapeHtml(teamName)}</strong></div>
-      </div>
-      <div class="scorecard-section-title">Batting</div>
-      ${battingInnings ? `<div class="scorecard-table-wrap"><table class="scorecard-table"><thead><tr><th>Batter</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody>${battingRows}</tbody></table></div>` : '<div class="scorecard-empty">Yet to bat.</div>'}
-      <div class="scorecard-section-title">Bowling</div>
-      ${bowlingInnings ? `<div class="scorecard-table-wrap"><table class="scorecard-table"><thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>WD</th><th>NB</th><th>ECO</th></tr></thead><tbody>${bowlingRows}</tbody></table></div>` : '<div class="scorecard-empty">No bowling figures yet.</div>'}`;
-  }
-
-  function renderDeskView() {
-    const live = activeDeskView === 'live';
-    $('liveScoringTab').classList.toggle('active', live);
-    $('scorecardTab').classList.toggle('active', !live);
-    $('scorecardView').hidden = live;
-    ['bowler-box', 'three-over-panel', 'scoring-pad', 'undo-shell'].forEach(cls => {
-      const el = document.querySelector(`.${cls}`);
-      if (el) el.hidden = !live;
-    });
-    if (!live) renderScorecard();
-  }
-
   function render() {
     const inn = current();
     const striker = inn.batters[inn.striker] || {};
@@ -559,10 +510,9 @@
     renderPreviousBowler(inn);
     renderThreeOvers(inn);
     $('timelineScore').textContent = `${inn.runs}/${inn.wickets} • ${oversText(inn.balls)}`;
-    renderDeskView();
 
     const disabled = !state.configured || state.matchComplete || inn.complete;
-    $$('.run-key,#byeBtn,#legByeBtn,#wicketBtn,#wideBtn,#noBallBtn,#endInningsBtn').forEach(btn => btn.disabled = disabled);
+    $$('.run-key,#wicketBtn,#wideBtn,#extrasBtn,#endInningsBtn').forEach(btn => btn.disabled = disabled);
     $('undoBtn').disabled = !state.history.length;
   }
 
@@ -653,7 +603,98 @@
     }));
   }
 
+  function openExtras() {
+    if (!canScore()) return;
+    eventState = { type: 'extras', values: {} };
+    $('eventTitle').textContent = 'Extras';
+    $('eventSub').textContent = 'Choose the extra, then tap the exact outcome.';
+    $('applyEventBtn').style.display = 'none';
+    $('eventFields').innerHTML = `
+      <div class="outcome-section">
+        <div class="outcome-title">EXTRA TYPE</div>
+        <div class="outcome-grid extras-launch-grid">
+          <button type="button" class="outcome-choice warning" data-extra-open="bye">BYES</button>
+          <button type="button" class="outcome-choice warning" data-extra-open="legbye">LEG BYES</button>
+          <button type="button" class="outcome-choice warning" data-extra-open="noball">NO BALL</button>
+          <button type="button" class="outcome-choice info" data-extra-open="overthrow">OVERTHROWS</button>
+        </div>
+      </div>
+      <div class="outcome-note">All extra outcomes are available as individual tap options.</div>`;
+    $$('[data-extra-open]').forEach(btn => btn.addEventListener('click', () => {
+      const type = btn.dataset.extraOpen;
+      if (type === 'bye') openBye('bye');
+      else if (type === 'legbye') openBye('legbye');
+      else if (type === 'noball') openNoBall();
+      else if (type === 'overthrow') openOverthrow();
+    }));
+    openModal('eventModal');
+  }
+
+  function openOverthrow() {
+    if (!canScore()) return;
+    eventState = { type: 'overthrow', values: { source: 'bat', completed: '0', overthrows: '1', wicket: 'none' } };
+    $('eventTitle').textContent = 'Overthrows — All Outcomes';
+    $('eventSub').textContent = 'Select the run source, completed runs, overthrow runs and any run-out.';
+    $('applyEventBtn').style.display = '';
+    $('eventFields').innerHTML = `
+      <div class="outcome-section"><div class="outcome-title">RUN SOURCE</div><div class="outcome-grid">${outcomeTile('bat', 'Bat Runs', 'source', 'info')}${outcomeTile('bye', 'Byes', 'source', 'warning')}${outcomeTile('legbye', 'Leg Byes', 'source', 'warning')}</div></div>
+      <div class="outcome-section"><div class="outcome-title">RUNS COMPLETED BEFORE OVERTHROW</div><div class="outcome-grid runs">${runTiles('completed', '0')}</div></div>
+      <div class="outcome-section"><div class="outcome-title">OVERTHROW RUNS</div><div class="outcome-grid runs">${Array.from({ length: 6 }, (_, i) => outcomeTile(String(i + 1), String(i + 1), 'overthrows', 'info')).join('')}</div></div>
+      <div class="outcome-section"><div class="outcome-title">WICKET OUTCOME</div><div class="outcome-grid">${outcomeTile('none', 'No Wicket', 'wicket')}${outcomeTile('runout', 'Run Out Striker', 'wicket', 'danger')}${outcomeTile('runoutNS', 'Run Out Non-Striker', 'wicket', 'danger')}</div></div>
+      <div class="outcome-note">Overthrow entry counts as a legal ball. Use NO BALL inside EXTRAS for a no-ball delivery.</div>`;
+    bindOutcomeTiles();
+    openModal('eventModal');
+  }
+
+  function applyOverthrow() {
+    if (!canScore()) return;
+    pushHistory();
+    const inn = current();
+    const originalStriker = inn.striker;
+    const bat = inn.batters[originalStriker];
+    const bow = inn.bowlers[inn.bowler];
+    const completed = Number(eventState.values.completed || 0);
+    const overthrowRuns = Number(eventState.values.overthrows || 1);
+    const total = completed + overthrowRuns;
+    const source = eventState.values.source || 'bat';
+    const wicket = eventState.values.wicket || 'none';
+
+    inn.runs += total;
+    inn.balls++;
+    bat.balls++;
+    bow.balls++;
+    inn.partnershipRuns += total;
+    inn.partnershipBalls++;
+
+    if (source === 'bat') {
+      bat.runs += total;
+      bow.runs += total;
+    } else if (source === 'bye') {
+      inn.extras.b += total;
+    } else {
+      inn.extras.lb += total;
+    }
+
+    if (total % 2) swapStrike(inn);
+    let token = `OT+${total}`;
+
+    if (wicket !== 'none') {
+      let side = wicket === 'runoutNS' ? 'nonStriker' : 'striker';
+      if (total % 2) side = side === 'striker' ? 'nonStriker' : 'striker';
+      dismiss(inn, inn[side], 'run out', false);
+      newBatter(inn, side);
+      token += '+RO';
+    }
+
+    record(inn, { type: 'overthrow', runs: total, legal: true, token });
+    if (!maybeComplete()) finishOver(inn);
+    save();
+    render();
+    closeModal('eventModal');
+  }
+
   function openWide() {
+    $('applyEventBtn').style.display = '';
     if (!canScore()) return;
     eventState = { type: 'wide', values: { runs: '0', wicket: 'none' } };
     $('eventTitle').textContent = 'Wide — All Outcomes';
@@ -667,6 +708,7 @@
   }
 
   function openNoBall() {
+    $('applyEventBtn').style.display = '';
     if (!canScore()) return;
     eventState = { type: 'noball', values: { source: 'bat', runs: '0', wicket: 'none' } };
     $('eventTitle').textContent = 'No Ball — All Outcomes';
@@ -680,6 +722,7 @@
   }
 
   function openWicket() {
+    $('applyEventBtn').style.display = '';
     if (!canScore()) return;
     eventState = { type: 'wicket', values: { dismissal: 'bowled', runs: '0', source: 'bat', legal: 'yes' } };
     $('eventTitle').textContent = 'Wicket — All Probabilities';
@@ -694,6 +737,7 @@
   }
 
   function openBye(type) {
+    $('applyEventBtn').style.display = '';
     if (!canScore()) return;
     eventState = { type, values: { runs: '1' } };
     $('eventTitle').textContent = type === 'bye' ? 'Byes' : 'Leg Byes';
@@ -709,6 +753,7 @@
     if (eventState.type === 'wide') applyWide();
     else if (eventState.type === 'noball') applyNoBall();
     else if (eventState.type === 'wicket') applyWicket();
+    else if (eventState.type === 'overthrow') applyOverthrow();
     else if (eventState.type === 'bye' || eventState.type === 'legbye') scoreBye(eventState.type, Number(eventState.values.runs || 1));
   }
 
@@ -834,11 +879,9 @@
   }
 
   $$('.run-key').forEach(btn => btn.addEventListener('click', () => scoreRun(Number(btn.dataset.runs))));
-  $('byeBtn').addEventListener('click', () => openBye('bye'));
-  $('legByeBtn').addEventListener('click', () => openBye('legbye'));
   $('wicketBtn').addEventListener('click', openWicket);
   $('wideBtn').addEventListener('click', openWide);
-  $('noBallBtn').addEventListener('click', openNoBall);
+  $('extrasBtn').addEventListener('click', openExtras);
   $('endInningsBtn').addEventListener('click', endInnings);
   $('undoBtn').addEventListener('click', undo);
   $('swapStrikerBtn').addEventListener('click', manualSwapStrike);
@@ -853,9 +896,6 @@
   $('menuChangeScorer').addEventListener('click', () => { closeMenu(); openScorer(); });
   $('menuResetMatch').addEventListener('click', resetMatch);
 
-  $('liveScoringTab').addEventListener('click', () => { activeDeskView = 'live'; renderDeskView(); });
-  $('scorecardTab').addEventListener('click', () => { activeDeskView = 'scorecard'; renderDeskView(); });
-  $$('.scorecard-team-tab').forEach(btn => btn.addEventListener('click', () => { activeScorecardTeam = btn.dataset.scorecardTeam; renderScorecard(); }));
 
   $('setupBtn').addEventListener('click', openSetup);
   $('saveSetupBtn').addEventListener('click', saveSetup);
@@ -873,11 +913,11 @@
 
   document.addEventListener('keydown', event => {
     if (event.target.matches('input,select,textarea')) return;
-    if (event.key >= '0' && event.key <= '6') scoreRun(Number(event.key));
+    if (event.key >= '0' && event.key <= '6' && event.key !== '5') scoreRun(Number(event.key));
     if (event.key.toLowerCase() === 'u') undo();
     if (event.key.toLowerCase() === 'w') openWicket();
     if (event.key.toLowerCase() === 'd') openWide();
-    if (event.key.toLowerCase() === 'n') openNoBall();
+    if (event.key.toLowerCase() === 'n') openExtras();
     if (event.key === 'Escape') {
       closeMenu();
       $$('.modal-wrap.open').forEach(modal => closeModal(modal.id));

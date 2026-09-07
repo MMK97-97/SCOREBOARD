@@ -1090,3 +1090,173 @@ button:disabled{opacity:.36;cursor:not-allowed;filter:saturate(.45)}
   .swap-arrow-button{width:19px;height:17px;font-size:11px}
   .merged-name-cell{padding-right:39px!important}
 }
+
+/* =========================================================
+   SCORING DESK REFINEMENT — v10.6
+   Requested only:
+   - remove Live Scoring / Scorecard selector
+   - more visible last-3-overs timeline
+   - remove direct 5-run key
+   - merge BYES / LB / NB into EXTRAS
+   - keep the complete desk inside one viewport
+   ========================================================= */
+
+/* Reclaim the removed tab row without changing the rest of the desk. */
+.desk{
+  grid-template-rows:
+    minmax(0,1.00fr)
+    minmax(0,.62fr)
+    minmax(0,.74fr)
+    minmax(32px,.28fr)
+    minmax(0,1.48fr)
+    minmax(38px,.29fr);
+}
+.bowler-box{grid-row:3}
+.three-over-panel{grid-row:4}
+.scoring-pad{grid-row:5}
+.undo-shell{grid-row:6}
+
+/* Timeline: stronger contrast and larger delivery tokens inside the reclaimed row. */
+.three-over-panel{
+  padding:5px 9px;
+  border-color:rgba(79,201,255,.15);
+  background:linear-gradient(180deg,rgba(14,31,51,.98),rgba(8,18,31,.98));
+}
+.timeline-title{
+  color:#b7c9da;
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.15em;
+}
+.three-over-timeline{gap:7px}
+.over-group{
+  gap:4px;
+  padding:4px 7px;
+  border-color:rgba(255,255,255,.09);
+  background:rgba(255,255,255,.028);
+}
+.over-group b{
+  color:#a9bfd3;
+  font-size:7px;
+  font-weight:950;
+}
+.over-group span{
+  min-width:23px;
+  height:23px;
+  padding:0 5px;
+  color:#f5fbff;
+  font-size:9px;
+  font-weight:950;
+  border-color:rgba(255,255,255,.11);
+  background:rgba(255,255,255,.045);
+  text-shadow:0 0 10px rgba(255,255,255,.10);
+}
+.timeline-score{
+  color:#d3e2ef;
+  font-size:8px;
+  font-weight:950;
+}
+
+/* Six direct scoring values only: 0,1,2,3,4,6. All number keys are identical. */
+.scoring-pad.equal-number-pad{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
+}
+.scoring-pad.equal-number-pad .score-key.run-key{
+  width:100%;
+  height:100%;
+  padding:0;
+  font-size:clamp(22px,3vw,34px);
+  line-height:1;
+  border-radius:14px;
+}
+.equal-number-pad .n0{grid-column:1;grid-row:1}
+.equal-number-pad .n1{grid-column:2;grid-row:1}
+.equal-number-pad .n2{grid-column:3;grid-row:1}
+.equal-number-pad .n3{grid-column:4;grid-row:1}
+.equal-number-pad .n4{grid-column:1;grid-row:2}
+.equal-number-pad .n6{grid-column:2;grid-row:2}
+.equal-number-pad .wkt-key{grid-column:3;grid-row:2}
+.equal-number-pad .wd-key{grid-column:4;grid-row:2}
+.equal-number-pad .extras-menu-key{grid-column:1 / span 2;grid-row:3}
+.equal-number-pad .end-innings-key{grid-column:3 / span 2;grid-row:3}
+
+.extras-menu-key{
+  color:#ffe4bb;
+  border-color:rgba(242,186,102,.22);
+  background:linear-gradient(145deg,rgba(242,186,102,.09),rgba(242,186,102,.025));
+  font-size:clamp(12px,1.45vw,18px);
+  letter-spacing:.08em;
+}
+
+.extras-launch-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+@media(max-width:640px){
+  .desk{
+    grid-template-rows:
+      clamp(72px,13.4dvh,92px)
+      clamp(70px,10.6dvh,84px)
+      clamp(72px,11.4dvh,88px)
+      clamp(32px,4.9dvh,39px)
+      minmax(150px,1fr)
+      clamp(32px,5dvh,38px);
+  }
+  .three-over-panel{
+    padding:3px 5px;
+    gap:4px;
+    border-radius:9px;
+  }
+  .timeline-title{
+    font-size:5.4px;
+    letter-spacing:.10em;
+  }
+  .three-over-timeline{gap:3px}
+  .over-group{
+    gap:2px;
+    padding:2px 3px;
+    border-radius:6px;
+  }
+  .over-group b{
+    font-size:4.6px;
+    margin-right:1px;
+  }
+  .over-group span{
+    min-width:17px;
+    height:17px;
+    padding:0 3px;
+    font-size:6.5px;
+    line-height:1;
+  }
+  .timeline-score{
+    font-size:5.2px;
+  }
+  .scoring-pad.equal-number-pad{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-template-rows:repeat(3,minmax(0,1fr));
+    gap:3px;
+  }
+  .scoring-pad.equal-number-pad .score-key.run-key{
+    font-size:clamp(21px,7.2vw,29px);
+    border-radius:8px;
+  }
+  .extras-menu-key,
+  .wicket-key,
+  .wd-key,
+  .end-key{
+    font-size:clamp(8px,2.7vw,11px);
+    line-height:1.05;
+  }
+  .end-key{font-size:clamp(7.5px,2.45vw,10px)}
+}
+
+@media(max-width:370px){
+  .timeline-title{font-size:4.9px}
+  .over-group b{font-size:4.1px}
+  .over-group span{min-width:15px;height:15px;font-size:5.8px}
+  .timeline-score{font-size:4.7px}
+  .scoring-pad.equal-number-pad .score-key.run-key{font-size:clamp(19px,6.9vw,25px)}
+  .extras-menu-key,.wicket-key,.wd-key{font-size:clamp(7.5px,2.55vw,10px)}
+  .end-key{font-size:clamp(6.8px,2.25vw,9px)}
+}
