@@ -925,6 +925,7 @@
 
   $$('.runAction').forEach(btn => btn.addEventListener('click', () => scoreRun(Number(btn.dataset.runs))));
   $('setupBtn').addEventListener('click', openSetup);
+  $('topChangeScorerBtn').addEventListener('click', openScorer);
   $('saveSetupBtn').addEventListener('click', saveSetup);
   $('wicketBtn').addEventListener('click', openWicket);
   $('wideBtn').addEventListener('click', openWide);
@@ -935,10 +936,20 @@
   $('undoBtn').addEventListener('click', undo);
   $('endInningsBtn').addEventListener('click', endInnings);
 
-  $('menuEditStrikerBtn').addEventListener('click', () => { toggleSettings(false); openBatter('striker'); });
+  $('swapStrikerBtn').addEventListener('click', () => {
+    if (!state.configured) { openSetup(); return; }
+    if (state.matchComplete || current().complete) { toast('This innings is complete.'); return; }
+    pushHistory();
+    swapStrike(current());
+    save();
+    render();
+    toast('Striker swapped.');
+  });
+  $('editStrikerBtn').addEventListener('click', () => openBatter('striker'));
+  $('editBowlerBtn').addEventListener('click', openBowler);
+
   $('menuEditNonStrikerBtn').addEventListener('click', () => { toggleSettings(false); openBatter('nonstriker'); });
   $('menuChangeBowlerBtn').addEventListener('click', () => { toggleSettings(false); openChangeBowler(); });
-  $('menuEditBowlerBtn').addEventListener('click', () => { toggleSettings(false); openBowler(); });
   $('menuChangeScorerBtn').addEventListener('click', () => { toggleSettings(false); openScorer(); });
   $('menuResetBtn').addEventListener('click', reset);
 

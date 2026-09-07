@@ -28,10 +28,8 @@
         </div>
 
         <div class="settings-grid">
-          <button class="menu-action" id="menuEditStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Striker</strong><small>Change striker or batting figures</small></span></button>
           <button class="menu-action" id="menuEditNonStrikerBtn"><span class="menu-action-icon">✦</span><span><strong>Edit Non-Striker</strong><small>Change non-striker anytime</small></span></button>
           <button class="menu-action" id="menuChangeBowlerBtn"><span class="menu-action-icon">↻</span><span><strong>Change Bowler</strong><small>Select the current bowler</small></span></button>
-          <button class="menu-action" id="menuEditBowlerBtn"><span class="menu-action-icon">⚙</span><span><strong>Edit Bowler</strong><small>Correct bowling figures</small></span></button>
           <button class="menu-action" id="menuChangeScorerBtn"><span class="menu-action-icon">◎</span><span><strong>Change Scorer</strong><small>Update scoring operator</small></span></button>
           <button class="menu-action" id="menuResetBtn"><span class="menu-action-icon danger-icon">!</span><span><strong>Reset Match</strong><small>Clear the current match</small></span></button>
         </div>
@@ -58,6 +56,7 @@
     <div class="app-actions">
       <div class="status-chip"><span class="status-dot"></span>Autosaved</div>
       <button class="btn" id="setupBtn">Match Setup</button>
+      <button class="btn" id="topChangeScorerBtn">Change Scorer</button>
     </div>
   </header>
 
@@ -98,6 +97,10 @@
     <section class="panel">
       <div class="section-head">
         <div class="title">Batsmen Details</div>
+        <div class="section-actions">
+          <button class="inline-control" id="swapStrikerBtn">Swap Striker</button>
+          <button class="inline-control" id="editStrikerBtn">Edit Striker</button>
+        </div>
       </div>
       <div class="batters-panel">
         <div class="batters-grid">
@@ -149,6 +152,9 @@
       <section class="panel">
         <div class="section-head">
           <div class="title">Bowler Details</div>
+          <div class="section-actions">
+            <button class="inline-control" id="editBowlerBtn">Edit Bowler</button>
+          </div>
         </div>
         <div class="bowler-panel">
           <div class="bowler-layout">
